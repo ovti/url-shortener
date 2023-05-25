@@ -6,37 +6,53 @@
 
 {% block body %}
     <h1>{{ 'title.url_list'|trans }}</h1>
-    {% if urls is defined and urls|length %}
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ 'label.id'|trans }}</th>
-                <th>{{ 'label.long_url'|trans }}</th>
-                <th>{{ 'label.short_url'|trans }}</th>
-                <th>{{ 'label.create_time'|trans }}</th>
-                <th>{{ 'label.is_blocked'|trans }}</th>
-                <th>{{ 'label.block_expiration'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'url.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.long_url'|trans, 'url.long_url') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.short_url'|trans, 'url.short_url') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.create_time'|trans, 'url.create_time') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.is_blocked') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.block_expiration') }}</th>
+{#                <th>{{ 'label.tag'|trans }}</th>#}
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for url in urls %}
+            {% for url in pagination.items %}
                 <tr>
                     <td>{{ url.id }}</td>
-                    <td>{{ url.longUrl}}</td>
+                    <td>{{ url.longUrl }}</td>
                     <td>{{ url.shortUrl }}</td>
-                    <td>{{ url.createTime|date('Y/m/d H:i:s') }}</td>
+                    <td>{{ url.createTime|format_date('long') }}</td>
                     <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
-                    <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d H:i:s') : '-' }}</td>
+                    <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d') : '' }}</td>
+{#                    <td>#}
+{#                        {% for tag in url.tags %}#}
+{#                            <span class="label label-default">{{ tag.name }}</span>#}
+{#                        {% endfor %}#}
+{#                    </td>#}
                     <td>
-                        <a href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.view'|trans }}">
-                            {{ 'action.view'|trans }}
+                        <a href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.show'|trans }}">
+                            {{ 'action.show'|trans }}
                         </a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
     {% else %}
         <p>
             {{ 'message.empty_list'|trans }}

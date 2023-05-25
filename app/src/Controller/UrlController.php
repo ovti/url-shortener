@@ -8,24 +8,24 @@ use App\Repository\UrlRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 #[Route('/url')]
 class UrlController extends AbstractController
 {
 
-    #[Route(
-        name: 'url_index',
-        methods: 'GET'
-    )]
-    public function index(UrlRepository $urlRepository): Response
+    #[Route(name: 'url_index', methods: 'GET')]
+    public function index(Request $request, UrlRepository $urlRepository, PaginatorInterface $paginator): Response
     {
-        $urls = $urlRepository->findAll();
-
-        return $this->render(
-            'url/index.html.twig',
-            ['urls' => $urls]
+        $pagination = $paginator->paginate(
+            $urlRepository->queryAll(),
+            $request->query->getInt('page', 1),
+            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
         );
+
+        return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
 
 
