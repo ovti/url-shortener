@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.url_details'|trans({'%id%': url.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.url_details'|trans({'%id%': url.id|default('')}) }}</h1>
+    {% if url is defined and url|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ url.id }}</dd>
+            <dt>{{ 'label.long_url'|trans }}</dt>
+            <dd>{{ url.longUrl }}</dd>
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ url.createTime|date('Y/m/d') }}</dd>
+            <dt>{{ 'label.is_blocked' }}</dt>
+            <dd>{{ url.isBlocked ? 'Yes' : 'No' }}</dd>
+        </dl>
+        <p>
+            <a href="{{ url('url_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}
