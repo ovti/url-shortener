@@ -17,14 +17,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UrlRepository extends ServiceEntityRepository
 {
-
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Url::class);
     }
 
-    public function queryAll(): QueryBuilder {
+    public function queryAll(): QueryBuilder
+    {
         return $this->getOrCreateQueryBuilder()
             ->orderBy('url.id', 'ASC');
     }
@@ -33,47 +34,4 @@ class UrlRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('url');
     }
-
-    public function save(Url $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Url $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return Url[] Returns an array of Url objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Url
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

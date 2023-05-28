@@ -4,28 +4,46 @@
 namespace App\Controller;
 
 use App\Entity\Url;
-use App\Repository\UrlRepository;
+use App\Service\UrlService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\PaginatorInterface;
 
-
+/**
+ * Class UrlController
+ * @package App\Controller
+ */
 #[Route('/url')]
 class UrlController extends AbstractController
 {
+    private UrlService $urlService;
 
+    /**
+     * UrlController constructor.
+     * @param UrlService $urlService
+     */
+    public function __construct(UrlService $urlService) {
+        $this->urlService = $urlService;
+    }
+
+    /**
+     * UrlController constructor.
+     * @param UrlRepository $urlRepository
+     * @param PaginatorInterface $paginator
+     */
     #[Route(name: 'url_index', methods: 'GET')]
-    public function index(Request $request, UrlRepository $urlRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
-        $pagination = $paginator->paginate(
-            $urlRepository->queryAll(),
-            $request->query->getInt('page', 1),
-            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+        $pagination = $this->urlService->getPaginatedList(
+            $request->query->getInt('page', 1)
         );
 
-        return $this->render('url/index.html.twig', ['pagination' => $pagination]);
+        return $this->render(
+            'url/index.html.twig',
+            ['pagination' => $pagination]
+        );
+
     }
 
 
