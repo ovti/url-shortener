@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UrlController
@@ -20,19 +21,16 @@ use Symfony\Component\HttpFoundation\Request;
 class UrlController extends AbstractController
 {
     private UrlServiceInterface $urlService;
-    /**
-     * UrlController constructor.
-     * @param UrlService $urlService
-     */
-    public function __construct(UrlServiceInterface $urlService) {
+
+    private TranslatorInterface $translator;
+
+
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator) {
         $this->urlService = $urlService;
+        $this->translator = $translator;
     }
 
-    /**
-     * UrlController constructor.
-     * @param UrlRepository $urlRepository
-     * @param PaginatorInterface $paginator
-     */
+
     #[Route(name: 'url_index', methods: 'GET')]
     public function index(Request $request): Response
     {
@@ -73,14 +71,22 @@ class UrlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $shortUrl = $this->urlService->generateShortUrl($url->getLongUrl());
+            $shortUrl = $this->urlService->generateShortUrl();
             $url->setShortUrl($shortUrl);
             $this->urlService->save($url);
+
+            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
             return $this->redirectToRoute('url_index');
         }
 
-        return $this->render('url/create.html.twig', ['form' => $form->createView()]);
+        return $this->render(
+            'url/create.html.twig',
+            ['form' => $form->createView()]
+        );
     }
+
+
+
 
 }

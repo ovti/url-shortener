@@ -7,8 +7,8 @@
 {% block body %}
     <h1>{{ 'title.url_create'|trans }}</h1>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
     {{ form_row(form.longUrl) }}
+    {{ form_widget(form) }}
     <div class="form-group row float-sm-right">
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-primary"/>
     </div>
@@ -19,3 +19,9 @@
     </div>
     {{ form_end(form) }}
 {% endblock %}
+{#{% include 'default/_form.html.twig' with {#}
+{#    page_title: 'title.url_create'|trans,#}
+{#    form: form,#}
+{#    submit_label: 'action.save'|trans,#}
+{#    back_to_list_path: 'url_index',#}
+{#} %}#}

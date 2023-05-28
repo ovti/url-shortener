@@ -47,10 +47,18 @@ class Url
         return $this->id;
     }
 
+
     public function getLongUrl(): ?string
     {
         return $this->long_url;
     }
+
+//    public function __toString()
+//    {
+//        return $this->long_url ?? '';
+//    }
+
+
 
     public function setLongUrl(string $long_url): self
     {
