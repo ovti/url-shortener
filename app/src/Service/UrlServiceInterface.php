@@ -6,5 +6,5 @@ use App\Entity\Url;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 interface UrlServiceInterface {
-  public function getPaginatedList(int $page): PaginationInterface;
+    public function getPaginatedList(int $page): PaginationInterface;
 }

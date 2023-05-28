@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Service\UrlService;
+use App\Service\UrlServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,13 +18,12 @@ use Symfony\Component\HttpFoundation\Request;
 #[Route('/url')]
 class UrlController extends AbstractController
 {
-    private UrlService $urlService;
-
+    private UrlServiceInterface $urlService;
     /**
      * UrlController constructor.
      * @param UrlService $urlService
      */
-    public function __construct(UrlService $urlService) {
+    public function __construct(UrlServiceInterface $urlService) {
         $this->urlService = $urlService;
     }
 
