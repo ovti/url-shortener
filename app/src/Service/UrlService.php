@@ -27,18 +27,30 @@ class UrlService implements UrlServiceInterface
         );
     }
 
+    public function generateShortUrl(): string
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $length = 6;
+        $shortUrl = '';
+        do {
+            $shortUrl = 'short.url/';
+            for ($i = 0; $i < $length; $i++) {
+                $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
+            }
+        } while ($this->urlRepository->findOneBy(['short_url' => $shortUrl]) != null);
+
+        return $shortUrl;
+    }
+
     public function save(Url $url): void
     {
         if ($url->getId() == null) {
             $url->setCreateTime(new \DateTimeImmutable());
+            $url->setShortUrl($this->generateShortUrl());
+            $url->setIsBlocked(false);
         }
         $this->urlRepository->save($url);
     }
-
-//    public function generateShortUrl(string $longUrl): string {
-//        return substr(md5($longUrl), 0, 6);
-//    }
-
 
 
 }

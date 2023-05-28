@@ -26,7 +26,14 @@ class UrlRepository extends ServiceEntityRepository
 
     public function queryAll(): QueryBuilder
     {
+//        return $this->getOrCreateQueryBuilder()
+//            ->orderBy('url.id', 'ASC');
         return $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
+                'partial tag.{id, name}'
+            )
+            ->leftJoin('url.tags', 'tag')
             ->orderBy('url.id', 'ASC');
     }
 
