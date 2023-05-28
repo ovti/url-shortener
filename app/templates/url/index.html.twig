@@ -21,7 +21,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.create_time'|trans, 'url.create_time') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.is_blocked') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.block_expiration') }}</th>
-{#                <th>{{ 'label.tag'|trans }}</th>#}
+                <th>{{ 'label.tag'|trans }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -34,11 +34,11 @@
                     <td>{{ url.createTime|format_date('long') }}</td>
                     <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
                     <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d') : '' }}</td>
-{#                    <td>#}
-{#                        {% for tag in url.tags %}#}
-{#                            <span class="label label-default">{{ tag.name }}</span>#}
-{#                        {% endfor %}#}
-{#                    </td>#}
+                    <td>
+                        {% for tag in url.tags %}
+                            <span class="label label-default">{{ tag.name }}</span>
+                        {% endfor %}
+                    </td>
                     <td>
                         <a href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}

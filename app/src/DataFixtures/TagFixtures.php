@@ -8,13 +8,15 @@ class TagFixtures extends AbstractBaseFixtures
 {
     public function loadData(): void
     {
-        for ($i = 0; $i < 30; ++$i) {
+        if (null === $this->manager || null === $this->faker) {
+            return;
+        }
+        $this->createMany(10, 'tags', function (int $i) {
             $tag = new Tag();
             $tag->setName($this->faker->word);
 
-            $this->manager->persist($tag);
-        }
-
+            return $tag;
+        });
         $this->manager->flush();
     }
 }
