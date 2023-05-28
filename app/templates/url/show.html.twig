@@ -12,10 +12,17 @@
             <dd>{{ url.id }}</dd>
             <dt>{{ 'label.long_url'|trans }}</dt>
             <dd>{{ url.longUrl }}</dd>
+            <dt>{{ 'label.short_url'|trans }}</dt>
+            <dd>{{ url.shortUrl }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ url.createTime|date('Y/m/d') }}</dd>
-            <dt>{{ 'label.is_blocked' }}</dt>
+            <dt>{{ 'label.is_blocked'|trans }}</dt>
             <dd>{{ url.isBlocked ? 'Yes' : 'No' }}</dd>
+            <dt>{{ 'label.tag'|trans }}</dt>
+            {% for tag in url.tags %}
+                <dd>{{ tag.name }}</dd>
+            {% endfor %}
+
         </dl>
         <p>
             <a href="{{ url('url_index') }}" title="{{ 'action.back_to_list'|trans }}">

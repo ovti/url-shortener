@@ -15,7 +15,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
         $this->createMany(30, 'urls', function (int $i) {
             $url = new Url();
             $url->setLongUrl($this->faker->url);
-            $url->setShortUrl($this->faker->url);
+            $url->setShortUrl($this->faker->regexify('short\.url\/[a-zA-Z0-9]{6}'));
             $url->setCreateTime($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $url->setIsBlocked($this->faker->boolean(20));
             if($url->isIsBlocked())

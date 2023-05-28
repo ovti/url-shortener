@@ -35,7 +35,7 @@ class Url
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'urls_tags')]
-    private $tags;
+    private Collection $tags;
 
     public function __construct()
     {
