@@ -27,7 +27,7 @@ class Url
     private ?\DateTimeInterface $create_time = null;
 
     #[ORM\Column]
-    private ?bool $is_blocked = null;
+    private ?bool $is_blocked = false;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $block_expiration = null;

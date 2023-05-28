@@ -34,4 +34,10 @@ class UrlRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('url');
     }
+
+    public function save(Url $url): void
+    {
+        $this->_em->persist($url);
+        $this->_em->flush();
+    }
 }

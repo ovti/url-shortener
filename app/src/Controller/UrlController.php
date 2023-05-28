@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\Url;
+use App\Form\Type\UrlType;
 use App\Service\UrlService;
 use App\Service\UrlServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,7 +47,6 @@ class UrlController extends AbstractController
 
     }
 
-
     #[Route(
         '/{id}',
         name: 'url_show',
@@ -60,4 +60,27 @@ class UrlController extends AbstractController
             ['url' => $url]
         );
     }
+
+    #[Route(
+        '/create',
+        name: 'url_create',
+        methods: 'GET|POST',
+    )]
+    public function create(Request $request): Response
+    {
+        $url = new Url();
+        $form = $this->createForm(UrlType::class, $url);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $shortUrl = $this->urlService->generateShortUrl($url->getLongUrl());
+            $url->setShortUrl($shortUrl);
+            $this->urlService->save($url);
+
+            return $this->redirectToRoute('url_index');
+        }
+
+        return $this->render('url/create.html.twig', ['form' => $form->createView()]);
+    }
+
 }
