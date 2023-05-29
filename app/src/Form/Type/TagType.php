@@ -29,14 +29,9 @@ class TagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'name',
-            TextType::class,
-            [
-                'label' => 'label.name',
-                'required' => true,
-                'attr' => ['max_length' => 64],
-            ]);
+        $builder
+            ->add('name', TextType::class)
+        ;
     }
 
     /**
@@ -46,7 +41,9 @@ class TagType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Tag::class]);
+        $resolver->setDefaults([
+            'data_class' => Tag::class,
+        ]);
     }
 
     /**

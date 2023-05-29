@@ -18,9 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Tag
 {
 
-    public function __toString() {
-        return $this->name ?? '';
-    }
+
     /**
      * Primary key.
      *

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\Type\TagType;
 
 /**
  * Class TagController.
@@ -82,18 +83,18 @@ class TagController extends AbstractController
     public function create(Request $request): Response
     {
         $tag = new Tag();
-        $form = $this->createForm(TextType::class, $tag);
+        $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid()){
             $this->tagService->save($tag);
+            $this->addFlash('success', 'message_created_successfully');
 
             return $this->redirectToRoute('tag_index');
         }
-
         return $this->render(
             'tag/create.html.twig',
             ['form' => $form->createView()]
         );
+
     }
 }
