@@ -18,7 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Tag
 {
 
-
     /**
      * Primary key.
      *

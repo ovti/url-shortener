@@ -23,11 +23,11 @@ use DateTimeImmutable;
 class Url
 {
 
-    public function __toString()
-    {
-        return $this->long_url ?? '';
-
-    }
+//    public function __toString()
+//    {
+//        return $this->long_url ?? '';
+//
+//    }
 
     /**
      * Primary key.

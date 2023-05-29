@@ -7,12 +7,12 @@ namespace App\Controller;
 
 use App\Entity\Tag;
 use App\Service\TagServiceInterface;
+use App\Form\Type\TagType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Form\Type\TagType;
 
 /**
  * Class TagController.
