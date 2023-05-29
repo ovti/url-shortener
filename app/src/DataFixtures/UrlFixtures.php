@@ -1,9 +1,13 @@
 <?php
+/**
+ * Url fixtures.
+ */
 
 namespace App\DataFixtures;
 
 use App\Entity\Url;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use DateTimeImmutable;
 
 class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
@@ -16,10 +20,18 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $url = new Url();
             $url->setLongUrl($this->faker->url);
             $url->setShortUrl($this->faker->regexify('short\.url\/[a-zA-Z0-9]{6}'));
-            $url->setCreateTime($this->faker->dateTimeBetween('-1 days', '+100 days'));
+//            $url->setCreateTime($this->faker->dateTimeBetween('-1 days', '+100 days'));
+            $url->setCreateTime(
+                DateTimeImmutable::createFromMutable(
+                    $this->faker->dateTimeBetween('-100 days', '-1 days')
+                )
+            );
             $url->setIsBlocked($this->faker->boolean(20));
             if ($url->isIsBlocked()) {
-                $url->setBlockExpiration($this->faker->dateTimeBetween('-1 days', '+100 days'));
+                $url->setBlockExpiration(
+                    DateTimeImmutable::createFromMutable(
+                    $this->faker->dateTimeBetween('-1 days', '+100 days')
+                ));
             }
 
             $tags = $this->getRandomReferences('tags', $this->faker->numberBetween(0, 5));

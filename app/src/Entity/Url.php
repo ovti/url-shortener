@@ -1,4 +1,7 @@
 <?php
+/**
+ * Url entity.
+ */
 
 namespace App\Entity;
 
@@ -8,31 +11,87 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
+/**
+ * Class Url.
+ *
+ * @psalm-suppress MissingConstructor
+ */
 #[ORM\Entity(repositoryClass: UrlRepository::class)]
 #[ORM\Table(name: "urls")]
 class Url
 {
+
+    public function __toString()
+    {
+        return $this->long_url ?? '';
+
+    }
+
+    /**
+     * Primary key.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
+    /**
+     * Long url.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $long_url = null;
 
+    /**
+     * Short url.
+     *
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $short_url = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $create_time = null;
+    /**
+     * Create time.
+     *
+     * @var DateTimeImmutable|null
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $create_time = null;
 
+    /**
+     * Is blocked.
+     *
+     * @var bool|null
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     #[ORM\Column(type: 'boolean')]
     private ?bool $is_blocked = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $block_expiration = null;
+    /**
+     * Block expiration.
+     *
+     * @var DateTimeImmutable|null
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $block_expiration = null;
 
+    /**
+     * Tags.
+     *
+     * @var Collection<int, Tag>
+     *
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'urls_tags')]
@@ -43,86 +102,132 @@ class Url
         $this->tags = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->long_url ?? '';
-
-    }
-
+    /**
+     * Getter for Id.
+     *
+     * @return int|null Id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
 
+    /**
+     * Getter for long url.
+     *
+     * @return string|null Long url
+     */
     public function getLongUrl(): ?string
     {
         return $this->long_url;
     }
 
-    public function setLongUrl(string $long_url): self
+    /**
+     * Setter for long url.
+     *
+     * @param string|null $long_url Long url
+     */
+    public function setLongUrl(?string $long_url): void
     {
         $this->long_url = $long_url;
-
-        return $this;
     }
 
+    /**
+     * Getter for short url.
+     *
+     * @return string|null Short url
+     */
     public function getShortUrl(): ?string
     {
         return $this->short_url;
     }
 
-    public function setShortUrl(string $short_url): self
+    /**
+     * Setter for short url.
+     *
+     * @param string|null $short_url Short url
+     */
+    public function setShortUrl(?string $short_url): void
     {
         $this->short_url = $short_url;
-
-        return $this;
     }
 
-    public function getCreateTime(): ?\DateTimeInterface
+    /**
+     * Getter for create time.
+     *
+     * @return DateTimeImmutable|null Create time
+     */
+    public function getCreateTime(): ?DateTimeImmutable
     {
         return $this->create_time;
     }
 
-    public function setCreateTime(\DateTimeInterface $create_time): self
+    /**
+     * Setter for create time.
+     *
+     * @param DateTimeImmutable|null $create_time Create time
+     */
+    public function setCreateTime(?DateTimeImmutable $create_time): void
     {
         $this->create_time = $create_time;
-
-        return $this;
     }
 
+    /**
+     * Getter for is blocked.
+     *
+     * @return bool|null Is blocked
+     */
     public function isIsBlocked(): ?bool
     {
         return $this->is_blocked;
     }
 
-    public function setIsBlocked(bool $is_blocked): self
-    {
+    /**
+     * Setter for is blocked.
+     *
+     * @param bool|null $is_blocked Is blocked
+     */
+    public function setIsBlocked(?bool $is_blocked): void {
         $this->is_blocked = $is_blocked;
-
-        return $this;
     }
 
-    public function getBlockExpiration(): ?\DateTimeInterface
+    /**
+     * Getter for block expiration.
+     *
+     * @return DateTimeImmutable|null Block expiration
+     */
+    public function getBlockExpiration(): ?DateTimeImmutable
     {
         return $this->block_expiration;
     }
 
-    public function setBlockExpiration(?\DateTimeInterface $block_expiration): self
-    {
+    /**
+     * Setter for block expiration.
+     *
+     * @param DateTimeImmutable|null $block_expiration Block expiration
+     */
+    public function setBlockExpiration(?DateTimeImmutable $block_expiration): void {
         $this->block_expiration = $block_expiration;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, Tag>
+     * Getter for tags.
+     *
+     * @return Collection<int, Tag>|Tag[] Tags
      */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
+    /**
+     * Add tag to collection.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return Url
+     */
     public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
@@ -132,6 +237,13 @@ class Url
         return $this;
     }
 
+    /**
+     * Remove tag from collection.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return Url
+     */
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);

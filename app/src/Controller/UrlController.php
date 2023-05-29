@@ -1,4 +1,7 @@
 <?php
+/**
+ * Url controller.
+ */
 
 
 namespace App\Controller;
@@ -20,11 +23,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/url')]
 class UrlController extends AbstractController
 {
+    /**
+     * Url service.
+     */
     private UrlServiceInterface $urlService;
 
+    /**
+     * Translator.
+     */
     private TranslatorInterface $translator;
 
-
+    /**
+     * UrlController constructor.
+     * @param UrlServiceInterface $urlService
+     * @param TranslatorInterface $translator
+     */
     public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator) {
         $this->urlService = $urlService;
         $this->translator = $translator;
