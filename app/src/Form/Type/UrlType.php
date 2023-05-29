@@ -16,11 +16,13 @@ class UrlType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'long_url',
+            'longUrl',
             TextType::class,
+
             [
                 'label' => 'label.long_url',
                 'attr' => ['placeholder' => 'label.long_url'],
+                'required' => true,
             ]
         );
         $builder->add(

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UrlRepository::class)]
 #[ORM\Table(name: "urls")]
@@ -14,19 +15,19 @@ class Url
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $long_url = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $short_url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $create_time = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $is_blocked = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -42,6 +43,12 @@ class Url
         $this->tags = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->long_url ?? '';
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,13 +59,6 @@ class Url
     {
         return $this->long_url;
     }
-
-//    public function __toString()
-//    {
-//        return $this->long_url ?? '';
-//    }
-
-
 
     public function setLongUrl(string $long_url): self
     {
@@ -138,4 +138,5 @@ class Url
 
         return $this;
     }
+
 }
