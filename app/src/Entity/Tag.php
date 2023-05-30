@@ -7,6 +7,8 @@ namespace App\Entity;
 
 use App\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Tag.
@@ -15,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: "tags")]
+#[UniqueEntity(fields: ['name'])]
 class Tag
 {
 
@@ -34,7 +37,10 @@ class Tag
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
-    private ?string $name = null;
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 64)]
+    private ?string $name;
 
 
 /**
