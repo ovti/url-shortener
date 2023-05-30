@@ -1,4 +1,7 @@
 <?php
+/**
+ * Url controller.
+ */
 
 namespace App\Service;
 
@@ -52,5 +55,9 @@ class UrlService implements UrlServiceInterface
         $this->urlRepository->save($url);
     }
 
+    public function delete(Url $url): void
+    {
+        $this->urlRepository->delete($url);
+    }
 
 }

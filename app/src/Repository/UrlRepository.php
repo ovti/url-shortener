@@ -65,4 +65,14 @@ class UrlRepository extends ServiceEntityRepository
         $this->_em->persist($url);
         $this->_em->flush();
     }
+    /**
+     * Delete entity.
+     *
+     * @param Url $url Url entity
+     */
+    public function delete(Url $url): void
+    {
+        $this->_em->remove($url);
+        $this->_em->flush();
+    }
 }

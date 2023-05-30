@@ -9,6 +9,7 @@ namespace App\Controller;
 use App\Entity\Url;
 use App\Service\UrlServiceInterface;
 use App\Form\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -100,8 +101,80 @@ class UrlController extends AbstractController
         );
 
     }
+    /**
+     * Edit action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Url $url Url entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    public function edit(Request $request, Url $url): Response
+    {
+        $form = $this->createForm(
+            UrlType::class,
+            $url,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('url_edit', ['id' => $url->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->urlService->save($url);
 
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
 
+            return $this->redirectToRoute('url_index');
+        }
 
+        return $this->render(
+            'url/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $url,
+            ]
+        );
+    }
+    /**
+     * Delete action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Url $url Url entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    public function delete(Request $request, Url $url): Response
+    {
+        $form = $this->createForm(FormType::class, $url, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('url_delete', ['id' => $url->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->urlService->delete($url);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('url_index');
+        }
+
+        return $this->render(
+            'url/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $url,
+            ]
+        );
+    }
 }
