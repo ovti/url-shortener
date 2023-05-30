@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Service\TagServiceInterface;
 use App\Form\Type\TagType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -146,5 +147,40 @@ class TagController extends AbstractController
         );
     }
 
+    /**
+     * Delete action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Tag $tag Tag entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    public function delete(Request $request, Tag $tag): Response
+    {
+        $form = $this->createForm(FormType::class, $tag, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),
+        ]);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagService->delete($tag);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
+        return $this->render(
+            'tag/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $tag,
+            ]
+        );
+    }
 }

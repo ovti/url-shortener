@@ -76,4 +76,15 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->persist($tag);
         $this->_em->flush();
     }
+
+    /**
+     * Delete entity.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function delete(Tag $tag): void
+    {
+        $this->_em->remove($tag);
+        $this->_em->flush();
+    }
 }
