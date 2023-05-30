@@ -17,7 +17,9 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'tag.name') }}</th>
-                <th>a</th>
+                <th>{{ 'title.tag_edit'|trans }}</th>
+                <th>{{ 'title.tag_delete'|trans }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +33,17 @@
                             {{ 'action.show'|trans }}
                         </a>
                     </td>
+                    <td>
+                        <a href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
+
                 </tr>
             {% endfor %}
             </tbody>
