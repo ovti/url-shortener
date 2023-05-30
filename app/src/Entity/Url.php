@@ -8,7 +8,6 @@ namespace App\Entity;
 use App\Repository\UrlRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeImmutable;
@@ -24,12 +23,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Table(name: "urls")]
 class Url
 {
-
-//    public function __toString()
-//    {
-//        return $this->long_url ?? '';
-//
-//    }
 
     /**
      * Primary key.
@@ -47,6 +40,8 @@ class Url
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $long_url = null;
 
     /**
@@ -91,15 +86,16 @@ class Url
     /**
      * Tags.
      *
-     * @var Collection<int, Tag>
-     *
-     * @psalm-suppress PropertyNotSetInConstructor
+     * @var ArrayCollection<int, Tag>
      */
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'urls_tags')]
-    private Collection $tags;
+    private $tags;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -217,7 +213,7 @@ class Url
     /**
      * Getter for tags.
      *
-     * @return Collection<int, Tag>|Tag[] Tags
+     * @return Collection<int, Tag> Tags collection
      */
     public function getTags(): Collection
     {
@@ -225,33 +221,25 @@ class Url
     }
 
     /**
-     * Add tag to collection.
+     * Add tag.
      *
      * @param Tag $tag Tag entity
-     *
-     * @return Url
      */
-    public function addTag(Tag $tag): self
+    public function addTag(Tag $tag): void
     {
         if (!$this->tags->contains($tag)) {
-            $this->tags->add($tag);
+            $this->tags[] = $tag;
         }
-
-        return $this;
     }
 
     /**
-     * Remove tag from collection.
+     * Remove tag.
      *
      * @param Tag $tag Tag entity
-     *
-     * @return Url
      */
-    public function removeTag(Tag $tag): self
+    public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
-
-        return $this;
     }
 
 }
