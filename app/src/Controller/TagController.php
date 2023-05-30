@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -26,11 +27,17 @@ class TagController extends AbstractController
     private TagServiceInterface $tagService;
 
     /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
      * Constructor.
      */
-    public function __construct(TagServiceInterface $urlService)
+    public function __construct(TagServiceInterface $urlService, TranslatorInterface $translator)
     {
         $this->tagService = $urlService;
+        $this->translator = $translator;
     }
 
     /**
@@ -97,4 +104,47 @@ class TagController extends AbstractController
         );
 
     }
+
+    /**
+     * Edit action.
+     *
+     * @param Request  $request  HTTP request
+     * @param Tag $tag Tag entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    public function edit(Request $request, Tag $tag): Response
+    {
+        $form = $this->createForm(
+            TagType::class,
+            $tag,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('tag_edit', ['id' => $tag->getId()]),
+            ]
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->tagService->save($tag);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('tag_index');
+        }
+
+        return $this->render(
+            'tag/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'category' => $tag,
+            ]
+        );
+    }
+
+
 }
