@@ -48,7 +48,6 @@ class UrlService implements UrlServiceInterface
     public function save(Url $url): void
     {
         if ($url->getId() == null) {
-            $url->setCreateTime(new \DateTimeImmutable());
             $url->setShortUrl($this->generateShortUrl());
             $url->setIsBlocked(false);
         }

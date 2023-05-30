@@ -12,6 +12,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeImmutable;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Class Url.
@@ -63,6 +65,7 @@ class Url
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?DateTimeImmutable $create_time = null;
 
     /**
