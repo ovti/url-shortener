@@ -5,11 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {% set buttons = [
-        { label: 'action.create'|trans, url: url('url_create') }
-    ] %}
 
-    {% include 'default/_navbar.html.twig' with { buttons: buttons } %}
     <h1>{{ 'title.url_details'|trans({'%id%': url.id|default('')}) }}</h1>
     {% if url is defined and url|length %}
         <dl class="dl-horizontal">
