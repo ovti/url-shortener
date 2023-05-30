@@ -38,6 +38,118 @@
         <source>title.record_view</source>
         <target>Record view #%id%</target>
       </trans-unit>
+      <trans-unit id="message.created_successfully">
+        <source>message.created_successfully</source>
+        <target>Created successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_successfully">
+        <source>message.deleted_successfully</source>
+        <target>Deleted successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.form_error">
+        <source>message.form_error</source>
+        <target>Form error.</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_list">
+        <source>action.back_to_list</source>
+        <target>Back to list</target>
+      </trans-unit>
+      <trans-unit id="title.url_list">
+        <source>title.url_list</source>
+        <target>URL list</target>
+      </trans-unit>
+      <trans-unit id="title.tag_list">
+        <source>title.tag_list</source>
+        <target>Tag list</target>
+      </trans-unit>
+      <trans-unit id="title.home">
+        <source>title.home</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="title.tag_create">
+        <source>title.tag_create</source>
+        <target>Create Tag</target>
+      </trans-unit>
+      <trans-unit id="action.save">
+        <source>action.save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="title.tag_delete">
+        <source>title.tag_delete</source>
+        <target>Delete Tag</target>
+      </trans-unit>
+      <trans-unit id="action.delete">
+        <source>action.delete</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="title.tag_edit">
+        <source>title.tag_edit</source>
+        <target>Edit Tag</target>
+      </trans-unit>
+      <trans-unit id="action.edit">
+        <source>action.edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="action.create">
+        <source>action.create</source>
+        <target>Create</target>
+      </trans-unit>
+      <trans-unit id="label.name">
+        <source>label.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="action.show">
+        <source>action.show</source>
+        <target>Show</target>
+      </trans-unit>
+      <trans-unit id="title.tag_details">
+        <source>title.tag_details</source>
+        <target>Tag Details</target>
+      </trans-unit>
+      <trans-unit id="title.url_create">
+        <source>title.url_create</source>
+        <target>Create URL</target>
+      </trans-unit>
+      <trans-unit id="title.url_delete">
+        <source>title.url_delete</source>
+        <target>Delete URL</target>
+      </trans-unit>
+      <trans-unit id="title.url_edit">
+        <source>title.url_edit</source>
+        <target>Edit URL</target>
+      </trans-unit>
+      <trans-unit id="label.long_url">
+        <source>label.long_url</source>
+        <target>Long URL</target>
+      </trans-unit>
+      <trans-unit id="label.short_url">
+        <source>label.short_url</source>
+        <target>Short URL</target>
+      </trans-unit>
+      <trans-unit id="label.create_time">
+        <source>label.create_time</source>
+        <target>Create Time</target>
+      </trans-unit>
+      <trans-unit id="label.is_blocked">
+        <source>label.is_blocked</source>
+        <target>Is Blocked</target>
+      </trans-unit>
+      <trans-unit id="label.block_expiration">
+        <source>label.block_expiration</source>
+        <target>Block Expiration</target>
+      </trans-unit>
+      <trans-unit id="label.tag">
+        <source>label.tag</source>
+        <target>Tag</target>
+      </trans-unit>
+      <trans-unit id="title.url_details">
+        <source>title.url_details</source>
+        <target>URL Details</target>
+      </trans-unit>
+      <trans-unit id="label.created_at">
+        <source>label.created_at</source>
+        <target>Created At</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

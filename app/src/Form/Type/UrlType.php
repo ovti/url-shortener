@@ -54,7 +54,7 @@ class UrlType extends AbstractType
             'longUrl',
             TextType::class,
             [
-                'label' => 'label.longUrl',
+                'label' => 'label.long_url',
                 'required' => true,
                 'attr' => ['max_length' => 64],
             ]);
