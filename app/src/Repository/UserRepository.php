@@ -35,7 +35,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial user.{id, email, roles}');
+            ->select('partial user.{id, email, roles}')
+            ->orderBy('user.id', 'ASC');
     }
 
     /**

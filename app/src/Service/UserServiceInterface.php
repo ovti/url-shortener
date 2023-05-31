@@ -22,7 +22,7 @@ interface UserServiceInterface
      *
      * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
      */
-    public function createPaginatedList(int $page): PaginationInterface;
+    public function getPaginatedList(int $page): PaginationInterface;
 
     /**
      * Save user.

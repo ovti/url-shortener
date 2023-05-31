@@ -46,7 +46,7 @@ class UserService implements UserServiceInterface
      *
      * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
      */
-    public function createPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
             $this->userRepository->queryAll(),

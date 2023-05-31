@@ -14,6 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class RegistrationType.
+ */
 class RegistrationType extends AbstractType
 {
     /**
@@ -52,8 +55,8 @@ class RegistrationType extends AbstractType
                         new Length(['min' => 6, 'max' => 191]),
                         new NotBlank(),
                     ],
-                    'first_options' => ['label' => 'label_password'],
-                    'second_options' => ['label' => 'label_confirm_password'],
+                    'first_options' => ['label' => 'label.password'],
+                    'second_options' => ['label' => 'label.confirm_password'],
                 ],
             );
 
