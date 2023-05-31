@@ -47,7 +47,7 @@ class UrlController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request HTTP request
+     * @param Request $request HTTP Request
      *
      * @return Response HTTP response
      */
@@ -55,14 +55,11 @@ class UrlController extends AbstractController
     public function index(Request $request): Response
     {
         $pagination = $this->urlService->getPaginatedList(
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            $this->getUser()
         );
 
-        return $this->render(
-            'url/index.html.twig',
-            ['pagination' => $pagination]
-        );
-
+        return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
@@ -80,12 +77,20 @@ class UrlController extends AbstractController
     )]
     public function show(Url $url): Response
     {
+        if ($url->getUsers() !== $this->getUser()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.record_not_found')
+            );
+
+            return $this->redirectToRoute('url_index');
+        }
+
         return $this->render(
             'url/show.html.twig',
             ['url' => $url]
         );
     }
-
     /**
      * Create action.
      *

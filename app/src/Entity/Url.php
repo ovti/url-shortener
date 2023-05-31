@@ -253,6 +253,11 @@ class Url
         $this->tags->removeElement($tag);
     }
 
+    /**
+     * Getter for users.
+     *
+     * @return User|null User entity
+     */
     public function getUsers(): ?User
     {
         return $this->users;
