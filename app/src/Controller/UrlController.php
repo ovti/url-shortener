@@ -8,6 +8,7 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UrlServiceInterface;
 use App\Form\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -69,28 +70,13 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/{id}',
-        name: 'url_show',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET',
-    )]
+    #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    #[IsGranted('VIEW', subject: 'url')]
     public function show(Url $url): Response
     {
-        if ($url->getUsers() !== $this->getUser()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.record_not_found')
-            );
-
-            return $this->redirectToRoute('url_index');
-        }
-
-        return $this->render(
-            'url/show.html.twig',
-            ['url' => $url]
-        );
+        return $this->render('url/show.html.twig', ['url' => $url]);
     }
+
     /**
      * Create action.
      *
@@ -136,6 +122,7 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('EDIT', subject: 'url')]
     public function edit(Request $request, Url $url): Response
     {
         $form = $this->createForm(
@@ -143,18 +130,16 @@ class UrlController extends AbstractController
             $url,
             [
                 'method' => 'PUT',
-                'action' => $this->generateUrl('url_edit', ['id' => $url->getId()]),
+                'action' => $this->generateUrl(
+                    'url_edit',
+                    ['id' => $url->getId()]
+                ),
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->urlService->save($url);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.created_successfully')
-            );
+            $this->addFlash('success', 'message_updated_successfully');
 
             return $this->redirectToRoute('url_index');
         }
@@ -163,7 +148,7 @@ class UrlController extends AbstractController
             'url/edit.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $url,
+                'url' => $url,
             ]
         );
     }
@@ -176,21 +161,27 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'url')]
     public function delete(Request $request, Url $url): Response
     {
-        $form = $this->createForm(FormType::class, $url, [
-            'method' => 'DELETE',
-            'action' => $this->generateUrl('url_delete', ['id' => $url->getId()]),
-        ]);
+        $form = $this->createForm(
+            FormType::class,
+            $url,
+            [
+                'method' => 'DELETE',
+                'action' => $this->generateUrl(
+                    'url_delete',
+                    ['id' => $url->getId()]
+                ),
+            ]
+        );
         $form->handleRequest($request);
-
+        if ($request->isMethod('DELETE') && !$form->isSubmitted()) {
+            $form->submit($request->request->get($form->getName()));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $this->urlService->delete($url);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.deleted_successfully')
-            );
+            $this->addFlash('success', 'message_deleted_successfully');
 
             return $this->redirectToRoute('url_index');
         }
@@ -199,7 +190,7 @@ class UrlController extends AbstractController
             'url/delete.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $url,
+                'url' => $url,
             ]
         );
     }
