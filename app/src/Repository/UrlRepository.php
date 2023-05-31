@@ -6,12 +6,14 @@
 namespace App\Repository;
 
 use App\Entity\Url;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -32,19 +34,21 @@ class UrlRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
+     * @param array<string, object> $filters Filters
+     *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(array $filters): QueryBuilder
     {
-//        return $this->getOrCreateQueryBuilder()
-//            ->orderBy('url.id', 'ASC');
-        return $this->getOrCreateQueryBuilder()
-            ->select(
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select (
                 'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
-                'partial tag.{id, name}'
+                'partial tags.{id, name}',
             )
-            ->leftJoin('url.tags', 'tag')
+            ->leftJoin('url.tags', 'tags')
             ->orderBy('url.id', 'ASC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
 
@@ -56,16 +60,36 @@ class UrlRepository extends ServiceEntityRepository
     /**
      * Query urls by author.
      *
-     * @param User $user User entity
+     * @param UserInterface         $user    User entity
+     * @param array<string, object> $filters Filters
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByAuthor(User $user): QueryBuilder
+    public function queryByAuthor(UserInterface $user, array $filters = []): QueryBuilder
     {
-        $queryBuilder = $this->queryAll();
+        $queryBuilder = $this->queryAll($filters);
 
         $queryBuilder->andWhere('url.users = :users')
             ->setParameter('users', $user);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder          $queryBuilder Query builder
+     * @param array<string, object> $filters      Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+
+        if (isset($filters['tag']) && $filters['tag'] instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters['tag']);
+        }
 
         return $queryBuilder;
     }

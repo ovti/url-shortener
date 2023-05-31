@@ -43,10 +43,21 @@
                     <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
                     <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d') : '' }}</td>
                     <td>
+                    {% if url.tags is defined and url.tags|length %}
                         {% for tag in url.tags %}
-                            <span class="label label-default">{{ tag.name }}</span>
+                            <a href="{{ url('url_index', {'filters.tag_id' : tag.id}) }}" title="{{ tag.name }}">
+                                {{ tag.name }}
+                            </a>
                         {% endfor %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
                     </td>
+{#                    <td>#}
+{#                        {% for tag in url.tags %}#}
+{#                            <span class="label label-default">{{ tag.name }}</span>#}
+{#                        {% endfor %}#}
+{#                    </td>#}
                     {% if is_granted('VIEW', url) %}
                         <td>
                         <a class="btn btn-outline-primary" href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.show'|trans }}">

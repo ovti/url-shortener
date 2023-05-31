@@ -35,4 +35,5 @@ interface UrlServiceInterface
      * @return string
      */
     public function generateShortUrl(): string;
+
 }
