@@ -94,6 +94,17 @@ class Url
     private $tags;
 
     /**
+     * User.
+     *
+     * @var User|null
+     */
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(User::class)]
+    private ?User $users;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -240,6 +251,25 @@ class Url
     public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
+    }
+
+    public function getUsers(): ?User
+    {
+        return $this->users;
+    }
+
+    /**
+     * Setter for users.
+     *
+     * @param User|null $users Users
+     *
+     * @return $this Self object
+     */
+    public function setUsers(?User $users): self
+    {
+        $this->users = $users;
+
+        return $this;
     }
 
 }

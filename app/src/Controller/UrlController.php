@@ -7,6 +7,7 @@
 namespace App\Controller;
 
 use App\Entity\Url;
+use App\Entity\User;
 use App\Service\UrlServiceInterface;
 use App\Form\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -43,7 +44,13 @@ class UrlController extends AbstractController
         $this->translator = $translator;
     }
 
-
+    /**
+     * Index action.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return Response HTTP response
+     */
     #[Route(name: 'url_index', methods: 'GET')]
     public function index(Request $request): Response
     {
@@ -58,6 +65,13 @@ class UrlController extends AbstractController
 
     }
 
+    /**
+     * Show action.
+     *
+     * @param Url $url Url entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}',
         name: 'url_show',
@@ -86,8 +100,15 @@ class UrlController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $url = new Url();
-        $form = $this->createForm(UrlType::class, $url);
+        $url->setUsers($user);
+        $form = $this->createForm(
+            UrlType::class,
+            $url,
+            ['action' => $this->generateUrl('url_create')]
+        );
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->urlService->save($url);
