@@ -41,6 +41,10 @@ class UrlVisited
     #[Gedmo\Timestampable(on: 'create')]
     private ?DateTimeImmutable $visit_time = null;
 
+    #[ORM\ManyToOne(targetEntity: Url::class, inversedBy: 'urls_visited')]
+    #[ORM\JoinColumn(name: 'url_id', referencedColumnName: 'id', nullable: false)]
+    private ?Url $url = null;
+
     /**
      * Getter for Id.
      *
@@ -69,5 +73,17 @@ class UrlVisited
     public function setVisitTime(?DateTimeImmutable $create_time): void
     {
         $this->visit_time = $create_time;
+    }
+
+    public function getUrl(): ?Url
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?Url $url): self
+    {
+        $this->url = $url;
+
+        return $this;
     }
 }

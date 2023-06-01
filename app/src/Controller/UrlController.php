@@ -8,6 +8,7 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Entity\User;
+use App\Entity\UrlVisited;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UrlServiceInterface;
 use App\Form\Type\UrlType;
@@ -121,6 +122,16 @@ class UrlController extends AbstractController
 //    #[IsGranted('VIEW', subject: 'url')]
     public function show(Url $url): Response
     {
+        // Tworzenie obiektu UrlVisited
+        $urlVisited = new UrlVisited();
+        $urlVisited->setVisitTime(new \DateTimeImmutable());
+        $urlVisited->setUrl($url);
+
+        // Zapisanie obiektu UrlVisited w bazie danych
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($urlVisited);
+        $entityManager->flush();
+
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
 
