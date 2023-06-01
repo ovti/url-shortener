@@ -22,19 +22,6 @@ class UrlVisitedRepository extends ServiceEntityRepository
         parent::__construct($registry, UrlVisited::class);
     }
 
-    public function findMostVisitedUrls(): QueryBuilder
-    {
-        $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial url_visited.{id, url, count}',
-                'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
-            )
-            ->leftJoin('url_visited.url', 'url')
-            ->orderBy('url_visited.count', 'DESC');
-
-
-        return $queryBuilder;
-    }
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
