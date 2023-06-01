@@ -88,11 +88,11 @@ class UrlVoter extends Voter
 
         switch ($attribute) {
             case self::EDIT:
-                return $this->canEdit($subject, $user);
+                return $this->canEdit($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
             case self::VIEW:
-                return $this->canView($subject, $user);
+                return $this->canView($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
             case self::DELETE:
-                return $this->canDelete($subject, $user);
+                return $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
         }
 
         return false;

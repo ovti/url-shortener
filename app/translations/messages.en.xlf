@@ -54,9 +54,9 @@
         <source>action.back_to_list</source>
         <target>Back to list</target>
       </trans-unit>
-      <trans-unit id="title.url_list">
-        <source>title.url_list</source>
-        <target>URL list</target>
+      <trans-unit id="title.user_urls">
+        <source>title.user_urls</source>
+        <target>My URLs</target>
       </trans-unit>
       <trans-unit id="title.tag_list">
         <source>title.tag_list</source>
@@ -105,6 +105,10 @@
       <trans-unit id="title.tag_details">
         <source>title.tag_details</source>
         <target>Tag Details</target>
+      </trans-unit>
+      <trans-unit id="title.url_list">
+        <source>title.url_list</source>
+        <target>URL List</target>
       </trans-unit>
       <trans-unit id="title.url_create">
         <source>title.url_create</source>

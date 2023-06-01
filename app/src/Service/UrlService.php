@@ -89,6 +89,18 @@ class UrlService implements UrlServiceInterface
         );
     }
 
+    //get paginated list for every user
+    public function getPaginatedListForEveryUser(int $page, array $filters = []): PaginationInterface
+    {
+        $filters = $this->prepareFilters($filters);
+
+        return $this->paginator->paginate(
+            $this->urlRepository->queryAll($filters),
+            $page,
+            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
     /**
      * Generate short url.
      *

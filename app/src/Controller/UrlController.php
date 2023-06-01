@@ -71,6 +71,29 @@ class UrlController extends AbstractController
     }
 
     /**
+     * URL List action.
+     *
+     * @param Request $request HTTP Request
+     *
+     * @return Response HTTP response
+     */
+    #[Route(
+        '/list',
+        name: 'url_list',
+        methods: 'GET'
+    )]
+    public function list(Request $request): Response
+    {
+        $filters = $this->getFilters($request);
+        $pagination = $this->urlService->getPaginatedListForEveryUser(
+            $request->query->getInt('page', 1),
+            $filters
+        );
+
+        return $this->render('url/url_list.html.twig', ['pagination' => $pagination]);
+    }
+
+    /**
      * Get filters from request.
      *
      * @param Request $request HTTP request
