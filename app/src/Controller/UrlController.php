@@ -152,7 +152,7 @@ class UrlController extends AbstractController
             $this->urlService->save($url);
             $this->addFlash('success', 'message_created_successfully');
 
-            return $this->redirectToRoute('url_index');
+            return $this->redirectToRoute('app_homepage');
         }
         return $this->render(
             'url/create.html.twig',

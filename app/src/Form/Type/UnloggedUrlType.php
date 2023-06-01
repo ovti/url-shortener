@@ -13,16 +13,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 /**
  * Class TagType.
  */
-class UrlType extends AbstractType
+class UrlUnloggedType extends AbstractType
 {
     /**
      * Tags data transformer.
@@ -32,30 +28,13 @@ class UrlType extends AbstractType
     private TagsDataTransformer $tagsDataTransformer;
 
     /**
-     * Security.
-     *
-     * @var Security
-     */
-    private Security $security;
-
-    /**
-     * Session.
-     *
-     * @var SessionInterface
-     */
-    private SessionInterface $session;
-
-    /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
-     * @param Security $security Security
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, SessionInterface $session)
+    public function __construct(TagsDataTransformer $tagsDataTransformer)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
-        $this->security = $security;
-        $this->session = $session;
     }
 
     /**
@@ -71,27 +50,6 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (!$this->security->getUser()) {
-            $builder->add(
-                'email',
-                TextType::class,
-                [
-                    'label' => 'label.email',
-                    'required' => true,
-                    'mapped' => false,
-                    'attr' => ['max_length' => 64],
-                ]
-            );
-            $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-                $form = $event->getForm();
-                $email = $form->get('email')->getData();
-                $this->session->set('email', $email);
-
-                $form->remove('email');
-            });
-        }
-
-
         $builder->add(
             'longUrl',
             TextType::class,

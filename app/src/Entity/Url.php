@@ -99,8 +99,7 @@ class Url
      * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank]
+    #[ORM\JoinColumn(nullable: true)]
     #[Assert\Type(User::class)]
     private ?User $users;
 
