@@ -150,6 +150,70 @@
         <source>label.created_at</source>
         <target>Created At</target>
       </trans-unit>
+      <trans-unit id="title.user_list">
+        <source>title.user_list</source>
+        <target>User List</target>
+      </trans-unit>
+      <trans-unit id="action.logout">
+        <source>action.logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="action.login">
+        <source>action.login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="action.register">
+        <source>action.register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="action_register">
+        <source>action_register</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="label.urls">
+        <source>label.urls</source>
+        <target>URLs</target>
+      </trans-unit>
+      <trans-unit id="title.password.edit">
+        <source>title.password.edit</source>
+        <target>Edit Password</target>
+      </trans-unit>
+      <trans-unit id="label.user_id">
+        <source>label.user_id</source>
+        <target>User ID</target>
+      </trans-unit>
+      <trans-unit id="label.user_email">
+        <source>label.user_email</source>
+        <target>User Email</target>
+      </trans-unit>
+      <trans-unit id="title.user_details">
+        <source>title.user_details</source>
+        <target>User Details</target>
+      </trans-unit>
+      <trans-unit id="user.id">
+        <source>user.id</source>
+        <target>User ID</target>
+      </trans-unit>
+      <trans-unit id="user.email">
+        <source>user.email</source>
+        <target>User Email</target>
+      </trans-unit>
+      <trans-unit id="label.edit">
+        <source>label.edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="action.edit_email">
+        <source>action.edit_email</source>
+        <target>Edit Email</target>
+      </trans-unit>
+      <trans-unit id="action.edit_password">
+        <source>action.edit_password</source>
+        <target>Edit Password</target>
+      </trans-unit>
+      <trans-unit id="action.edit_role">
+        <source>action.edit_role</source>
+        <target>Edit Role</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
