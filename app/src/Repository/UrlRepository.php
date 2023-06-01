@@ -46,7 +46,7 @@ class UrlRepository extends ServiceEntityRepository
                 'partial tags.{id, name}',
             )
             ->leftJoin('url.tags', 'tags')
-            ->orderBy('url.id', 'ASC');
+            ->orderBy('url.create_time', 'DESC');
 
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
