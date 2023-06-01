@@ -67,6 +67,7 @@ class UserController extends AbstractController
      *     requirements={"id": "[1-9]\d*"},
      * )
      */
+    #[IsGranted('VIEW', subject: 'user')]
     public function show(User $user): Response
     {
         return $this->render(
@@ -90,6 +91,7 @@ class UserController extends AbstractController
      *     requirements={"id": "[1-9]\d*"},
      * )
      */
+    #[IsGranted('EDIT_PASSWORD', subject: 'user')]
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(UserPasswordType::class, $user, ['method' => 'PUT']);
