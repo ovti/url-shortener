@@ -64,14 +64,17 @@ class UserService implements UserServiceInterface
      */
     public function save(User $user): void
     {
+        if ($user->getId() === null) {
+            $user->setPassword(
+                $this->passwordEncoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+                )
+            );
+            $user->setRoles(['ROLE_USER']);
+        }
 
-        $user->setPassword(
-            $this->passwordEncoder->encodePassword(
-                $user,
-                $user->getPassword()
-            )
-        );
-        $user->setRoles(['ROLE_USER']);
+
         $this->userRepository->save($user);
     }
 

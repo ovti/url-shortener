@@ -18,12 +18,12 @@ class UserVoter extends Voter
         $this->security = $security;
     }
 
-    public const EDIT_PASSWORD = 'EDIT_PASSWORD';
+    public const EDIT_USER_DATA = 'EDIT_USER_DATA';
     public const VIEW = 'VIEW';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT_PASSWORD, self::VIEW])
+        return in_array($attribute, [self::EDIT_USER_DATA, self::VIEW])
             && $subject instanceof User;
     }
 
@@ -36,7 +36,7 @@ class UserVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW:
-            case self::EDIT_PASSWORD:
+            case self::EDIT_USER_DATA:
                 return $this->canAccess($subject, $user);
 
         }
