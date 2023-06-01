@@ -118,7 +118,7 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
-    #[IsGranted('VIEW', subject: 'url')]
+//    #[IsGranted('VIEW', subject: 'url')]
     public function show(Url $url): Response
     {
         return $this->render('url/show.html.twig', ['url' => $url]);
