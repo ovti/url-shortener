@@ -67,24 +67,6 @@ class TagRepository extends ServiceEntityRepository
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 
-    /**
-     * Find by name.
-     *
-     * @param string $name Tag name
-     *
-     * @return Tag|null Tag entity
-     */
-    public function findOneByName(string $name): ?Tag
-    {
-        $queryBuilder = $this->queryAll();
-        $queryBuilder->andWhere('tag.name = :name')
-            ->setParameter('name', $name);
-        try {
-            return $queryBuilder->getQuery()->getSingleResult();
-        } catch (NoResultException | NonUniqueResultException $e) {
-            return null;
-        }
-    }
 
     /**
      * Save entity.

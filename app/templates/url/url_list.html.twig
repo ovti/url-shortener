@@ -45,7 +45,7 @@
                     <td>
                         {% if url.tags is defined and url.tags|length %}
                             {% for tag in url.tags %}
-                                <a href="{{ url('url_index', {'filters.tag_id' : tag.id}) }}" title="{{ tag.name }}">
+                                <a href="{{ url('url_list', {'filters.tag_id' : tag.id}) }}" title="{{ tag.name }}">
                                     {{ tag.name }}
                                 </a>
                             {% endfor %}
