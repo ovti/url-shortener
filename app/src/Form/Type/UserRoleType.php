@@ -1,22 +1,20 @@
 <?php
 /*
- * User email type.
+ * User role type.
  */
 
 namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 /**
- * Class UserEmailType.
+ * Class UserRoleType.
  */
-class UserEmailType extends AbstractType
+class UserRoleType extends AbstractType
 {
     /**
      * Builds the form.
@@ -31,18 +29,21 @@ class UserEmailType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        //update user role
         $builder->add(
-            'email',
-            EmailType::class,
+            'roles',
+            ChoiceType::class,
             [
-                'label' => 'label_email',
+                'label' => 'label_role',
                 'required' => true,
-                'attr' => ['max_length' => 191],
-                'constraints' => [
-                    new NotBlank(),
-                    new Length(['min' => 3, 'max' => 180]),
+                'choices' => [
+                    'label_user' => 'ROLE_USER',
+                    'label_admin' => 'ROLE_ADMIN',
                 ],
+                'expanded' => true,
+                'multiple' => true,
             ]
+
         );
     }
 

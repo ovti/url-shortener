@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Form\Type\UserPasswordType;
 use App\Form\Type\UserEmailType;
+use App\Form\Type\UserRoleType;
 
 /**
  * Class UserController.
@@ -140,6 +141,41 @@ class UserController extends AbstractController
         }
         return $this->render(
             'user/edit_email.html.twig',
+            [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]
+        );
+    }
+
+    /**
+     * Edit role.
+     *
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
+     *
+     * @return Response HTTP response
+     *
+     * @Route(
+     *     "/{id}/edit/role",
+     *     name="user_edit_role",
+     *     methods={"GET", "PUT"},
+     *     requirements={"id": "[1-9]\d*"},
+     *     )
+     *
+     */
+    #[IsGranted('ROLE_ADMIN')]
+    public function editRole(Request $request, User $user): Response
+    {
+        $form = $this->createForm(UserRoleType::class, $user, ['method' => 'PUT']);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->save($user);
+            $this->addFlash('success', 'message.updated_successfully');
+            return $this->redirectToRoute('app_homepage');
+        }
+        return $this->render(
+            'user/edit_role.html.twig',
             [
                 'form' => $form->createView(),
                 'user' => $user,

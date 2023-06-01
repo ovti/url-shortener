@@ -45,7 +45,10 @@ security:
 #        - { path: ^/, roles: ROLE_USER}
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-
+#        tag index only for admin
+        - { path: ^/tag, roles: ROLE_ADMIN}
+        - { path: ^/tag/new, roles: ROLE_ADMIN}
+        - { path: ^/tag/edit, roles: ROLE_ADMIN}
 when@test:
     security:
         password_hashers:

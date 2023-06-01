@@ -9,23 +9,30 @@
         <ul class="navbar-nav ml-auto">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('url_index') }}">{{ 'title.url_list'|trans }}</a>
+                    <a class="nav-link" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.email }}</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_index') }}">{{ 'title.user_list'|trans }}</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ path('tag_index') }}">{{ 'title.tag_list'|trans }}</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('tag_index') }}">{{ 'title.tag_list'|trans }}</a>
+                    <a class="nav-link" href="{{ path('url_index') }}">{{ 'title.url_list'|trans }}</a>
                 </li>
             {% endif %}
                 <li class="nav-item me-auto">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
-                    {% else %}
-                        <a class="nav-link" href="{{ path('app_login') }}">{{ 'action.login'|trans }}</a>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a class="nav-link" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
+            {% else %}
+                    <a class="nav-link" href="{{ path('app_login') }}">{{ 'action.login'|trans }}</a>
                 </li>
                 <li>
                     <a class="nav-link" href="{{ path('app_register') }}">{{ 'action.register'|trans }}</a>
                 </li>
-                    {% endif %}
-
+            {% endif %}
         </ul>
     </div>
 </nav>
