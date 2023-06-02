@@ -18,9 +18,10 @@
             {% for urlVisited in urlsVisited %}
                 <tr>
                     <td>{{ urlVisited.id }}</td>
+{#                    <td>{{ urlVisited.visits }}</td>#}
 {#                    <td>{{ urlVisited.url }}</td>#}
-                    <td>{{ urlVisited.visitTime|format_date('long') }}</td>
-                    <td>{{ urlVisited.url.id }}</td>
+{#                    <td>{{ urlVisited.visitTime|format_date('long') }}</td>#}
+{#                    <td>{{ urlVisited.url.id }}</td>#}
                 </tr>
             {% endfor %}
         </tbody>

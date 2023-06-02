@@ -9,6 +9,8 @@ use App\Repository\UrlVisitedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
  * Class UrlVisitedController.
@@ -17,6 +19,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/popular' )]
 class UrlVisitedController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /*
      * Most visited urls action.
      *
@@ -31,8 +40,11 @@ class UrlVisitedController extends AbstractController
     )]
     public function mostVisited(UrlVisitedRepository $repository): Response
     {
+
+
         $urlsVisited = $repository->findAll();
 //        $urlsVisited = $repository->findMostVisitedUrls();
+//        $urlsVisited = $repository->countAllVisitsForUrl();
 
         return $this->render(
             'url_visited/most_visited.html.twig',

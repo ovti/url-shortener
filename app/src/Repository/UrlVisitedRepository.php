@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\UrlVisited;
+use App\Entity\Url;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,6 +22,18 @@ class UrlVisitedRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UrlVisited::class);
     }
+
+    //count all visits for a urls and return them in descending order
+    public function countAllVisitsForUrl(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('url')
+            ->select('url.url AS url, COUNT(url.url) AS visits')
+            ->groupBy('url.url')
+            ->orderBy('visits', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
