@@ -41,8 +41,8 @@ class UrlVisited
     #[Gedmo\Timestampable(on: 'create')]
     private ?DateTimeImmutable $visit_time = null;
 
-    #[ORM\ManyToOne(targetEntity: Url::class, inversedBy: 'urls_visited')]
-    #[ORM\JoinColumn(name: 'url_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Url::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Url $url = null;
 
     /**

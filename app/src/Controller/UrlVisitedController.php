@@ -40,11 +40,7 @@ class UrlVisitedController extends AbstractController
     )]
     public function mostVisited(UrlVisitedRepository $repository): Response
     {
-
-
-        $urlsVisited = $repository->findAll();
-//        $urlsVisited = $repository->findMostVisitedUrls();
-//        $urlsVisited = $repository->countAllVisitsForUrl();
+        $urlsVisited = $repository->countAllVisitsForUrl();
 
         return $this->render(
             'url_visited/most_visited.html.twig',

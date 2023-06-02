@@ -23,22 +23,34 @@ class UrlVisitedRepository extends ServiceEntityRepository
         parent::__construct($registry, UrlVisited::class);
     }
 
-    //count all visits for a urls and return them in descending order
     public function countAllVisitsForUrl(): array
     {
-        $queryBuilder = $this->createQueryBuilder('url')
-            ->select('url.url AS url, COUNT(url.url) AS visits')
-            ->groupBy('url.url')
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select('count(urlVisited.id) as visits, url.long_url')
+            ->leftJoin('urlVisited.url', 'url')
+            ->groupBy('urlVisited.url', 'url.long_url')
             ->orderBy('visits', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();
     }
+//    public function countAllVisitsForUrl(): array
+//    {
+//        $queryBuilder = $this->getOrCreateQueryBuilder()
+//            ->select(
+//                'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
+//                'partial urlVisited.{id, visit_time}',
+//            )
+//            ->leftJoin('urlVisited.url', 'url')
+//            ->orderBy('urlVisited.visit_time', 'DESC');
+//
+//        return $queryBuilder->getQuery()->getResult();
+//    }
 
 
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('url');
+        return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
     }
 
 

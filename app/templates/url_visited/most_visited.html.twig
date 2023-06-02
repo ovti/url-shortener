@@ -9,19 +9,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{{ 'label.url'|trans }}</th>
                 <th>{{ 'label.count'|trans }}</th>
-                <td>{{ 'label.url_id' }}</td>
+                <th>{{ 'label.url'|trans }}</th>
             </tr>
         </thead>
         <tbody>
             {% for urlVisited in urlsVisited %}
                 <tr>
-                    <td>{{ urlVisited.id }}</td>
-{#                    <td>{{ urlVisited.visits }}</td>#}
-{#                    <td>{{ urlVisited.url }}</td>#}
-{#                    <td>{{ urlVisited.visitTime|format_date('long') }}</td>#}
-{#                    <td>{{ urlVisited.url.id }}</td>#}
+                    <td>{{ urlVisited.visits }}</td>
+                    <td>{{ urlVisited.long_url }}</td>
                 </tr>
             {% endfor %}
         </tbody>
