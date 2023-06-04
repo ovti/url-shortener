@@ -34,6 +34,10 @@
         <source>title.record_list</source>
         <target>Records list</target>
       </trans-unit>
+      <trans-unit id="title.popular_urls">
+        <source>title.popular_urls</source>
+        <target>Popular URLs</target>
+      </trans-unit>
       <trans-unit id="title.record_view">
         <source>title.record_view</source>
         <target>Record view #%id%</target>
@@ -121,6 +125,14 @@
       <trans-unit id="title.url_edit">
         <source>title.url_edit</source>
         <target>Edit URL</target>
+      </trans-unit>
+      <trans-unit id="label.url">
+        <source>label.url</source>
+        <target>URL</target>
+      </trans-unit>
+      <trans-unit id="label.count">
+        <source>label.count</source>
+        <target>Times visited</target>
       </trans-unit>
       <trans-unit id="label.long_url">
         <source>label.long_url</source>
