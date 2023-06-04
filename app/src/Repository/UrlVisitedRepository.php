@@ -34,10 +34,22 @@ class UrlVisitedRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
+    }
+
+    /**
+     * Save url visited.
+     *
+     * @param \App\Entity\UrlVisited $urlVisited UrlVisited entity
+     *
+     * @return void
+     */
+    public function save(UrlVisited $urlVisited): void
+    {
+        $this->_em->persist($urlVisited);
+        $this->_em->flush();
     }
 
 }

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Service\UrlVisitedService;
 
 /**
  * Class UrlController
@@ -37,13 +38,21 @@ class UrlController extends AbstractController
     private TranslatorInterface $translator;
 
     /**
+     * UrlVisited service.
+     */
+    private UrlVisitedService $urlVisitedService;
+
+    /**
      * UrlController constructor.
      * @param UrlServiceInterface $urlService
      * @param TranslatorInterface $translator
+     * @param UrlVisitedService $urlVisitedService
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator) {
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
+    {
         $this->urlService = $urlService;
         $this->translator = $translator;
+        $this->urlVisitedService = $urlVisitedService;
     }
 
     /**
@@ -122,15 +131,11 @@ class UrlController extends AbstractController
 //    #[IsGranted('VIEW', subject: 'url')]
     public function show(Url $url): Response
     {
-        // Tworzenie obiektu UrlVisited
         $urlVisited = new UrlVisited();
         $urlVisited->setVisitTime(new \DateTimeImmutable());
         $urlVisited->setUrl($url);
 
-        // Zapisanie obiektu UrlVisited w bazie danych
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($urlVisited);
-        $entityManager->flush();
+        $this->urlVisitedService->save($urlVisited);
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
