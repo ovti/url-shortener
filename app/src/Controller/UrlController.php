@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Service\UrlVisitedService;
+use App\Form\Type\UrlBlockType;
 
 /**
  * Class UrlController
@@ -41,6 +42,7 @@ class UrlController extends AbstractController
      * UrlVisited service.
      */
     private UrlVisitedService $urlVisitedService;
+
 
     /**
      * UrlController constructor.
@@ -215,6 +217,49 @@ class UrlController extends AbstractController
             ]
         );
     }
+
+    /**
+     * Block action.
+     *
+     * @param Request $request HTTP request
+     * @param Url $url Url entity
+     *
+     * @return Response HTTP response
+     */
+    //block url and set block_expiration time
+    #[Route('/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('DELETE', subject: 'url')]
+    public function block(Request $request, Url $url): Response
+    {
+        $form = $this->createForm(
+            UrlBlockType::class,
+            $url,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl(
+                    'url_block',
+                    ['id' => $url->getId()]
+                ),
+            ]
+        );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $url->setIsBlocked(true);
+            $this->urlService->save($url);
+            $this->addFlash('success', 'message_blocked_successfully');
+
+            return $this->redirectToRoute('url_index');
+        }
+
+        return $this->render(
+            'url/block.html.twig',
+            [
+                'form' => $form->createView(),
+                'url' => $url,
+            ]
+        );
+    }
+
     /**
      * Delete action.
      *
