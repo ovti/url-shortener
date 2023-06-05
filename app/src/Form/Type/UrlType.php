@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Form\FormError;
+
 
 
 /**
@@ -24,6 +26,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class UrlType extends AbstractType
 {
+
     /**
      * Tags data transformer.
      *
@@ -45,11 +48,14 @@ class UrlType extends AbstractType
      */
     private SessionInterface $session;
 
+
+
     /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
      * @param Security $security Security
+     * @param SessionInterface $session Session
      */
     public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, SessionInterface $session)
     {
@@ -87,7 +93,21 @@ class UrlType extends AbstractType
                 $email = $form->get('email')->getData();
                 $this->session->set('email', $email);
 
+                $emailCount = $this->session->get('emailCount', []);
+                if (!isset($emailCount[$email])) {
+                    $emailCount[$email] = 0;
+                }
+                if ($emailCount[$email] >= 2) {
+                    $form->addError(new FormError('error.too_many_emails'));
+
+                } else {
+                    $emailCount[$email]++;
+                    $this->session->set('emailCount', $emailCount);
+                }
+
                 $form->remove('email');
+
+
             });
         }
 
