@@ -23,11 +23,12 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'url.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.long_url'|trans, 'url.long_url') }}</th>
-{#                <th>{{ knp_pagination_sortable(pagination, 'label.short_url'|trans, 'url.short_url') }}</th>#}
                 <th>{{ knp_pagination_sortable(pagination, 'label.create_time'|trans, 'url.create_time') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.is_blocked') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.block_expiration') }}</th>
                 <th>{{ 'label.tag'|trans }}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.is_blocked') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.block_expiration') }}</th>
+                    {% endif %}
                 <th>{{ 'label.actions'|trans }}</th>
     {% if is_granted('ROLE_ADMIN') %}
                 <th>{{ 'title.url_edit'|trans }}</th>
@@ -41,10 +42,7 @@
                 <tr>
                     <td>{{ url.id }}</td>
                     <td>{{ url.longUrl }}</td>
-{#                    <td>{{ url.shortUrl }}</td>#}
                     <td>{{ url.createTime|format_date('long') }}</td>
-                    <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
-                    <td>{{ url.blockExpiration ? url.blockExpiration|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
                         {% if url.tags is defined and url.tags|length %}
                             {% for tag in url.tags %}
@@ -56,6 +54,10 @@
                             &nbsp;
                         {% endif %}
                     </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
+                    <td>{{ url.blockExpiration ? url.blockExpiration|date('Y-m-d H:i:s') : '' }}</td>
+                    {% endif %}
 {#                    {% if is_granted('VIEW', url) %}#}
                         <td>
                             <a class="btn btn-outline-primary" href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.show'|trans }}">
@@ -70,9 +72,15 @@
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-outline-warning" href="{{ url('url_block', {id: url.id}) }}" title="{{ 'action.block'|trans }}">
-                                {{ 'action.block'|trans }}
-                            </a>
+                            {% if url is defined and url.isBlocked %}
+                                <a class="btn btn-outline-warning" href="{{ url('url_unblock', {id: url.id}) }}" title="{{ 'action.unblock'|trans }}">
+                                    {{ 'action.unblock'|trans }}
+                                </a>
+                            {% else %}
+                                <a class="btn btn-outline-warning" href="{{ url('url_block', {id: url.id}) }}" title="{{ 'action.block'|trans }}">
+                                    {{ 'action.block'|trans }}
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
                             <a class="btn btn-outline-danger" href="{{ url('url_delete', {id: url.id}) }}" title="{{ 'action.delete'|trans }}">

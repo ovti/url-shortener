@@ -130,9 +130,13 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
-//    #[IsGranted('VIEW', subject: 'url')]
     public function show(Url $url): Response
     {
+        // if url is blocked, check user permissions
+        if ($url->isIsBlocked()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+
         $urlVisited = new UrlVisited();
         $urlVisited->setVisitTime(new \DateTimeImmutable());
         $urlVisited->setUrl($url);
@@ -226,9 +230,8 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    //block url and set block_expiration time
     #[Route('/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    #[IsGranted('DELETE', subject: 'url')]
+    #[IsGranted('ROLE_ADMIN')]
     public function block(Request $request, Url $url): Response
     {
         $form = $this->createForm(
@@ -248,7 +251,7 @@ class UrlController extends AbstractController
             $this->urlService->save($url);
             $this->addFlash('success', 'message_blocked_successfully');
 
-            return $this->redirectToRoute('url_index');
+            return $this->redirectToRoute('url_list');
         }
 
         return $this->render(
@@ -260,6 +263,56 @@ class UrlController extends AbstractController
         );
     }
 
+    /**
+     * Unblock action.
+     *
+     * @param Request $request HTTP request
+     * @param Url $url Url entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/unblock', name: 'url_unblock', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function unblock(Request $request, Url $url): Response
+    {
+        if ($url->getBlockExpiration() < new \DateTimeImmutable()) {
+            $url->setIsBlocked(false);
+            $url->setBlockExpiration(null);
+            $this->urlService->save($url);
+            $this->addFlash('success', 'message_unblocked_successfully');
+
+            return $this->redirectToRoute('url_list');
+        }
+
+        $form = $this->createForm(
+            FormType::class,
+            $url,
+            [
+                'method' => 'POST',
+                'action' => $this->generateUrl(
+                    'url_unblock',
+                    ['id' => $url->getId()]
+                ),
+            ]
+        );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $url->setIsBlocked(false);
+            $url->setBlockExpiration(null);
+            $this->urlService->save($url);
+            $this->addFlash('success', 'message_unblocked_successfully');
+
+            return $this->redirectToRoute('url_list');
+        }
+
+        return $this->render(
+            'url/unblock.html.twig',
+            [
+                'form' => $form->createView(),
+                'url' => $url,
+            ]
+        );
+    }
     /**
      * Delete action.
      *

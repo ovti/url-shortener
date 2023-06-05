@@ -5,28 +5,25 @@
 
 namespace App\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use App\Entity\Url;
-use DateTimeImmutable;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 
 class UrlBlockType extends AbstractType
 {
-    //block url and set block_expiration datetimeimmutable
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('blockExpiration', DateTimeType::class, array(
             'input' => 'datetime_immutable',
+            'label' => 'label.block_expiration',
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+            ],
+
         ));
     }
     /**
