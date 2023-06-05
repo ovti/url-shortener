@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\UrlRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UrlService.
@@ -32,20 +33,29 @@ class UrlService implements UrlServiceInterface
     private UrlRepository $urlRepository;
 
     /**
+     * Security.
+     */
+    private Security $security;
+
+    /**
      * Constructor.
      *
      * @param PaginatorInterface       $paginator       Paginator
      * @param TagServiceInterface      $tagService      Tag service
      * @param UrlRepository           $urlRepository  Url repository
+     * @param Security                 $security        Security
      */
     public function __construct(
         PaginatorInterface $paginator,
         TagServiceInterface $tagService,
-        UrlRepository $urlRepository
+        UrlRepository $urlRepository,
+        Security $security
     ) {
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->urlRepository = $urlRepository;
+        $this->security = $security;
+
     }
 
     /**
@@ -94,11 +104,25 @@ class UrlService implements UrlServiceInterface
     {
         $filters = $this->prepareFilters($filters);
 
-        return $this->paginator->paginate(
-            $this->urlRepository->queryAll($filters),
-            $page,
-            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
+//        return $this->paginator->paginate(
+//            $this->urlRepository->queryAll($filters),
+//            $page,
+//            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+//        );
+        //queryall for admin, queryNotBlocked for user
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return $this->paginator->paginate(
+                $this->urlRepository->queryAll($filters),
+                $page,
+                UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        } else {
+            return $this->paginator->paginate(
+                $this->urlRepository->queryNotBlocked($filters),
+                $page,
+                UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
 
     /**

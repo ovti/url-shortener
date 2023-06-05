@@ -76,6 +76,24 @@ class UrlRepository extends ServiceEntityRepository
     }
 
     /**
+     * Query not blocked urls.
+     *
+     * @param array<string, object> $filters Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryNotBlocked(array $filters = []): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll($filters);
+
+        $queryBuilder->andWhere('url.is_blocked = :is_blocked')
+            ->setParameter('is_blocked', false);
+
+        return $queryBuilder;
+    }
+
+
+    /**
      * Apply filters to paginated list.
      *
      * @param QueryBuilder          $queryBuilder Query builder
