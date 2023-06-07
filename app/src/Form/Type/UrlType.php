@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormError;
 use App\Entity\GuestUser;
 use App\Service\GuestUserService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Repository\GuestUserRepository;
 
 
 /**
@@ -56,19 +57,30 @@ class UrlType extends AbstractType
      */
     private SessionInterface $session;
 
+    /**
+     * Guest user repository.
+     *
+     * @var GuestUserRepository
+     */
+    private GuestUserRepository $guestUserRepository;
+
 
     /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
      * @param Security $security Security
+     * @param GuestUserService $guestUserService Guest user service
+     * @param SessionInterface $session Session
+     * @param GuestUserRepository $guestUserRepository Guest user repository
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session)
+    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session, GuestUserRepository $guestUserRepository)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
         $this->security = $security;
         $this->guestUserService = $guestUserService;
         $this->session = $session;
+        $this->guestUserRepository = $guestUserRepository;
     }
 
     /**
@@ -101,10 +113,9 @@ class UrlType extends AbstractType
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
 
-
-                $urlsCreatedInLast24Hours = $this->guestUserService->countUrlsCreatedInLast24Hours($email);
-                if ($urlsCreatedInLast24Hours > 2) {
-                    $event->getForm()->addError(new FormError('error.too_many_urls_created_in_last_24_hours' . ' ' .$urlsCreatedInLast24Hours. ' ' . $email));
+                $count = $this->guestUserRepository->countEmailsUsedInLast24Hours($email);
+                if ($count >= 2) {
+                    $event->getForm()->get('email')->addError(new FormError('error.too_many_emails' . $count . $email));
                 }
 
                 $this->guestUserService->save($guestUser);

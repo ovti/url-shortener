@@ -54,8 +54,8 @@ class GuestUserService implements GuestUserServiceInterface
      *
      * @return array
      */
-    public function countUrlsCreatedInLast24Hours(string $email): int
-    {
-        return $this->guestUserRepository->countUrlsCreatedInLast24Hours($email);
-    }
+//    public function countUrlsCreatedInLast24Hours(int $id): array
+//    {
+//        return $this->guestUserRepository->countUrlsCreatedInLast24Hours($id);
+//    }
 }

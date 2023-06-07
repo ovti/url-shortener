@@ -29,5 +29,5 @@ interface GuestUserServiceInterface
      *
      * @return array
      */
-    public function countUrlsCreatedInLast24Hours(string $email): int;
+//    public function countUrlsCreatedInLast24Hours(int $id): array;
 }

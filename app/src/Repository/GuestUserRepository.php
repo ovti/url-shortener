@@ -34,26 +34,31 @@ class GuestUserRepository extends ServiceEntityRepository
         $this->_em->persist($guestUser);
         $this->_em->flush();
     }
-
-    //count how many times email from guest_user table appears in last 24 hours in url table, guest_user_id is foreign key in url table
-    public function countUrlsCreatedInLast24Hours(string $email): int
+    
+    /**
+     * Count urls created in last 24 hours for given email.
+     *
+     * @param string $email Email
+     *
+     * @return array
+     */
+    public function countEmailsUsedInLast24Hours(string $email): int
     {
-        $queryBuilder = $this->getOrCreateQueryBuilder();
-
-        $queryBuilder->select('count(url.id)')
-            ->from(Url::class, 'url')
-            ->leftJoin('url.guest_user', 'guest_user')
-            ->where('guest_user.email = :email')
-            ->andWhere('url.create_time >= :date')
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select('count(guestUser.id)')
+            ->leftJoin('App\Entity\Url', 'url', 'WITH', 'url.guest_user = guestUser')
+            ->where('guestUser.email = :email')
+            ->andWhere('url.create_time > :time')
             ->setParameter('email', $email)
-            ->setParameter('date', new DateTimeImmutable('-24 hours'));
+            ->setParameter('time', new DateTimeImmutable('-24 hours'));
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
 
+
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
+        return $queryBuilder ?? $this->createQueryBuilder('guestUser');
     }
 }
