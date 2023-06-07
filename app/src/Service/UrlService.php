@@ -11,6 +11,9 @@ use App\Repository\UrlRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\GuestUserRepository;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 /**
  * Class UrlService.
@@ -38,23 +41,40 @@ class UrlService implements UrlServiceInterface
     private Security $security;
 
     /**
+     * Session interface.
+     */
+    private SessionInterface $session;
+
+    /**
+     * Guest user repository.
+     */
+    private GuestUserRepository $guestUserRepository;
+
+    /**
      * Constructor.
      *
      * @param PaginatorInterface       $paginator       Paginator
      * @param TagServiceInterface      $tagService      Tag service
      * @param UrlRepository           $urlRepository  Url repository
      * @param Security                 $security        Security
+     * @param SessionInterface         $session         Session interface
+     * @param GuestUserRepository      $guestUserRepository Guest user repository
      */
     public function __construct(
         PaginatorInterface $paginator,
         TagServiceInterface $tagService,
         UrlRepository $urlRepository,
-        Security $security
+        Security $security,
+        SessionInterface $session,
+        GuestUserRepository $guestUserRepository
+
     ) {
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->urlRepository = $urlRepository;
         $this->security = $security;
+        $this->session = $session;
+        $this->guestUserRepository = $guestUserRepository;
 
     }
 
@@ -148,6 +168,12 @@ class UrlService implements UrlServiceInterface
     public function save(Url $url): void
     {
         if ($url->getId() == null) {
+            //retreive email from session and set it as author
+            $email = $this->session->get('email');
+            $user = $this->guestUserRepository->findOneBy(['email' => $email]);
+            $userId = $user->getId();
+
+            $url->setGuestUser($user);
             $url->setShortUrl($this->generateShortUrl());
             $url->setIsBlocked(false);
         }

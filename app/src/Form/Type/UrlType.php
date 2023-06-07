@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use App\Entity\GuestUser;
 use App\Service\GuestUserService;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 /**
@@ -48,6 +49,13 @@ class UrlType extends AbstractType
      */
     private GuestUserService $guestUserService;
 
+    /**
+     * Session.
+     *
+     * @var SessionInterface
+     */
+    private SessionInterface $session;
+
 
     /**
      * Constructor.
@@ -55,11 +63,12 @@ class UrlType extends AbstractType
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
      * @param Security $security Security
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService)
+    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
         $this->security = $security;
         $this->guestUserService = $guestUserService;
+        $this->session = $session;
     }
 
     /**
@@ -88,10 +97,19 @@ class UrlType extends AbstractType
             );
             $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 $email = $event->getForm()->get('email')->getData();
+                $this->session->set('email', $email);
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
 
+
+                $urlsCreatedInLast24Hours = $this->guestUserService->countUrlsCreatedInLast24Hours($email);
+                if ($urlsCreatedInLast24Hours > 2) {
+                    $event->getForm()->addError(new FormError('error.too_many_urls_created_in_last_24_hours' . ' ' .$urlsCreatedInLast24Hours. ' ' . $email));
+                }
+
                 $this->guestUserService->save($guestUser);
+
+
             });
         }
 

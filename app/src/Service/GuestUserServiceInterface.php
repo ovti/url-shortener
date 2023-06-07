@@ -21,4 +21,13 @@ interface GuestUserServiceInterface
      * @return void
      */
     public function save(GuestUser $guestUser): void;
+
+    /**
+     * Count urls created in last 24 hours for given email.
+     *
+     * @param string $email Email
+     *
+     * @return array
+     */
+    public function countUrlsCreatedInLast24Hours(string $email): int;
 }

@@ -4,7 +4,10 @@ namespace App\Repository;
 
 use App\Entity\GuestUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTimeImmutable;
+use App\Entity\Url;
 
 /**
  * @extends ServiceEntityRepository<GuestUser>
@@ -25,12 +28,32 @@ class GuestUserRepository extends ServiceEntityRepository
      * Save guest user.
      *
      * @param \App\Entity\GuestUser $guestUser GuestUser entity
-     *
-     * @return void
      */
     public function save(GuestUser $guestUser): void
     {
         $this->_em->persist($guestUser);
         $this->_em->flush();
+    }
+
+    //count how many times email from guest_user table appears in last 24 hours in url table, guest_user_id is foreign key in url table
+    public function countUrlsCreatedInLast24Hours(string $email): int
+    {
+        $queryBuilder = $this->getOrCreateQueryBuilder();
+
+        $queryBuilder->select('count(url.id)')
+            ->from(Url::class, 'url')
+            ->leftJoin('url.guest_user', 'guest_user')
+            ->where('guest_user.email = :email')
+            ->andWhere('url.create_time >= :date')
+            ->setParameter('email', $email)
+            ->setParameter('date', new DateTimeImmutable('-24 hours'));
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
     }
 }

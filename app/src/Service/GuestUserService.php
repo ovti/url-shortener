@@ -39,6 +39,23 @@ class GuestUserService implements GuestUserServiceInterface
      */
     public function save(GuestUser $guestUser): void
     {
+        //if email already exists in database, dont save it again
+        if ($this->guestUserRepository->findOneByEmail($guestUser->getEmail())) {
+            return;
+        }
+
         $this->guestUserRepository->save($guestUser);
+    }
+
+    /**
+     * Count urls created in last 24 hours for given email.
+     *
+     * @param string $email Email
+     *
+     * @return array
+     */
+    public function countUrlsCreatedInLast24Hours(string $email): int
+    {
+        return $this->guestUserRepository->countUrlsCreatedInLast24Hours($email);
     }
 }
