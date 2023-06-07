@@ -40,6 +40,8 @@ class UrlRepository extends ServiceEntityRepository
      */
     public function queryAll(array $filters): QueryBuilder
     {
+        $this->checkBlockExpiration();
+
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select (
                 'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
@@ -51,16 +53,18 @@ class UrlRepository extends ServiceEntityRepository
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
-    //find matching long_url for short_url
-    public function findMatchingUrl(string $short_url): ?Url
+    public function checkBlockExpiration(): void
     {
-        return $this->createQueryBuilder('url')
-            ->andWhere('url.short_url = :short_url')
-            ->setParameter('short_url', $short_url)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->update(Url::class, 'url')
+            ->set('url.is_blocked', 'false')
+            ->set('url.block_expiration', 'null')
+            ->where('url.block_expiration < :now')
+            ->setParameter('now', new \DateTime('now'));
+
+        $queryBuilder->getQuery()->execute();
     }
+
 
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
