@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Service\UrlVisitedService;
 use App\Form\Type\UrlBlockType;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 /**
@@ -45,25 +44,18 @@ class UrlController extends AbstractController
      */
     private UrlVisitedService $urlVisitedService;
 
-    /**
-     * Session.
-     */
-    private SessionInterface $session;
-
 
     /**
      * UrlController constructor.
      * @param UrlServiceInterface $urlService
      * @param TranslatorInterface $translator
      * @param UrlVisitedService $urlVisitedService
-     * @param SessionInterface $session
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService, SessionInterface $session)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
         $this->urlVisitedService = $urlVisitedService;
-        $this->session = $session;
     }
 
     /**

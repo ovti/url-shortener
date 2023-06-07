@@ -41,14 +41,6 @@ class UrlType extends AbstractType
      */
     private Security $security;
 
-    /**
-     * Session.
-     *
-     * @var SessionInterface
-     */
-    private SessionInterface $session;
-
-
 
     /**
      * Constructor.
@@ -89,25 +81,7 @@ class UrlType extends AbstractType
                 ]
             );
             $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-                $form = $event->getForm();
-                $email = $form->get('email')->getData();
-                $this->session->set('email', $email);
-
-                $emailCount = $this->session->get('emailCount', []);
-                if (!isset($emailCount[$email])) {
-                    $emailCount[$email] = 0;
-                }
-                if ($emailCount[$email] >= 2) {
-                    $form->addError(new FormError('error.too_many_emails'));
-
-                } else {
-                    $emailCount[$email]++;
-                    $this->session->set('emailCount', $emailCount);
-                }
-
-                $form->remove('email');
-
-
+                //TODO: add email to guest_users table
             });
         }
 

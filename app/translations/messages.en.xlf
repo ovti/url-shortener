@@ -230,6 +230,26 @@
         <source>action.edit_role</source>
         <target>Edit Role</target>
       </trans-unit>
+      <trans-unit id="title.url_block">
+        <source>title.url_block</source>
+        <target>Block URL</target>
+      </trans-unit>
+      <trans-unit id="title.url_create_unlogged">
+        <source>title.url_create_unlogged</source>
+        <target>Create URL (Unlogged)</target>
+      </trans-unit>
+      <trans-unit id="title.url_unblock">
+        <source>title.url_unblock</source>
+        <target>Unblock URL</target>
+      </trans-unit>
+      <trans-unit id="action.block">
+        <source>action.block</source>
+        <target>Block</target>
+      </trans-unit>
+      <trans-unit id="action.unblock">
+        <source>action.unblock</source>
+        <target>Unblock</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
