@@ -16,9 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Form\FormError;
-
+use App\Entity\GuestUser;
+use App\Service\GuestUserService;
 
 
 /**
@@ -41,19 +41,25 @@ class UrlType extends AbstractType
      */
     private Security $security;
 
+    /**
+     * Guest user service.
+     *
+     * @var GuestUserService
+     */
+    private GuestUserService $guestUserService;
+
 
     /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
      * @param Security $security Security
-     * @param SessionInterface $session Session
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, SessionInterface $session)
+    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
         $this->security = $security;
-        $this->session = $session;
+        $this->guestUserService = $guestUserService;
     }
 
     /**
@@ -81,7 +87,11 @@ class UrlType extends AbstractType
                 ]
             );
             $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
-                //TODO: add email to guest_users table
+                $email = $event->getForm()->get('email')->getData();
+                $guestUser = new GuestUser();
+                $guestUser->setEmail($email);
+
+                $this->guestUserService->save($guestUser);
             });
         }
 

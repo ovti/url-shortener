@@ -104,6 +104,15 @@ class Url
     private ?User $users;
 
     /**
+     * Guest user.
+     *
+     * @var GuestUser|null
+     */
+    #[ORM\ManyToOne(targetEntity: GuestUser::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?GuestUser $guest_user = null;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -272,6 +281,30 @@ class Url
     public function setUsers(?User $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * Getter for guest user.
+     *
+     * @return GuestUser|null Guest user entity
+     */
+    public function getGuestUser(): ?GuestUser
+    {
+        return $this->guest_user;
+    }
+
+    /**
+     * Setter for guest user.
+     *
+     * @param GuestUser|null $guest_user Guest user
+     *
+     * @return $this Self object
+     */
+    public function setGuestUser(?GuestUser $guest_user): self
+    {
+        $this->guest_user = $guest_user;
 
         return $this;
     }
