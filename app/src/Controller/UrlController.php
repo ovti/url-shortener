@@ -143,10 +143,10 @@ class UrlController extends AbstractController
     public function show(Url $url): Response
     {
         // if url is blocked, check user permissions
-//        if ($url->isIsBlocked()) {
-//            $this->denyAccessUnlessGranted('ROLE_ADMIN');
-//        }
-//
+        if ($url->isIsBlocked()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }

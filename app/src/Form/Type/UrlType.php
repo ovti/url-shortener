@@ -113,7 +113,7 @@ class UrlType extends AbstractType
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
 
-                $count = $this->guestUserRepository->countEmailsUsedInLast24Hours($email);
+                $count = $this->guestUserService->countEmailsUsedInLast24Hours($email);
                 if ($count >= 2) {
                     $event->getForm()->get('email')->addError(new FormError('error.too_many_emails' . $count . $email));
                 }

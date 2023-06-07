@@ -34,7 +34,7 @@ class GuestUserRepository extends ServiceEntityRepository
         $this->_em->persist($guestUser);
         $this->_em->flush();
     }
-    
+
     /**
      * Count urls created in last 24 hours for given email.
      *
