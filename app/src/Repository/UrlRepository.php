@@ -51,6 +51,17 @@ class UrlRepository extends ServiceEntityRepository
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
+    //find matching long_url for short_url
+    public function findMatchingUrl(string $short_url): ?Url
+    {
+        return $this->createQueryBuilder('url')
+            ->andWhere('url.short_url = :short_url')
+            ->setParameter('short_url', $short_url)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {

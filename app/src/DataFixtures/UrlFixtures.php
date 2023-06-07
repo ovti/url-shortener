@@ -31,7 +31,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
         $this->createMany(30, 'urls', function (int $i) {
             $url = new Url();
             $url->setLongUrl($this->faker->url);
-            $url->setShortUrl($this->faker->regexify('short\.url\/[a-zA-Z0-9]{6}'));
+            $url->setShortUrl($this->faker->regexify('[a-zA-Z0-9]{6}'));
 //            $url->setCreateTime($this->faker->dateTimeBetween('-1 days', '+100 days'));
             $url->setCreateTime(
                 DateTimeImmutable::createFromMutable(

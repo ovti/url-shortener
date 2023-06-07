@@ -20,7 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Service\UrlVisitedService;
 use App\Form\Type\UrlBlockType;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Repository\UrlRepository;
 
 /**
  * Class UrlController
@@ -44,18 +45,26 @@ class UrlController extends AbstractController
      */
     private UrlVisitedService $urlVisitedService;
 
+    /**
+     * Url repository.
+     */
+    private UrlRepository $urlRepository;
+
+
 
     /**
      * UrlController constructor.
      * @param UrlServiceInterface $urlService
      * @param TranslatorInterface $translator
      * @param UrlVisitedService $urlVisitedService
+     * @param UrlRepository $urlRepository
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService, UrlRepository $urlRepository)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
         $this->urlVisitedService = $urlVisitedService;
+        $this->urlRepository = $urlRepository;
     }
 
     /**
@@ -134,15 +143,10 @@ class UrlController extends AbstractController
     public function show(Url $url): Response
     {
         // if url is blocked, check user permissions
-        if ($url->isIsBlocked()) {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        }
-
-        $urlVisited = new UrlVisited();
-        $urlVisited->setVisitTime(new \DateTimeImmutable());
-        $urlVisited->setUrl($url);
-
-        $this->urlVisitedService->save($urlVisited);
+//        if ($url->isIsBlocked()) {
+//            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+//        }
+//
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }

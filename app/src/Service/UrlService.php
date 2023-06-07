@@ -136,7 +136,7 @@ class UrlService implements UrlServiceInterface
         $length = 6;
         $shortUrl = '';
         do {
-            $shortUrl = 'short.url/';
+            $shortUrl = '';
             for ($i = 0; $i < $length; $i++) {
                 $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
             }
