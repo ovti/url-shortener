@@ -38,7 +38,10 @@
                 <tr>
                     <td>{{ url.id }}</td>
                     <td>{{ url.longUrl }}</td>
-                    <td>{{ url.shortUrl }}</td>
+                    <td>
+                        <a href="{{ url('url_redirect', {'short_url' : url.shortUrl}) }}" title="{{ url.shortUrl }}">
+                            {{ url.shortUrl }}
+                        </a>
                     <td>{{ url.createTime|format_date('long') }}</td>
                     <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
                     <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d') : '' }}</td>

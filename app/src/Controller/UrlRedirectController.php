@@ -5,24 +5,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Url;
-use App\Entity\User;
 use App\Entity\UrlVisited;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UrlServiceInterface;
-use App\Form\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Service\UrlVisitedService;
-use App\Form\Type\UrlBlockType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Repository\UrlRepository;
-use App\Repository\UrlVisitedRepository;
-use App\Repository\UserRepository;
 
 /**
  * Class UrlRedirectController.
@@ -68,7 +60,7 @@ class UrlRedirectController extends AbstractController
     }
 
     /**
-     * Redirect to long_url.
+     * Index action.
      *
      * @param Request $request
      * @param string $short_url
@@ -79,16 +71,36 @@ class UrlRedirectController extends AbstractController
         $url = $this->urlRepository->findOneBy(['short_url' => $short_url]);
 
         if (!$url) {
-            throw $this->createNotFoundException('Krótki adres URL nie istnieje.' . $short_url);
+            throw $this->createNotFoundException('Krótki adres URL nie istnieje: ' . $short_url);
         }
 
-        $urlVisited = new UrlVisited();
-        $urlVisited->setVisitTime(new \DateTimeImmutable());
-        $urlVisited->setUrl($url);
+        if ($url->isIsBlocked() && $url->getBlockExpiration() < new \DateTimeImmutable()) {
+            $url->setIsBlocked(false);
+            $url->setBlockExpiration(null);
+            $this->urlService->save($url);
+            return new RedirectResponse($url->getLongUrl());
+        }
+        else if ($url->isIsBlocked() && $url->getBlockExpiration() > new \DateTimeImmutable()) {
+            $this->addFlash('warning', 'Ten adres URL jest zablokowany do ' . $url->getBlockExpiration()->format('Y-m-d H:i:s'));
 
-        $this->urlVisitedService->save($urlVisited);
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return new RedirectResponse($url->getLongUrl());
+            }
+            else {
+                return $this->redirectToRoute('url_list');
+            }
+        }
+        else {
+            $urlVisited = new UrlVisited();
+            $urlVisited->setVisitTime(new \DateTimeImmutable());
+            $urlVisited->setUrl($url);
 
-        return new RedirectResponse($url->getLongUrl());
+            $this->urlVisitedService->save($urlVisited);
+
+            return new RedirectResponse($url->getLongUrl());
+        }
+
+
     }
 
 }

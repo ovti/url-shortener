@@ -14,7 +14,11 @@
             <dt>{{ 'label.long_url'|trans }}</dt>
             <dd>{{ url.longUrl }}</dd>
             <dt>{{ 'label.short_url'|trans }}</dt>
-            <dd>{{ url.shortUrl }}</dd>
+            <dd>
+                <a href="{{ url('url_redirect', {'short_url' : url.shortUrl}) }}" title="{{ url.shortUrl }}">
+                    {{ url.shortUrl }}
+                </a>
+            </dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ url.createTime|date('Y/m/d') }}</dd>
             <dt>{{ 'label.is_blocked'|trans }}</dt>

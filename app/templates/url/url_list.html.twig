@@ -23,6 +23,7 @@
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'url.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.long_url'|trans, 'url.long_url') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.short_url'|trans, 'url.short_url') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.create_time'|trans, 'url.create_time') }}</th>
                 <th>{{ 'label.tag'|trans }}</th>
                 {% if is_granted('ROLE_ADMIN') %}
@@ -42,6 +43,11 @@
                 <tr>
                     <td>{{ url.id }}</td>
                     <td>{{ url.longUrl }}</td>
+                    <td>
+                        <a href="{{ url('url_redirect', {'short_url': url.shortUrl}) }}" title="{{ url.shortUrl }}">
+                            {{ url.shortUrl }}
+                        </a>
+                    </td>
                     <td>{{ url.createTime|format_date('long') }}</td>
                     <td>
                         {% if url.tags is defined and url.tags|length %}
