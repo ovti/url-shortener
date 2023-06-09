@@ -37,6 +37,9 @@ class UrlController extends AbstractController
     /**
      * UrlController constructor.
      *
+     * @param UrlServiceInterface $urlService Url service
+     * @param TranslatorInterface $translator Translator
+     *
      * @return void
      */
     public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator)
@@ -94,23 +97,6 @@ class UrlController extends AbstractController
     }
 
     /**
-     * Get filters from request.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return array<string, int> Array of filters
-     *
-     * @psalm-return array{tag_id: int}
-     */
-    private function getFilters(Request $request): array
-    {
-        $filters = [];
-        $filters['tag_id'] = $request->query->getInt('filters_tag_id');
-
-        return $filters;
-    }
-
-    /**
      * Show action.
      *
      * @param Url $url Url entity
@@ -157,7 +143,8 @@ class UrlController extends AbstractController
             $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
             return $this->redirectToRoute('url_list');
-        } elseif ($form->isSubmitted() && !$form->isValid()) {
+        }
+        if ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('error', $this->translator->trans('message.failed_to_create'));
         }
 
@@ -340,5 +327,22 @@ class UrlController extends AbstractController
                 'url' => $url,
             ]
         );
+    }
+
+    /**
+     * Get filters from request.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return array<string, int> Array of filters
+     *
+     * @psalm-return array{tag_id: int}
+     */
+    private function getFilters(Request $request): array
+    {
+        $filters = [];
+        $filters['tag_id'] = $request->query->getInt('filters_tag_id');
+
+        return $filters;
     }
 }

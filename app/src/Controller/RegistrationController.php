@@ -32,7 +32,10 @@ class RegistrationController extends AbstractController
     /**
      * RegistrationController constructor.
      *
-     * @param \App\Service\UserServiceInterface $userService User service
+     * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface  $translator  Translator
+     *
+     * @return void
      */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
     {
