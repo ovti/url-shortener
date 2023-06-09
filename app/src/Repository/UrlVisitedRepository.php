@@ -43,13 +43,10 @@ class UrlVisitedRepository extends ServiceEntityRepository
      * Save url visited.
      *
      * @param \App\Entity\UrlVisited $urlVisited UrlVisited entity
-     *
-     * @return void
      */
     public function save(UrlVisited $urlVisited): void
     {
         $this->_em->persist($urlVisited);
         $this->_em->flush();
     }
-
 }

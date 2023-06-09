@@ -10,7 +10,6 @@ use App\Entity\User;
 
 class UserVoter extends Voter
 {
-
     private Security $security;
 
     public function __construct(Security $security)
@@ -38,7 +37,6 @@ class UserVoter extends Voter
             case self::VIEW:
             case self::EDIT_USER_DATA:
                 return $this->canAccess($subject, $user);
-
         }
 
         return false;

@@ -34,7 +34,6 @@ class UrlController extends AbstractController
      */
     private TranslatorInterface $translator;
 
-
     /**
      * UrlController constructor.
      *

@@ -6,8 +6,6 @@ use App\Entity\GuestUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use DateTimeImmutable;
-use App\Entity\Url;
 
 /**
  * @extends ServiceEntityRepository<GuestUser>
@@ -50,12 +48,10 @@ class GuestUserRepository extends ServiceEntityRepository
             ->where('guestUser.email = :email')
             ->andWhere('url.create_time > :time')
             ->setParameter('email', $email)
-            ->setParameter('time', new DateTimeImmutable('-24 hours'));
+            ->setParameter('time', new \DateTimeImmutable('-24 hours'));
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
-
-
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {

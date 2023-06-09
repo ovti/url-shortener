@@ -9,7 +9,6 @@ use App\Entity\Url;
 use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use DateTimeImmutable;
 
 /**
  * Class TaskFixtures.
@@ -32,18 +31,19 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $url = new Url();
             $url->setLongUrl($this->faker->url);
             $url->setShortUrl($this->faker->regexify('[a-zA-Z0-9]{6}'));
-//            $url->setCreateTime($this->faker->dateTimeBetween('-1 days', '+100 days'));
+            //            $url->setCreateTime($this->faker->dateTimeBetween('-1 days', '+100 days'));
             $url->setCreateTime(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $url->setIsBlocked($this->faker->boolean(20));
             if ($url->isIsBlocked()) {
                 $url->setBlockExpiration(
-                    DateTimeImmutable::createFromMutable(
-                    $this->faker->dateTimeBetween('-1 days', '+100 days')
-                ));
+                    \DateTimeImmutable::createFromMutable(
+                        $this->faker->dateTimeBetween('-1 days', '+100 days')
+                    )
+                );
             }
 
             /** @var array<array-key, Tag> $tags */
@@ -55,7 +55,6 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             /** @var User $users */
             $users = $this->getRandomReference('users');
             $url->setUsers($users);
-
 
             return $url;
         });

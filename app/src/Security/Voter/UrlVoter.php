@@ -40,8 +40,6 @@ class UrlVoter extends Voter
 
     /**
      * Security helper.
-     *
-     * @var Security
      */
     private Security $security;
 
@@ -101,7 +99,7 @@ class UrlVoter extends Voter
     /**
      * Checks if user can edit url.
      *
-     * @param Url $url Url entity
+     * @param Url  $url  Url entity
      * @param User $user User
      *
      * @return bool Result
@@ -114,7 +112,7 @@ class UrlVoter extends Voter
     /**
      * Checks if user can view url.
      *
-     * @param Url $url Url entity
+     * @param Url  $url  Url entity
      * @param User $user User
      *
      * @return bool Result
@@ -127,7 +125,7 @@ class UrlVoter extends Voter
     /**
      * Checks if user can delete url.
      *
-     * @param Url $url Url entity
+     * @param Url  $url  Url entity
      * @param User $user User
      *
      * @return bool Result

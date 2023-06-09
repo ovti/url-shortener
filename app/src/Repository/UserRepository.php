@@ -20,12 +20,10 @@ use Doctrine\ORM\QueryBuilder;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    const PAGINATOR_ITEMS_PER_PAGE = 10;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * UserRepository constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/popular')]
 class UrlVisitedController extends AbstractController
 {
-
     /**
      * Most visited action.
      *

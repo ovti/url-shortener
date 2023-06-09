@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserService implements UserServiceInterface
 {
-
     private UserPasswordEncoderInterface $passwordEncoder;
 
     private UserRepository $userRepository;
@@ -26,13 +25,12 @@ class UserService implements UserServiceInterface
     /**
      * UserService constructor.
      *
-     * @param \App\Repository\UserRepository $userRepository User repository
-     * @param \Knp\Component\Pager\PaginatorInterface $paginator Paginator
+     * @param \App\Repository\UserRepository                                        $userRepository  User repository
+     * @param \Knp\Component\Pager\PaginatorInterface                               $paginator       Paginator
      * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder Password encoder
      */
     public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, UserPasswordEncoderInterface $passwordEncoder)
     {
-
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
         $this->passwordEncoder = $passwordEncoder;
@@ -42,9 +40,8 @@ class UserService implements UserServiceInterface
      * Create paginated list.
      *
      * @param int $page Page number
-     * @param int $limit Limit
      *
-     * @return \Knp\Component\Pager\Pagination\PaginationInterface Paginated list
+     * @return PaginationInterface Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface
     {
@@ -59,12 +56,10 @@ class UserService implements UserServiceInterface
      * Save user.
      *
      * @param \App\Entity\User $user User entity
-     *
-     * @return void
      */
     public function save(User $user): void
     {
-        if ($user->getId() === null) {
+        if (null === $user->getId()) {
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
                     $user,
@@ -74,7 +69,6 @@ class UserService implements UserServiceInterface
             $user->setRoles(['ROLE_USER']);
         }
 
-
         $this->userRepository->save($user);
     }
 
@@ -82,8 +76,6 @@ class UserService implements UserServiceInterface
      * Delete user.
      *
      * @param \App\Entity\User $user User entity
-     *
-     * @return void
      */
     public function delete(User $user): void
     {
@@ -101,5 +93,4 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->findOneBy(['email' => $email]);
     }
-
 }

@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -54,7 +52,6 @@ class TagRepository extends ServiceEntityRepository
             ->orderBy('tag.id', 'ASC');
     }
 
-
     /**
      * Get or create new query builder.
      *
@@ -67,13 +64,13 @@ class TagRepository extends ServiceEntityRepository
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 
-
     /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
      */
-    public function save(Tag $tag): void {
+    public function save(Tag $tag): void
+    {
         $this->_em->persist($tag);
         $this->_em->flush();
     }

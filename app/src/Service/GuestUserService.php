@@ -5,7 +5,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\GuestUser;
 use App\Repository\GuestUserRepository;
 
@@ -14,7 +13,6 @@ use App\Repository\GuestUserRepository;
  */
 class GuestUserService implements GuestUserServiceInterface
 {
-
     /**
      * GuestUser repository.
      */
@@ -34,12 +32,10 @@ class GuestUserService implements GuestUserServiceInterface
      * Save guest user.
      *
      * @param \App\Entity\GuestUser $guestUser GuestUser entity
-     *
-     * @return void
      */
     public function save(GuestUser $guestUser): void
     {
-        //if email already exists in database, dont save it again
+        // if email already exists in database, dont save it again
         if ($this->guestUserRepository->findOneByEmail($guestUser->getEmail())) {
             return;
         }

@@ -21,65 +21,50 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\GuestUserRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
 /**
  * Class TagType.
  */
 class UrlType extends AbstractType
 {
-
     /**
      * Tags data transformer.
-     *
-     * @var TagsDataTransformer
      */
     private TagsDataTransformer $tagsDataTransformer;
 
     /**
      * Security.
-     *
-     * @var Security
      */
     private Security $security;
 
     /**
      * Guest user service.
-     *
-     * @var GuestUserService
      */
     private GuestUserService $guestUserService;
 
     /**
      * Session.
-     *
-     * @var SessionInterface
      */
     private SessionInterface $session;
 
     /**
      * Guest user repository.
-     *
-     * @var GuestUserRepository
      */
     private GuestUserRepository $guestUserRepository;
 
     /**
      * Translator.
-     *
-     * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
-
 
     /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
-     * @param Security $security Security
-     * @param GuestUserService $guestUserService Guest user service
-     * @param SessionInterface $session Session
+     * @param Security            $security            Security
+     * @param GuestUserService    $guestUserService    Guest user service
+     * @param SessionInterface    $session             Session
      * @param GuestUserRepository $guestUserRepository Guest user repository
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface $translator          Translator
      */
     public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session, GuestUserRepository $guestUserRepository, TranslatorInterface $translator)
     {
@@ -127,11 +112,8 @@ class UrlType extends AbstractType
                 }
 
                 $this->guestUserService->save($guestUser);
-
-
             });
         }
-
 
         $builder->add(
             'longUrl',
@@ -140,7 +122,8 @@ class UrlType extends AbstractType
                 'label' => 'label.long_url',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ]);
+            ]
+        );
         $builder->add(
             'tags',
             TextType::class,
@@ -154,7 +137,6 @@ class UrlType extends AbstractType
         $builder->get('tags')->addModelTransformer(
             $this->tagsDataTransformer
         );
-
     }
 
     /**

@@ -7,8 +7,6 @@ namespace App\Service;
 
 use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Interface UserServiceInterface.
@@ -28,8 +26,6 @@ interface UserServiceInterface
      * Save user.
      *
      * @param \App\Entity\User $user User entity
-     *
-     * @return void
      */
     public function save(User $user): void;
 
@@ -37,8 +33,6 @@ interface UserServiceInterface
      * Delete user.
      *
      * @param \App\Entity\User $user User entity
-     *
-     * @return void
      */
     public function delete(User $user): void;
 

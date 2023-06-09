@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use DateTimeImmutable;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 
 /**
  * Class Url.
@@ -20,14 +18,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @psalm-suppress MissingConstructor
  */
 #[ORM\Entity(repositoryClass: UrlRepository::class)]
-#[ORM\Table(name: "urls")]
+#[ORM\Table(name: 'urls')]
 class Url
 {
-
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -36,8 +31,6 @@ class Url
 
     /**
      * Long url.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
@@ -46,8 +39,6 @@ class Url
 
     /**
      * Short url.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $short_url = null;
@@ -55,18 +46,14 @@ class Url
     /**
      * Create time.
      *
-     * @var DateTimeImmutable|null
-     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $create_time = null;
+    private ?\DateTimeImmutable $create_time = null;
 
     /**
      * Is blocked.
-     *
-     * @var bool|null
      *
      * @psalm-suppress PropertyNotSetInConstructor
      */
@@ -76,12 +63,10 @@ class Url
     /**
      * Block expiration.
      *
-     * @var DateTimeImmutable|null
-     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?DateTimeImmutable $block_expiration = null;
+    private ?\DateTimeImmutable $block_expiration = null;
 
     /**
      * Tags.
@@ -95,8 +80,6 @@ class Url
 
     /**
      * User.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true)]
@@ -105,8 +88,6 @@ class Url
 
     /**
      * Guest user.
-     *
-     * @var GuestUser|null
      */
     #[ORM\ManyToOne(targetEntity: GuestUser::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true)]
@@ -129,7 +110,6 @@ class Url
     {
         return $this->id;
     }
-
 
     /**
      * Getter for long url.
@@ -174,9 +154,9 @@ class Url
     /**
      * Getter for create time.
      *
-     * @return DateTimeImmutable|null Create time
+     * @return \DateTimeImmutable|null Create time
      */
-    public function getCreateTime(): ?DateTimeImmutable
+    public function getCreateTime(): ?\DateTimeImmutable
     {
         return $this->create_time;
     }
@@ -184,9 +164,9 @@ class Url
     /**
      * Setter for create time.
      *
-     * @param DateTimeImmutable|null $create_time Create time
+     * @param \DateTimeImmutable|null $create_time Create time
      */
-    public function setCreateTime(?DateTimeImmutable $create_time): void
+    public function setCreateTime(?\DateTimeImmutable $create_time): void
     {
         $this->create_time = $create_time;
     }
@@ -206,16 +186,17 @@ class Url
      *
      * @param bool|null $is_blocked Is blocked
      */
-    public function setIsBlocked(?bool $is_blocked): void {
+    public function setIsBlocked(?bool $is_blocked): void
+    {
         $this->is_blocked = $is_blocked;
     }
 
     /**
      * Getter for block expiration.
      *
-     * @return DateTimeImmutable|null Block expiration
+     * @return \DateTimeImmutable|null Block expiration
      */
-    public function getBlockExpiration(): ?DateTimeImmutable
+    public function getBlockExpiration(): ?\DateTimeImmutable
     {
         return $this->block_expiration;
     }
@@ -223,9 +204,10 @@ class Url
     /**
      * Setter for block expiration.
      *
-     * @param DateTimeImmutable|null $block_expiration Block expiration
+     * @param \DateTimeImmutable|null $block_expiration Block expiration
      */
-    public function setBlockExpiration(?DateTimeImmutable $block_expiration): void {
+    public function setBlockExpiration(?\DateTimeImmutable $block_expiration): void
+    {
         $this->block_expiration = $block_expiration;
     }
 
@@ -308,5 +290,4 @@ class Url
 
         return $this;
     }
-
 }

@@ -16,15 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @psalm-suppress MissingConstructor
  */
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-#[ORM\Table(name: "tags")]
+#[ORM\Table(name: 'tags')]
 #[UniqueEntity(fields: ['name'])]
 class Tag
 {
-
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,8 +30,6 @@ class Tag
 
     /**
      * Name.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
@@ -42,8 +37,7 @@ class Tag
     #[Assert\Length(min: 2, max: 64)]
     private ?string $name;
 
-
-/**
+    /**
      * Getter for Id.
      *
      * @return int|null Id
@@ -53,7 +47,7 @@ class Tag
         return $this->id;
     }
 
-/**
+    /**
      * Getter for name.
      *
      * @return string|null Name

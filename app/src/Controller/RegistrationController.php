@@ -19,7 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class RegistrationController extends AbstractController
 {
-
     /**
      * User service.
      */
@@ -35,7 +34,8 @@ class RegistrationController extends AbstractController
      *
      * @param \App\Service\UserServiceInterface $userService User service
      */
-    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator) {
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
+    {
         $this->userService = $userService;
         $this->translator = $translator;
     }
@@ -71,6 +71,4 @@ class RegistrationController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-
-
 }

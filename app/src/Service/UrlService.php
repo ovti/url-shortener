@@ -14,7 +14,6 @@ use Symfony\Component\Security\Core\Security;
 use App\Repository\GuestUserRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-
 /**
  * Class UrlService.
  */
@@ -53,12 +52,12 @@ class UrlService implements UrlServiceInterface
     /**
      * Constructor.
      *
-     * @param PaginatorInterface       $paginator       Paginator
-     * @param TagServiceInterface      $tagService      Tag service
-     * @param UrlRepository           $urlRepository  Url repository
-     * @param Security                 $security        Security
-     * @param SessionInterface         $session         Session interface
-     * @param GuestUserRepository      $guestUserRepository Guest user repository
+     * @param PaginatorInterface  $paginator           Paginator
+     * @param TagServiceInterface $tagService          Tag service
+     * @param UrlRepository       $urlRepository       Url repository
+     * @param Security            $security            Security
+     * @param SessionInterface    $session             Session interface
+     * @param GuestUserRepository $guestUserRepository Guest user repository
      */
     public function __construct(
         PaginatorInterface $paginator,
@@ -67,7 +66,6 @@ class UrlService implements UrlServiceInterface
         Security $security,
         SessionInterface $session,
         GuestUserRepository $guestUserRepository
-
     ) {
         $this->paginator = $paginator;
         $this->tagService = $tagService;
@@ -75,7 +73,6 @@ class UrlService implements UrlServiceInterface
         $this->security = $security;
         $this->session = $session;
         $this->guestUserRepository = $guestUserRepository;
-
     }
 
     /**
@@ -103,7 +100,6 @@ class UrlService implements UrlServiceInterface
      * Get paginated list.
      *
      * @param int                $page    Page number
-     * @param User               $author  Tasks author
      * @param array<string, int> $filters Filters array
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
@@ -119,17 +115,17 @@ class UrlService implements UrlServiceInterface
         );
     }
 
-    //get paginated list for every user
+    // get paginated list for every user
     public function getPaginatedListForEveryUser(int $page, array $filters = []): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
 
-//        return $this->paginator->paginate(
-//            $this->urlRepository->queryAll($filters),
-//            $page,
-//            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
-//        );
-        //queryall for admin, queryNotBlocked for user
+        //        return $this->paginator->paginate(
+        //            $this->urlRepository->queryAll($filters),
+        //            $page,
+        //            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+        //        );
+        // queryall for admin, queryNotBlocked for user
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return $this->paginator->paginate(
                 $this->urlRepository->queryAll($filters),
@@ -157,17 +153,17 @@ class UrlService implements UrlServiceInterface
         $shortUrl = '';
         do {
             $shortUrl = '';
-            for ($i = 0; $i < $length; $i++) {
+            for ($i = 0; $i < $length; ++$i) {
                 $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
             }
-        } while ($this->urlRepository->findOneBy(['short_url' => $shortUrl]) != null);
+        } while (null != $this->urlRepository->findOneBy(['short_url' => $shortUrl]));
 
         return $shortUrl;
     }
 
     public function save(Url $url): void
     {
-        if ($url->getId() == null) {
+        if (null == $url->getId()) {
             if (!$this->security->isGranted('ROLE_USER')) {
                 $email = $this->session->get('email');
                 $user = $this->guestUserRepository->findOneBy(['email' => $email]);
@@ -184,5 +180,4 @@ class UrlService implements UrlServiceInterface
     {
         $this->urlRepository->delete($url);
     }
-
 }

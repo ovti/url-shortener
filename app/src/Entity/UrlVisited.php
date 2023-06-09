@@ -6,10 +6,8 @@
 namespace App\Entity;
 
 use App\Repository\UrlVisitedRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use DateTimeImmutable;
 
 /**
  * Class UrlVisited.
@@ -22,8 +20,6 @@ class UrlVisited
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,13 +29,11 @@ class UrlVisited
     /**
      * Visit time.
      *
-     * @var DateTimeImmutable|null
-     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $visit_time = null;
+    private ?\DateTimeImmutable $visit_time = null;
 
     #[ORM\ManyToOne(targetEntity: Url::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -58,19 +52,17 @@ class UrlVisited
     /**
      * Getter for visit time.
      *
-     * @return DateTimeImmutable|null Visit time
+     * @return \DateTimeImmutable|null Visit time
      */
-    public function getVisitTime(): ?DateTimeImmutable
+    public function getVisitTime(): ?\DateTimeImmutable
     {
         return $this->visit_time;
     }
 
     /**
      * Setter for visit time.
-     *
-     * @param DateTimeImmutable|null $visit_time Visit time
      */
-    public function setVisitTime(?DateTimeImmutable $create_time): void
+    public function setVisitTime(?\DateTimeImmutable $create_time): void
     {
         $this->visit_time = $create_time;
     }

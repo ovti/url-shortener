@@ -13,7 +13,6 @@ use App\Repository\UrlVisitedRepository;
  */
 class UrlVisitedService implements UrlVisitedServiceInterface
 {
-
     /**
      * UrlVisited repository.
      */
@@ -33,8 +32,6 @@ class UrlVisitedService implements UrlVisitedServiceInterface
      * Save url visited.
      *
      * @param \App\Entity\UrlVisited $urlVisited UrlVisited entity
-     *
-     * @return void
      */
     public function save(UrlVisited $urlVisited): void
     {

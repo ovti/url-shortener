@@ -11,8 +11,6 @@ class GuestUser
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,8 +19,6 @@ class GuestUser
 
     /**
      * Email.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 191)]
     private ?string $email = null;
@@ -51,8 +47,6 @@ class GuestUser
      * Setter for email.
      *
      * @param string $email Email
-     *
-     * @return self
      */
     public function setEmail(string $email): self
     {

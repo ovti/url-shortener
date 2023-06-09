@@ -15,7 +15,6 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
 /**
  * @method Url|null find($id, $lockMode = null, $lockVersion = null)
  * @method Url|null findOneBy(array $criteria, array $orderBy = null)
@@ -43,7 +42,7 @@ class UrlRepository extends ServiceEntityRepository
         $this->checkBlockExpiration();
 
         $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select (
+            ->select(
                 'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
                 'partial tags.{id, name}',
             )
@@ -64,8 +63,6 @@ class UrlRepository extends ServiceEntityRepository
 
         $queryBuilder->getQuery()->execute();
     }
-
-
 
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -107,7 +104,6 @@ class UrlRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-
     /**
      * Apply filters to paginated list.
      *
@@ -118,7 +114,6 @@ class UrlRepository extends ServiceEntityRepository
      */
     private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
     {
-
         if (isset($filters['tag']) && $filters['tag'] instanceof Tag) {
             $queryBuilder->andWhere('tags IN (:tag)')
                 ->setParameter('tag', $filters['tag']);
@@ -140,6 +135,7 @@ class UrlRepository extends ServiceEntityRepository
         $this->_em->persist($url);
         $this->_em->flush();
     }
+
     /**
      * Delete entity.
      *

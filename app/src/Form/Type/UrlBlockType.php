@@ -11,21 +11,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Url;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-
 class UrlBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('blockExpiration', DateTimeType::class, array(
+        $builder->add('blockExpiration', DateTimeType::class, [
             'input' => 'datetime_immutable',
             'label' => 'label.block_expiration',
             'required' => true,
             'attr' => [
                 'class' => 'form-control',
             ],
-
-        ));
+        ]);
     }
+
     /**
      * Configures the options for this type.
      *

@@ -14,18 +14,13 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
-
 /**
  * Class RegistrationType.
  */
 class RegistrationType extends AbstractType
 {
-
     /**
      * Translator.
-     *
-     * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
 
@@ -79,8 +74,6 @@ class RegistrationType extends AbstractType
                     'second_options' => ['label' => $this->translator->trans('label.repeat_password')],
                 ],
             );
-
-
     }
 
     /**
