@@ -326,6 +326,14 @@
         <source>label.sign_in</source>
         <target>Sign in</target>
       </trans-unit>
+      <trans-unit id="label.block_yes">
+        <source>label.block_yes</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="label.block_no">
+        <source>label.block_no</source>
+        <target>No</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

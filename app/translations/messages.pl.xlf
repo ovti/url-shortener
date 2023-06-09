@@ -48,7 +48,7 @@
             </trans-unit>
             <trans-unit id="title.popular_urls">
                 <source>title.popular_urls</source>
-                <target>Popularne adresy URL</target>
+                <target>Popularne</target>
             </trans-unit>
             <trans-unit id="title.record_view">
                 <source>title.record_view</source>
@@ -72,7 +72,7 @@
             </trans-unit>
             <trans-unit id="title.user_urls">
                 <source>title.user_urls</source>
-                <target>Moje adresy URL</target>
+                <target>Moje adresy</target>
             </trans-unit>
             <trans-unit id="title.tag_list">
                 <source>title.tag_list</source>
@@ -88,7 +88,7 @@
             </trans-unit>
             <trans-unit id="action.save">
                 <source>action.save</source>
-                <target>Zapirsz</target>
+                <target>Zapisz</target>
             </trans-unit>
             <trans-unit id="title.tag_delete">
                 <source>title.tag_delete</source>
@@ -124,7 +124,7 @@
             </trans-unit>
             <trans-unit id="title.url_list">
                 <source>title.url_list</source>
-                <target>Lista URL</target>
+                <target>Wszystkie</target>
             </trans-unit>
             <trans-unit id="title.url_create">
                 <source>title.url_create</source>
@@ -326,6 +326,14 @@
             <trans-unit id="label.sign_in">
                 <source>label.sign_in</source>
                 <target>Zaloguj się</target>
+            </trans-unit>
+            <trans-unit id="label.block_yes">
+                <source>label.block_yes</source>
+                <target>Tak</target>
+            </trans-unit>
+            <trans-unit id="label.block_no">
+                <source>label.block_no</source>
+                <target>Nie</target>
             </trans-unit>
         </body>
     </file>

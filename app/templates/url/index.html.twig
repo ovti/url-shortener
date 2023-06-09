@@ -43,7 +43,7 @@
                             {{ url.shortUrl }}
                         </a>
                     <td>{{ url.createTime|format_date('long') }}</td>
-                    <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
+                    <td>{{ url.isBlocked ? 'label.block_yes'|trans : 'label.block_no'|trans }}</td>
                     <td>{{ url.blockExpiration ? url.blockExpiration|date('Y/m/d') : '' }}</td>
                     <td>
                     {% if url.tags is defined and url.tags|length %}

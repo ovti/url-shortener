@@ -61,7 +61,7 @@
                         {% endif %}
                     </td>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <td>{{ url.isBlocked ? 'Yes' : 'No' }}</td>
+                    <td>{{ url.isBlocked ? 'label.block_yes'|trans : 'label.block_no'|trans }}</td>
                     <td>{{ url.blockExpiration ? url.blockExpiration|date('Y-m-d H:i:s') : '' }}</td>
                     {% endif %}
 {#                    {% if is_granted('VIEW', url) %}#}

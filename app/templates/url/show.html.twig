@@ -22,7 +22,7 @@
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ url.createTime|date('Y/m/d') }}</dd>
             <dt>{{ 'label.is_blocked'|trans }}</dt>
-            <dd>{{ url.isBlocked ? 'Yes' : 'No' }}</dd>
+            <dd>{{ url.isBlocked ? 'label.block_yes'|trans : 'label.block_no'|trans }}</dd>
             <dt>{{ 'label.tag'|trans }}</dt>
             {% for tag in url.tags %}
                 <dd>{{ tag.name }}</dd>
