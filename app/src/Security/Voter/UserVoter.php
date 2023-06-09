@@ -39,8 +39,6 @@ class UserVoter extends Voter
      *
      * @param string $attribute Attribute
      * @param mixed  $subject   Subject
-     *
-     * @return bool
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -54,8 +52,6 @@ class UserVoter extends Voter
      * @param string         $attribute Attribute
      * @param mixed          $subject   Subject
      * @param TokenInterface $token     Token
-     *
-     * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
@@ -78,8 +74,6 @@ class UserVoter extends Voter
      *
      * @param User          $subject User
      * @param UserInterface $user    User
-     *
-     * @return bool
      */
     private function canAccess(User $subject, UserInterface $user): bool
     {

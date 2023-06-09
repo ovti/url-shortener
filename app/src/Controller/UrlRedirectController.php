@@ -63,11 +63,15 @@ class UrlRedirectController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request  HTTP Request
+     * @param Request $request  HTTP request
      * @param string  $shortUrl Short url
      *
      * @return Response HTTP response
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
      */
+    #[Route(path: '/{shortUrl}', name: 'index', methods: ['GET'])]
     public function index(Request $request, string $shortUrl): Response
     {
         $url = $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]);
