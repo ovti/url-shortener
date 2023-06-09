@@ -322,6 +322,10 @@
         <source>message.failed_to_unblock</source>
         <target>Failed to unblock.</target>
       </trans-unit>
+      <trans-unit id="label.sign_in">
+        <source>label.sign_in</source>
+        <target>Sign in</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

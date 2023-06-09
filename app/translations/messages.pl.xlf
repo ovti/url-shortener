@@ -319,6 +319,14 @@
                 <source>message.failed_to_unblock</source>
                 <target>Odblokowanie nie powiodło się.</target>
             </trans-unit>
+            <trans-unit id="action_register">
+                <source>action_register</source>
+                <target>Rejestracja</target>
+            </trans-unit>
+            <trans-unit id="label.sign_in">
+                <source>label.sign_in</source>
+                <target>Zaloguj się</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
