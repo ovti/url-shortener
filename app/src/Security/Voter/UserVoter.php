@@ -1,4 +1,7 @@
 <?php
+/**
+ * User voter.
+ */
 
 namespace App\Security\Voter;
 
@@ -8,10 +11,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\User;
 
+/**
+ * Class UserVoter.
+ */
 class UserVoter extends Voter
 {
+    /**
+     * Security.
+     */
     private Security $security;
 
+    /**
+     * UserVoter constructor.
+     *
+     * @param Security $security Security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
@@ -20,12 +34,20 @@ class UserVoter extends Voter
     public const EDIT_USER_DATA = 'EDIT_USER_DATA';
     public const VIEW = 'VIEW';
 
+    /**
+     * {@inheritdoc}
+     */
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT_USER_DATA, self::VIEW])
             && $subject instanceof User;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param User $subject
+     */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -42,6 +64,14 @@ class UserVoter extends Voter
         return false;
     }
 
+    /**
+     * Can access.
+     *
+     * @param User          $subject User
+     * @param UserInterface $user    User
+     *
+     * @return bool
+     */
     private function canAccess(User $subject, UserInterface $user): bool
     {
         return $subject === $user || $this->security->isGranted('ROLE_ADMIN');

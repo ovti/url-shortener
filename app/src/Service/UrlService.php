@@ -61,41 +61,14 @@ class UrlService implements UrlServiceInterface
      * @param SessionInterface    $session             Session interface
      * @param GuestUserRepository $guestUserRepository Guest user repository
      */
-    public function __construct(
-        PaginatorInterface $paginator,
-        TagServiceInterface $tagService,
-        UrlRepository $urlRepository,
-        Security $security,
-        SessionInterface $session,
-        GuestUserRepository $guestUserRepository
-    ) {
+    public function __construct(PaginatorInterface $paginator, TagServiceInterface $tagService, UrlRepository $urlRepository, Security $security, SessionInterface $session, GuestUserRepository $guestUserRepository)
+    {
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->urlRepository = $urlRepository;
         $this->security = $security;
         $this->session = $session;
         $this->guestUserRepository = $guestUserRepository;
-    }
-
-    /**
-     * Prepare filters for the urls list.
-     *
-     * @param array<string, int> $filters Raw filters from request
-     *
-     * @return array<string, object> Result array of filters
-     */
-    private function prepareFilters(array $filters): array
-    {
-        $resultFilters = [];
-
-        if (!empty($filters['tag_id'])) {
-            $tag = $this->tagService->findOneById($filters['tag_id']);
-            if (null !== $tag) {
-                $resultFilters['tag'] = $tag;
-            }
-        }
-
-        return $resultFilters;
     }
 
     /**
@@ -136,13 +109,13 @@ class UrlService implements UrlServiceInterface
                 $page,
                 UrlRepository::PAGINATOR_ITEMS_PER_PAGE
             );
-        } else {
-            return $this->paginator->paginate(
-                $this->urlRepository->queryNotBlocked($filters),
-                $page,
-                UrlRepository::PAGINATOR_ITEMS_PER_PAGE
-            );
         }
+
+        return $this->paginator->paginate(
+            $this->urlRepository->queryNotBlocked($filters),
+            $page,
+            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
     }
 
     /**
@@ -159,7 +132,7 @@ class UrlService implements UrlServiceInterface
             for ($i = 0; $i < $length; ++$i) {
                 $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
             }
-        } while (null != $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]));
+        } while (null !== $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]));
 
         return $shortUrl;
     }
@@ -171,12 +144,10 @@ class UrlService implements UrlServiceInterface
      *
      * @throws ORMException
      * @throws OptimisticLockException
-     *
-     * @return void
      */
     public function save(Url $url): void
     {
-        if (null == $url->getId()) {
+        if (null === $url->getId()) {
             if (!$this->security->isGranted('ROLE_USER')) {
                 $email = $this->session->get('email');
                 $user = $this->guestUserRepository->findOneBy(['email' => $email]);
@@ -193,11 +164,30 @@ class UrlService implements UrlServiceInterface
      * Delete url.
      *
      * @param Url $url Url entity
-     *
-     * @return void
      */
     public function delete(Url $url): void
     {
         $this->urlRepository->delete($url);
+    }
+
+    /**
+     * Prepare filters for the urls list.
+     *
+     * @param array<string, int> $filters Raw filters from request
+     *
+     * @return array<string, object> Result array of filters
+     */
+    private function prepareFilters(array $filters): array
+    {
+        $resultFilters = [];
+
+        if (!empty($filters['tag_id'])) {
+            $tag = $this->tagService->findOneById($filters['tag_id']);
+            if (null !== $tag) {
+                $resultFilters['tag'] = $tag;
+            }
+        }
+
+        return $resultFilters;
     }
 }

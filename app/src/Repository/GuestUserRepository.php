@@ -1,4 +1,7 @@
 <?php
+/**
+ * GuestUser repository.
+ */
 
 namespace App\Repository;
 
@@ -17,6 +20,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GuestUserRepository extends ServiceEntityRepository
 {
+    /**
+     * GuestUserRepository constructor.
+     *
+     * @param \Doctrine\Persistence\ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GuestUser::class);
@@ -53,6 +61,13 @@ class GuestUserRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * Get or create new query builder.
+     *
+     * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return \Doctrine\ORM\QueryBuilder Query builder
+     */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('guestUser');

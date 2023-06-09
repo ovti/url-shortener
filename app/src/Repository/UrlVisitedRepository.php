@@ -1,4 +1,7 @@
 <?php
+/**
+ * UrlVisited repository.
+ */
 
 namespace App\Repository;
 
@@ -9,20 +12,32 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UrlVisited>
+ * Class UrlVisitedRepository.
  *
  * @method UrlVisited|null find($id, $lockMode = null, $lockVersion = null)
  * @method UrlVisited|null findOneBy(array $criteria, array $orderBy = null)
- * @method UrlVisited[]    findAll()
- * @method UrlVisited[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UrlVisited[] findAll()
+ * @method UrlVisited[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @codeCoverageIgnore
  */
 class UrlVisitedRepository extends ServiceEntityRepository
 {
+    /**
+     * UrlVisitedRepository constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UrlVisited::class);
     }
 
+    /**
+     * Count all visits for url.
+     *
+     * @return array Result
+     */
     public function countAllVisitsForUrl(): array
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
@@ -34,19 +49,29 @@ class UrlVisitedRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
-    }
-
     /**
-     * Save url visited.
+     * Save record.
      *
-     * @param \App\Entity\UrlVisited $urlVisited UrlVisited entity
+     * @param UrlVisited $urlVisited UrlVisited entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(UrlVisited $urlVisited): void
     {
         $this->_em->persist($urlVisited);
         $this->_em->flush();
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('urlVisited');
     }
 }

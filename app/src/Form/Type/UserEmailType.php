@@ -26,6 +26,8 @@ class UserEmailType extends AbstractType
 
     /**
      * UserEmailType constructor.
+     *
+     * @param TranslatorInterface $translator Translator
      */
     public function __construct(TranslatorInterface $translator)
     {

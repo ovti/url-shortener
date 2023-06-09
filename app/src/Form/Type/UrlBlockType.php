@@ -11,8 +11,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Url;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
+/**
+ * Class UrlBlockType.
+ */
 class UrlBlockType extends AbstractType
 {
+    /**
+     * Builds the form.
+     *
+     * This method is called for each type in the hierarchy starting from the
+     * top most type. Type extensions can further modify the form.
+     *
+     * @param FormBuilderInterface<mixed> $builder The form builder
+     * @param array<string, mixed>        $options The options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('blockExpiration', DateTimeType::class, [
