@@ -35,13 +35,13 @@ class Url
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    private ?string $long_url = null;
+    private ?string $longUrl = null;
 
     /**
      * Short url.
      */
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $short_url = null;
+    private ?string $shortUrl = null;
 
     /**
      * Create time.
@@ -50,7 +50,7 @@ class Url
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $create_time = null;
+    private ?\DateTimeImmutable $createTime = null;
 
     /**
      * Is blocked.
@@ -58,7 +58,7 @@ class Url
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'boolean')]
-    private ?bool $is_blocked = null;
+    private ?bool $isBlocked = null;
 
     /**
      * Block expiration.
@@ -66,7 +66,7 @@ class Url
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $block_expiration = null;
+    private ?\DateTimeImmutable $blockExpiration = null;
 
     /**
      * Tags.
@@ -91,7 +91,7 @@ class Url
      */
     #[ORM\ManyToOne(targetEntity: GuestUser::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: true)]
-    private ?GuestUser $guest_user = null;
+    private ?GuestUser $guestUser = null;
 
     /**
      * Constructor.
@@ -118,17 +118,17 @@ class Url
      */
     public function getLongUrl(): ?string
     {
-        return $this->long_url;
+        return $this->longUrl;
     }
 
     /**
      * Setter for long url.
      *
-     * @param string|null $long_url Long url
+     * @param string|null $longUrl Long url
      */
-    public function setLongUrl(?string $long_url): void
+    public function setLongUrl(?string $longUrl): void
     {
-        $this->long_url = $long_url;
+        $this->longUrl = $longUrl;
     }
 
     /**
@@ -138,17 +138,17 @@ class Url
      */
     public function getShortUrl(): ?string
     {
-        return $this->short_url;
+        return $this->shortUrl;
     }
 
     /**
      * Setter for short url.
      *
-     * @param string|null $short_url Short url
+     * @param string|null $shortUrl Short url
      */
-    public function setShortUrl(?string $short_url): void
+    public function setShortUrl(?string $shortUrl): void
     {
-        $this->short_url = $short_url;
+        $this->shortUrl = $shortUrl;
     }
 
     /**
@@ -158,17 +158,17 @@ class Url
      */
     public function getCreateTime(): ?\DateTimeImmutable
     {
-        return $this->create_time;
+        return $this->createTime;
     }
 
     /**
      * Setter for create time.
      *
-     * @param \DateTimeImmutable|null $create_time Create time
+     * @param \DateTimeImmutable|null $createTime Create time
      */
-    public function setCreateTime(?\DateTimeImmutable $create_time): void
+    public function setCreateTime(?\DateTimeImmutable $createTime): void
     {
-        $this->create_time = $create_time;
+        $this->createTime = $createTime;
     }
 
     /**
@@ -178,17 +178,17 @@ class Url
      */
     public function isIsBlocked(): ?bool
     {
-        return $this->is_blocked;
+        return $this->isBlocked;
     }
 
     /**
      * Setter for is blocked.
      *
-     * @param bool|null $is_blocked Is blocked
+     * @param bool|null $isBlocked Is blocked
      */
-    public function setIsBlocked(?bool $is_blocked): void
+    public function setIsBlocked(?bool $isBlocked): void
     {
-        $this->is_blocked = $is_blocked;
+        $this->isBlocked = $isBlocked;
     }
 
     /**
@@ -198,17 +198,17 @@ class Url
      */
     public function getBlockExpiration(): ?\DateTimeImmutable
     {
-        return $this->block_expiration;
+        return $this->blockExpiration;
     }
 
     /**
      * Setter for block expiration.
      *
-     * @param \DateTimeImmutable|null $block_expiration Block expiration
+     * @param \DateTimeImmutable|null $blockExpiration Block expiration
      */
-    public function setBlockExpiration(?\DateTimeImmutable $block_expiration): void
+    public function setBlockExpiration(?\DateTimeImmutable $blockExpiration): void
     {
-        $this->block_expiration = $block_expiration;
+        $this->blockExpiration = $blockExpiration;
     }
 
     /**
@@ -274,19 +274,19 @@ class Url
      */
     public function getGuestUser(): ?GuestUser
     {
-        return $this->guest_user;
+        return $this->guestUser;
     }
 
     /**
      * Setter for guest user.
      *
-     * @param GuestUser|null $guest_user Guest user
+     * @param GuestUser|null $guestUser Guest user
      *
      * @return $this Self object
      */
-    public function setGuestUser(?GuestUser $guest_user): self
+    public function setGuestUser(?GuestUser $guestUser): self
     {
-        $this->guest_user = $guest_user;
+        $this->guestUser = $guestUser;
 
         return $this;
     }

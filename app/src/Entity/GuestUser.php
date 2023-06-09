@@ -1,10 +1,16 @@
 <?php
+/**
+ * GuestUser entity.
+ */
 
 namespace App\Entity;
 
 use App\Repository\GuestUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class GuestUser.
+ */
 #[ORM\Entity(repositoryClass: GuestUserRepository::class)]
 #[ORM\Table(name: 'guest_users')]
 class GuestUser
@@ -47,6 +53,8 @@ class GuestUser
      * Setter for email.
      *
      * @param string $email Email
+     *
+     * @return $this Self object
      */
     public function setEmail(string $email): self
     {

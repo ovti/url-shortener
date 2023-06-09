@@ -43,11 +43,11 @@ class UrlRepository extends ServiceEntityRepository
 
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
-                'partial url.{id, long_url, short_url, create_time, is_blocked, block_expiration}',
+                'partial url.{id, longUrl, shortUrl, createTime, isBlocked, blockExpiration}',
                 'partial tags.{id, name}',
             )
             ->leftJoin('url.tags', 'tags')
-            ->orderBy('url.create_time', 'DESC');
+            ->orderBy('url.createTime', 'DESC');
 
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
@@ -56,9 +56,9 @@ class UrlRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->update(Url::class, 'url')
-            ->set('url.is_blocked', 'false')
-            ->set('url.block_expiration', 'null')
-            ->where('url.block_expiration < :now')
+            ->set('url.isBlocked', 'false')
+            ->set('url.blockExpiration', 'null')
+            ->where('url.blockExpiration < :now')
             ->setParameter('now', new \DateTime('now'));
 
         $queryBuilder->getQuery()->execute();
@@ -98,8 +98,8 @@ class UrlRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->queryAll($filters);
 
-        $queryBuilder->andWhere('url.is_blocked = :is_blocked')
-            ->setParameter('is_blocked', false);
+        $queryBuilder->andWhere('url.isBlocked = :isBlocked')
+            ->setParameter('isBlocked', false);
 
         return $queryBuilder;
     }

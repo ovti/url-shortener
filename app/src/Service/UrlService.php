@@ -7,12 +7,14 @@ namespace App\Service;
 
 use App\Entity\Url;
 use App\Entity\User;
+use App\Repository\GuestUserRepository;
 use App\Repository\UrlRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Security\Core\Security;
-use App\Repository\GuestUserRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UrlService.
@@ -100,6 +102,7 @@ class UrlService implements UrlServiceInterface
      * Get paginated list.
      *
      * @param int                $page    Page number
+     * @param User               $users   User entity
      * @param array<string, int> $filters Filters array
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
@@ -115,17 +118,18 @@ class UrlService implements UrlServiceInterface
         );
     }
 
-    // get paginated list for every user
+    /**
+     * Get paginated list for every user.
+     *
+     * @param int                $page    Page number
+     * @param array<string, int> $filters Filters array
+     *
+     * @return PaginationInterface<SlidingPagination> Paginated list
+     */
     public function getPaginatedListForEveryUser(int $page, array $filters = []): PaginationInterface
     {
         $filters = $this->prepareFilters($filters);
 
-        //        return $this->paginator->paginate(
-        //            $this->urlRepository->queryAll($filters),
-        //            $page,
-        //            UrlRepository::PAGINATOR_ITEMS_PER_PAGE
-        //        );
-        // queryall for admin, queryNotBlocked for user
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return $this->paginator->paginate(
                 $this->urlRepository->queryAll($filters),
@@ -150,17 +154,26 @@ class UrlService implements UrlServiceInterface
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $length = 6;
-        $shortUrl = '';
         do {
             $shortUrl = '';
             for ($i = 0; $i < $length; ++$i) {
                 $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
             }
-        } while (null != $this->urlRepository->findOneBy(['short_url' => $shortUrl]));
+        } while (null != $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]));
 
         return $shortUrl;
     }
 
+    /**
+     * Save url.
+     *
+     * @param Url $url Url entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     *
+     * @return void
+     */
     public function save(Url $url): void
     {
         if (null == $url->getId()) {
@@ -176,6 +189,13 @@ class UrlService implements UrlServiceInterface
         $this->urlRepository->save($url);
     }
 
+    /**
+     * Delete url.
+     *
+     * @param Url $url Url entity
+     *
+     * @return void
+     */
     public function delete(Url $url): void
     {
         $this->urlRepository->delete($url);

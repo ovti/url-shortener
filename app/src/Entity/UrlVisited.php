@@ -33,7 +33,7 @@ class UrlVisited
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $visit_time = null;
+    private ?\DateTimeImmutable $visitTime = null;
 
     #[ORM\ManyToOne(targetEntity: Url::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -56,22 +56,36 @@ class UrlVisited
      */
     public function getVisitTime(): ?\DateTimeImmutable
     {
-        return $this->visit_time;
+        return $this->visitTime;
     }
 
     /**
      * Setter for visit time.
+     *
+     * @param \DateTimeImmutable|null $visitTime Visit time
      */
-    public function setVisitTime(?\DateTimeImmutable $create_time): void
+    public function setVisitTime(?\DateTimeImmutable $visitTime): void
     {
-        $this->visit_time = $create_time;
+        $this->visitTime = $visitTime;
     }
 
+    /**
+     * Getter for url.
+     *
+     * @return Url|null Url
+     */
     public function getUrl(): ?Url
     {
         return $this->url;
     }
 
+    /**
+     * Setter for url.
+     *
+     * @param Url|null $url Url
+     *
+     * @return $this Self
+     */
     public function setUrl(?Url $url): self
     {
         $this->url = $url;

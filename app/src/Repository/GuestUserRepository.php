@@ -44,9 +44,9 @@ class GuestUserRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select('count(guestUser.id)')
-            ->leftJoin('App\Entity\Url', 'url', 'WITH', 'url.guest_user = guestUser')
+            ->leftJoin('App\Entity\Url', 'url', 'WITH', 'url.guestUser = guestUser')
             ->where('guestUser.email = :email')
-            ->andWhere('url.create_time > :time')
+            ->andWhere('url.createTime > :time')
             ->setParameter('email', $email)
             ->setParameter('time', new \DateTimeImmutable('-24 hours'));
 
