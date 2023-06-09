@@ -16,8 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method UrlVisited|null find($id, $lockMode = null, $lockVersion = null)
  * @method UrlVisited|null findOneBy(array $criteria, array $orderBy = null)
- * @method UrlVisited[] findAll()
- * @method UrlVisited[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UrlVisited[]    findAll()
+ * @method UrlVisited[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  *
  * @codeCoverageIgnore
  */

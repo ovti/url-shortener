@@ -35,7 +35,12 @@ class UserVoter extends Voter
     public const VIEW = 'VIEW';
 
     /**
-     * {@inheritdoc}
+     * Supports.
+     *
+     * @param string $attribute Attribute
+     * @param mixed  $subject   Subject
+     *
+     * @return bool
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -44,9 +49,13 @@ class UserVoter extends Voter
     }
 
     /**
-     * {@inheritdoc}
+     * Vote on attribute.
      *
-     * @param User $subject
+     * @param string         $attribute Attribute
+     * @param mixed          $subject   Subject
+     * @param TokenInterface $token     Token
+     *
+     * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {

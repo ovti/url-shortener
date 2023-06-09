@@ -59,8 +59,6 @@ class UrlRepository extends ServiceEntityRepository
 
     /**
      * Check if any url block has expired.
-     *
-     * @return void
      */
     public function checkBlockExpiration(): void
     {

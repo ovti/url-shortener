@@ -103,7 +103,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Url $url): Response
     {
         if ($url->isIsBlocked()) {

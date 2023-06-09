@@ -11,20 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
- *
  * Class SecurityController.
- *
  */
 class SecurityController extends AbstractController
 {
     /**
-     *
      * Log in.
      *
      * @param AuthenticationUtils $authenticationUtils Authentication utils
      *
      * @return Response HTTP response
-     *
      */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -36,10 +32,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *
      * Log out.
-     *
-     * @return void
      */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
