@@ -71,7 +71,7 @@ class UrlRedirectController extends AbstractController
         $url = $this->urlRepository->findOneBy(['short_url' => $short_url]);
 
         if (!$url) {
-            throw $this->createNotFoundException('Krótki adres URL nie istnieje: ' . $short_url);
+            throw $this->createNotFoundException($this->translator->trans('message.url_not_found') . ' ' . $short_url);
         }
 
         if ($url->isIsBlocked() && $url->getBlockExpiration() < new \DateTimeImmutable()) {
@@ -81,7 +81,7 @@ class UrlRedirectController extends AbstractController
             return new RedirectResponse($url->getLongUrl());
         }
         else if ($url->isIsBlocked() && $url->getBlockExpiration() > new \DateTimeImmutable()) {
-            $this->addFlash('warning', 'Ten adres URL jest zablokowany do ' . $url->getBlockExpiration()->format('Y-m-d H:i:s'));
+            $this->addFlash('warning', $this->translator->trans('message.blocked_url'));
 
             if ($this->isGranted('ROLE_ADMIN')) {
                 return new RedirectResponse($url->getLongUrl());

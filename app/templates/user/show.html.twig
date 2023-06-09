@@ -26,13 +26,6 @@
                     </a>
                 </dd>
             {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <dd>
-                    <a class="btn btn-outline-warning" href="{{ url('user_edit_role', {'id': user.id}) }}" title="{{ 'action.edit'|trans }}">
-                        {{ 'action.edit_role'|trans }}
-                    </a>
-                </dd>
-            {% endif %}
 
         </dl>
         <p>

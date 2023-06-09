@@ -3,29 +3,23 @@
  * Url controller.
  */
 
-
 namespace App\Controller;
 
 use App\Entity\Url;
 use App\Entity\User;
-use App\Entity\UrlVisited;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Service\UrlServiceInterface;
+use App\Form\Type\UrlBlockType;
 use App\Form\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use App\Service\UrlServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use App\Service\UrlVisitedService;
-use App\Form\Type\UrlBlockType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use App\Repository\UrlRepository;
 
 /**
- * Class UrlController
- * @package App\Controller
+ * Class UrlController.
  */
 #[Route('/url')]
 class UrlController extends AbstractController
@@ -40,31 +34,16 @@ class UrlController extends AbstractController
      */
     private TranslatorInterface $translator;
 
-    /**
-     * UrlVisited service.
-     */
-    private UrlVisitedService $urlVisitedService;
-
-    /**
-     * Url repository.
-     */
-    private UrlRepository $urlRepository;
-
-
 
     /**
      * UrlController constructor.
-     * @param UrlServiceInterface $urlService
-     * @param TranslatorInterface $translator
-     * @param UrlVisitedService $urlVisitedService
-     * @param UrlRepository $urlRepository
+     *
+     * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService, UrlRepository $urlRepository)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
-        $this->urlVisitedService = $urlVisitedService;
-        $this->urlRepository = $urlRepository;
     }
 
     /**
@@ -142,11 +121,9 @@ class UrlController extends AbstractController
     #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
     public function show(Url $url): Response
     {
-        // if url is blocked, check user permissions
         if ($url->isIsBlocked()) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
-
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
@@ -175,24 +152,27 @@ class UrlController extends AbstractController
             ['action' => $this->generateUrl('url_create')]
         );
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->urlService->save($url);
 
-            $this->addFlash('success', 'message_created_successfully');
+            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
             return $this->redirectToRoute('url_list');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', $this->translator->trans('message.failed_to_create'));
         }
+
         return $this->render(
             'url/create.html.twig',
             ['form' => $form->createView()]
         );
-
     }
+
     /**
      * Edit action.
      *
-     * @param Request  $request  HTTP request
-     * @param Url $url Url entity
+     * @param Request $request HTTP request
+     * @param Url     $url     Url entity
      *
      * @return Response HTTP response
      */
@@ -214,7 +194,7 @@ class UrlController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->urlService->save($url);
-            $this->addFlash('success', 'message_updated_successfully');
+            $this->addFlash('success', $this->translator->trans('message.updated_successfully'));
 
             return $this->redirectToRoute('url_index');
         }
@@ -232,7 +212,7 @@ class UrlController extends AbstractController
      * Block action.
      *
      * @param Request $request HTTP request
-     * @param Url $url Url entity
+     * @param Url     $url     Url entity
      *
      * @return Response HTTP response
      */
@@ -255,7 +235,7 @@ class UrlController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $url->setIsBlocked(true);
             $this->urlService->save($url);
-            $this->addFlash('success', 'message_blocked_successfully');
+            $this->addFlash('success', $this->translator->trans('message.blocked_successfully'));
 
             return $this->redirectToRoute('url_list');
         }
@@ -273,7 +253,7 @@ class UrlController extends AbstractController
      * Unblock action.
      *
      * @param Request $request HTTP request
-     * @param Url $url Url entity
+     * @param Url     $url     Url entity
      *
      * @return Response HTTP response
      */
@@ -285,7 +265,7 @@ class UrlController extends AbstractController
             $url->setIsBlocked(false);
             $url->setBlockExpiration(null);
             $this->urlService->save($url);
-            $this->addFlash('success', 'message_unblocked_successfully');
+            $this->addFlash('success', $this->translator->trans('message.unblocked_successfully'));
 
             return $this->redirectToRoute('url_list');
         }
@@ -306,7 +286,7 @@ class UrlController extends AbstractController
             $url->setIsBlocked(false);
             $url->setBlockExpiration(null);
             $this->urlService->save($url);
-            $this->addFlash('success', 'message_unblocked_successfully');
+            $this->addFlash('success', $this->translator->trans('message.unblocked_successfully'));
 
             return $this->redirectToRoute('url_list');
         }
@@ -319,11 +299,12 @@ class UrlController extends AbstractController
             ]
         );
     }
+
     /**
      * Delete action.
      *
-     * @param Request  $request  HTTP request
-     * @param Url $url Url entity
+     * @param Request $request HTTP request
+     * @param Url     $url     Url entity
      *
      * @return Response HTTP response
      */
@@ -348,7 +329,7 @@ class UrlController extends AbstractController
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $this->urlService->delete($url);
-            $this->addFlash('success', 'message_deleted_successfully');
+            $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
 
             return $this->redirectToRoute('url_index');
         }

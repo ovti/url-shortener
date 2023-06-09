@@ -2,35 +2,57 @@
 /*
  * User controller.
  */
+
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Type\UserEmailType;
+use App\Form\Type\UserPasswordType;
 use App\Service\UserServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
-use App\Form\Type\UserPasswordType;
-use App\Form\Type\UserEmailType;
-use App\Form\Type\UserRoleType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserController.
- *
- * @Route("/user")
  */
+#[Route('/user')]
 class UserController extends AbstractController
 {
+    /**
+     * User service.
+     */
     private userServiceInterface $userService;
+
+    /**
+     * Security.
+     */
     private Security $security;
 
-    public function __construct(UserServiceInterface $userService, Security $security)
+    /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * Constructor.
+     *
+     * @param UserServiceInterface $userService User service
+     * @param Security             $security    Security
+     * @param TranslatorInterface  $translator  Translator
+     *
+     * @return void
+     */
+    public function __construct(UserServiceInterface $userService, Security $security, TranslatorInterface $translator)
     {
         $this->userService = $userService;
         $this->security = $security;
+        $this->translator = $translator;
     }
 
     /**
@@ -39,16 +61,13 @@ class UserController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
-     *
-     * @Route(
-     *     name="user_index",
-     *     methods={"GET"},
-     * )
      */
+    #[Route('/', name: 'user_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $user = $this->security->getUser();
         $pagination = $this->userService->getPaginatedList($request->query->getInt('page', 1));
+
         return $this->render(
             'user/index.html.twig',
             ['pagination' => $pagination]
@@ -61,14 +80,8 @@ class UserController extends AbstractController
      * @param User $user User entity
      *
      * @return Response HTTP response
-     *
-     * @Route(
-     *     "/{id}",
-     *     name="user_show",
-     *     methods={"GET"},
-     *     requirements={"id": "[1-9]\d*"},
-     * )
      */
+    #[Route('/{id}', name: 'user_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
     #[IsGranted('VIEW', subject: 'user')]
     public function show(User $user): Response
     {
@@ -81,18 +94,13 @@ class UserController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
-     * @param User    $user    User entity
+     * @param Request                      $request         HTTP request
+     * @param User                         $user            User entity
+     * @param UserPasswordEncoderInterface $passwordEncoder Password encoder
      *
      * @return Response HTTP response
-     *
-     * @Route(
-     *     "/{id}/edit/password",
-     *     name="user_edit",
-     *     methods={"GET", "PUT"},
-     *     requirements={"id": "[1-9]\d*"},
-     * )
      */
+    #[Route('/{id}/edit/password', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT_USER_DATA', subject: 'user')]
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -102,9 +110,11 @@ class UserController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
             $this->userService->save($user);
-            $this->addFlash('success', 'message.updated_successfully');
+            $this->addFlash('success', $this->translator->trans('message.updated_successfully'));
+
             return $this->redirectToRoute('app_homepage');
         }
+
         return $this->render(
             'user/edit.html.twig',
             [
@@ -121,14 +131,8 @@ class UserController extends AbstractController
      * @param User    $user    User entity
      *
      * @return Response HTTP response
-     *
-     * @Route(
-     *     "/{id}/edit/email",
-     *     name="user_edit_email",
-     *     methods={"GET", "PUT"},
-     *     requirements={"id": "[1-9]\d*"},
-     *     )
      */
+    #[Route('/{id}/edit/email', name: 'user_edit_email', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT_USER_DATA', subject: 'user')]
     public function editEmail(Request $request, User $user): Response
     {
@@ -136,46 +140,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->save($user);
-            $this->addFlash('success', 'message.updated_successfully');
+            $this->addFlash('success', $this->translator->trans('message.updated_successfully'));
+
             return $this->redirectToRoute('app_homepage');
         }
+
         return $this->render(
             'user/edit_email.html.twig',
-            [
-                'form' => $form->createView(),
-                'user' => $user,
-            ]
-        );
-    }
-
-    /**
-     * Edit role.
-     *
-     * @param Request $request HTTP request
-     * @param User    $user    User entity
-     *
-     * @return Response HTTP response
-     *
-     * @Route(
-     *     "/{id}/edit/role",
-     *     name="user_edit_role",
-     *     methods={"GET", "PUT"},
-     *     requirements={"id": "[1-9]\d*"},
-     *     )
-     *
-     */
-    #[IsGranted('ROLE_ADMIN')]
-    public function editRole(Request $request, User $user): Response
-    {
-        $form = $this->createForm(UserRoleType::class, $user, ['method' => 'PUT']);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->save($user);
-            $this->addFlash('success', 'message.updated_successfully');
-            return $this->redirectToRoute('app_homepage');
-        }
-        return $this->render(
-            'user/edit_role.html.twig',
             [
                 'form' => $form->createView(),
                 'user' => $user,

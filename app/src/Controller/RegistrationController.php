@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class RegistrationController.
@@ -25,12 +26,18 @@ class RegistrationController extends AbstractController
     private UserServiceInterface $userService;
 
     /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
      * RegistrationController constructor.
      *
      * @param \App\Service\UserServiceInterface $userService User service
      */
-    public function __construct(UserServiceInterface $userService) {
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator) {
         $this->userService = $userService;
+        $this->translator = $translator;
     }
 
     /**
@@ -54,7 +61,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->save($user);
 
-            $this->addFlash('success', 'message_registered_successfully');
+            $this->addFlash('success', $this->translator->trans('message.registered_successfully'));
 
             return $this->redirectToRoute('app_login');
         }

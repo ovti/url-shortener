@@ -9,10 +9,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 
 /**
@@ -20,6 +21,24 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class RegistrationType extends AbstractType
 {
+
+    /**
+     * Translator.
+     *
+     * @var TranslatorInterface
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * RegistrationType constructor.
+     *
+     * @param TranslatorInterface $translator Translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Builds the form.
      *
@@ -37,7 +56,7 @@ class RegistrationType extends AbstractType
             'email',
             EmailType::class,
             [
-                'label' => 'label_email',
+                'label' => $this->translator->trans('label.email'),
                 'required' => true,
                 'attr' => ['max_length' => 191],
                 'constraints' => [
@@ -56,8 +75,8 @@ class RegistrationType extends AbstractType
                         new Length(['min' => 6, 'max' => 191]),
                         new NotBlank(),
                     ],
-                    'first_options' => ['label' => 'label.password'],
-                    'second_options' => ['label' => 'label.confirm_password'],
+                    'first_options' => ['label' => $this->translator->trans('label.password')],
+                    'second_options' => ['label' => $this->translator->trans('label.repeat_password')],
                 ],
             );
 

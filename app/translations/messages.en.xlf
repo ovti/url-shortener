@@ -2,6 +2,18 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
+      <trans-unit id="title.user_register">
+        <source>title.user_register</source>
+        <target>User registration</target>
+      </trans-unit>
+      <trans-unit id="title.user_email_edit">
+        <source>title.user_email_edit</source>
+        <target>Edit user email</target>
+      </trans-unit>
+      <trans-unit id="title.user_password_edit">
+        <source>title.user_password_edit</source>
+        <target>Edit user password</target>
+      </trans-unit>
       <trans-unit id="label.actions">
         <source>label.actions</source>
         <target>Actions</target>
@@ -202,6 +214,30 @@
         <source>label.user_email</source>
         <target>User Email</target>
       </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+        <source>label.password</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="label.repeat_password">
+        <source>label.repeat_password</source>
+        <target>Repeat password</target>
+      </trans-unit>
+      <trans-unit id="message.url_not_found">
+        <source>message.url_not_found</source>
+        <target>URL not found</target>
+      </trans-unit>
+      <trans-unit id="message.blocked_url">
+        <source>message.blocked_url</source>
+        <target>Blocked URL</target>
+      </trans-unit>
+      <trans-unit id="message.email_limit_exceeded">
+        <source>message.email_limit_exceeded</source>
+        <target>Email limit exceeded</target>
+      </trans-unit>
       <trans-unit id="title.user_details">
         <source>title.user_details</source>
         <target>User Details</target>
@@ -226,10 +262,6 @@
         <source>action.edit_password</source>
         <target>Edit Password</target>
       </trans-unit>
-      <trans-unit id="action.edit_role">
-        <source>action.edit_role</source>
-        <target>Edit Role</target>
-      </trans-unit>
       <trans-unit id="title.url_block">
         <source>title.url_block</source>
         <target>Block URL</target>
@@ -249,6 +281,46 @@
       <trans-unit id="action.unblock">
         <source>action.unblock</source>
         <target>Unblock</target>
+      </trans-unit>
+      <trans-unit id="message.registered_successfully">
+        <source>message.registered_successfully</source>
+        <target>Registered successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.updated_successfully">
+        <source>message.updated_successfully</source>
+        <target>Updated successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.failed_to_create">
+        <source>message.failed_to_create</source>
+        <target>Failed to create.</target>
+      </trans-unit>
+      <trans-unit id="message.blocked_successfully">
+        <source>message.blocked_successfully</source>
+        <target>Blocked successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.unblocked_successfully">
+        <source>message.unblocked_successfully</source>
+        <target>Unblocked successfully.</target>
+      </trans-unit>
+      <trans-unit id="message.invalid_credentials">
+        <source>message.invalid_credentials</source>
+        <target>Invalid credentials.</target>
+      </trans-unit>
+      <trans-unit id="message.failed_to_update">
+        <source>message.failed_to_update</source>
+        <target>Failed to update.</target>
+      </trans-unit>
+      <trans-unit id="message.failed_to_delete">
+        <source>message.failed_to_delete</source>
+        <target>Failed to delete.</target>
+      </trans-unit>
+      <trans-unit id="message.failed_to_block">
+        <source>message.failed_to_block</source>
+        <target>Failed to block.</target>
+      </trans-unit>
+      <trans-unit id="message.failed_to_unblock">
+        <source>message.failed_to_unblock</source>
+        <target>Failed to unblock.</target>
       </trans-unit>
     </body>
   </file>

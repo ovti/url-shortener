@@ -6,9 +6,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Url;
-use App\Entity\Tag;
 use App\Form\DataTransformer\TagsDataTransformer;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +19,7 @@ use App\Entity\GuestUser;
 use App\Service\GuestUserService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\GuestUserRepository;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
@@ -64,6 +63,13 @@ class UrlType extends AbstractType
      */
     private GuestUserRepository $guestUserRepository;
 
+    /**
+     * Translator.
+     *
+     * @var TranslatorInterface
+     */
+    private TranslatorInterface $translator;
+
 
     /**
      * Constructor.
@@ -73,14 +79,16 @@ class UrlType extends AbstractType
      * @param GuestUserService $guestUserService Guest user service
      * @param SessionInterface $session Session
      * @param GuestUserRepository $guestUserRepository Guest user repository
+     * @param TranslatorInterface $translator Translator
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session, GuestUserRepository $guestUserRepository)
+    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session, GuestUserRepository $guestUserRepository, TranslatorInterface $translator)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
         $this->security = $security;
         $this->guestUserService = $guestUserService;
         $this->session = $session;
         $this->guestUserRepository = $guestUserRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -101,7 +109,7 @@ class UrlType extends AbstractType
                 'email',
                 TextType::class,
                 [
-                    'label' => 'label.email',
+                    'label' => $this->translator->trans('label.email'),
                     'required' => true,
                     'mapped' => false,
                     'attr' => ['max_length' => 64],
@@ -115,7 +123,7 @@ class UrlType extends AbstractType
 
                 $count = $this->guestUserService->countEmailsUsedInLast24Hours($email);
                 if ($count >= 2) {
-                    $event->getForm()->get('email')->addError(new FormError('error.too_many_emails' . $count . $email));
+                    $event->getForm()->addError(new FormError($this->translator->trans('message.email_limit_exceeded')));
                 }
 
                 $this->guestUserService->save($guestUser);

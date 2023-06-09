@@ -7,11 +7,12 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserEmailType.
@@ -19,15 +20,26 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 class UserEmailType extends AbstractType
 {
     /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * UserEmailType constructor.
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
      * Builds the form.
      *
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array<mixed>         $options The options
-     *
-     * @return void
+     * @param FormBuilderInterface<mixed> $builder The form builder
+     * @param array<string, mixed>        $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,7 +47,7 @@ class UserEmailType extends AbstractType
             'email',
             EmailType::class,
             [
-                'label' => 'label_email',
+                'label' => $this->translator->trans('label.email'),
                 'required' => true,
                 'attr' => ['max_length' => 191],
                 'constraints' => [
@@ -50,8 +62,6 @@ class UserEmailType extends AbstractType
      * Configures the options for this type.
      *
      * @param OptionsResolver<mixed> $resolver The resolver for the options
-     *
-     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

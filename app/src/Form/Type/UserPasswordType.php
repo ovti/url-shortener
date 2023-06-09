@@ -7,12 +7,13 @@ namespace App\Form\Type;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserPasswordType.
@@ -20,15 +21,30 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class UserPasswordType extends AbstractType
 {
     /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * UserPasswordType constructor.
+     *
+     * @param TranslatorInterface $translator Translator
+     *
+     * @return void
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
      * Builds the form.
      *
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array<mixed>         $options The options
-     *
-     * @return void
+     * @param FormBuilderInterface<mixed> $builder The form builder
+     * @param array<string, mixed>        $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -42,18 +58,16 @@ class UserPasswordType extends AbstractType
                     new Length(['min' => 6, 'max' => 191]),
                     new NotBlank(),
                 ],
-                'first_options' => ['label' => 'label.password'],
-                'second_options' => ['label' => 'label.confirm_password'],
+                'first_options' => ['label' => $this->translator->trans('label.password')],
+                'second_options' => ['label' => $this->translator->trans('label.repeat_password')],
             ],
         );
     }
 
     /**
-     * Configures the options for this type.
+     * Configure options.
      *
-     * @param OptionsResolver<mixed> $resolver The resolver for the options
-     *
-     * @return void
+     * @param OptionsResolver<mixed> $resolver The resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

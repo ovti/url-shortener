@@ -2,37 +2,27 @@
 /*
  * Url visited controller.
  */
+
 namespace App\Controller;
 
-use App\Entity\UrlVisited;
 use App\Repository\UrlVisitedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-
 
 /**
  * Class UrlVisitedController.
- *
  */
-#[Route('/popular' )]
+#[Route('/popular')]
 class UrlVisitedController extends AbstractController
 {
-    private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
-    /*
-     * Most visited urls action.
+    /**
+     * Most visited action.
      *
-     * @param UrlVisitedRepository $repository Url visited repository
+     * @param UrlVisitedRepository $repository UrlVisited repository
      *
      * @return Response HTTP response
-     *
      */
     #[Route(
         name: 'most_popular',

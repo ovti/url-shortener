@@ -168,12 +168,12 @@ class UrlService implements UrlServiceInterface
     public function save(Url $url): void
     {
         if ($url->getId() == null) {
-            //retreive email from session and set it as author
-            $email = $this->session->get('email');
-            $user = $this->guestUserRepository->findOneBy(['email' => $email]);
-            $userId = $user->getId();
-
-            $url->setGuestUser($user);
+            if (!$this->security->isGranted('ROLE_USER')) {
+                $email = $this->session->get('email');
+                $user = $this->guestUserRepository->findOneBy(['email' => $email]);
+                $url->setGuestUser($user);
+                $this->session->remove('email');
+            }
             $url->setShortUrl($this->generateShortUrl());
             $url->setIsBlocked(false);
         }
