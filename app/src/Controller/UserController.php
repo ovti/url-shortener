@@ -62,7 +62,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/', name: 'user_index', methods: ['GET'])]
+    #[Route(name: 'user_index', methods: 'GET')]
     public function index(Request $request): Response
     {
         $user = $this->security->getUser();

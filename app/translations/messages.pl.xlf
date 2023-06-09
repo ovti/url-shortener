@@ -335,6 +335,38 @@
                 <source>label.block_no</source>
                 <target>Nie</target>
             </trans-unit>
+            <trans-unit id="Email">
+                <source>Email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="Year">
+                <source>Year</source>
+                <target>Rok</target>
+            </trans-unit>
+            <trans-unit id="Month">
+                <source>Month</source>
+                <target>Miesiąc</target>
+            </trans-unit>
+            <trans-unit id="Day">
+                <source>Day</source>
+                <target>Dzień</target>
+            </trans-unit>
+            <trans-unit id="Hour">
+                <source>Hour</source>
+                <target>Godzina</target>
+            </trans-unit>
+            <trans-unit id="Minute">
+                <source>Minute</source>
+                <target>Minuta</target>
+            </trans-unit>
+            <trans-unit id="Hasło">
+                <source>Hasło</source>
+                <target>Hasło</target>
+            </trans-unit>
+            <trans-unit id="Powtórz hasło">
+                <source>Powtórz hasło</source>
+                <target>Powtórz hasło</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

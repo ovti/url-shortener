@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlRedirectController.
  */
-#[Route(path: '/', name: 'url_redirect', methods: ['GET'])]
+#[Route('/r')]
 class UrlRedirectController extends AbstractController
 {
     /**
@@ -63,15 +63,16 @@ class UrlRedirectController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request  HTTP request
+     * @param Request $request  HTTP Request
      * @param string  $shortUrl Short url
      *
      * @return Response HTTP response
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\ORMException
      */
-    #[Route(path: '/{shortUrl}', name: 'index', methods: ['GET'])]
+    #[Route(
+        '/{shortUrl}',
+        name: 'url_redirect_index',
+        methods: ['GET'],
+    )]
     public function index(Request $request, string $shortUrl): Response
     {
         $url = $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]);

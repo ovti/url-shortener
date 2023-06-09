@@ -23,10 +23,7 @@ class UrlVisitedController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        name: 'most_popular',
-        methods: ['GET'],
-    )]
+    #[Route(name: 'popular_index', methods: 'GET')]
     public function mostVisited(UrlVisitedRepository $repository): Response
     {
         $urlsVisited = $repository->countAllVisitsForUrl();
