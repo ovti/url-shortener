@@ -62,6 +62,7 @@ class UserController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'user_index', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(Request $request): Response
     {
         $pagination = $this->userService->getPaginatedList($request->query->getInt('page', 1));

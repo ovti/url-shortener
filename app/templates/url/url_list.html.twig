@@ -32,8 +32,8 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.create_time'|trans, 'url.createTime') }}</th>
                 <th>{{ 'label.tag'|trans }}</th>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.is_blocked') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.block_expiration') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.is_blocked'|trans, 'url.isBlocked') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'label.block_expiration'|trans, 'url.blockExpiration') }}</th>
                     {% endif %}
                 <th>{{ 'label.actions'|trans }}</th>
     {% if is_granted('ROLE_ADMIN') %}
