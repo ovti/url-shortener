@@ -9,8 +9,8 @@ use App\Repository\UrlRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Url.
@@ -90,7 +90,7 @@ class Url
      * Guest user.
      */
     #[ORM\ManyToOne(targetEntity: GuestUser::class, fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(name: 'guest_users_id', nullable: true)]
     private ?GuestUser $guestUser = null;
 
     /**

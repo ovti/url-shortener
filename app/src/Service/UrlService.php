@@ -9,8 +9,7 @@ use App\Entity\Url;
 use App\Entity\User;
 use App\Repository\GuestUserRepository;
 use App\Repository\UrlRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -79,6 +78,8 @@ class UrlService implements UrlServiceInterface
      * @param array $filters Filters array
      *
      * @return PaginationInterface Paginated list
+     *
+     * @throws NonUniqueResultException
      */
     public function getPaginatedList(int $page, User $users, array $filters = []): PaginationInterface
     {
@@ -97,6 +98,8 @@ class UrlService implements UrlServiceInterface
      * @param array $filters Filters array
      *
      * @return PaginationInterface Prepared filters array
+     *
+     * @throws NonUniqueResultException
      */
     public function getPaginatedListForEveryUser(int $page, array $filters = []): PaginationInterface
     {
@@ -137,9 +140,6 @@ class UrlService implements UrlServiceInterface
      * Save url.
      *
      * @param Url $url Url entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function save(Url $url): void
     {
@@ -172,6 +172,8 @@ class UrlService implements UrlServiceInterface
      * @param array<string, int> $filters Raw filters from request
      *
      * @return array<string, object> Result array of filters
+     *
+     * @throws NonUniqueResultException
      */
     private function prepareFilters(array $filters): array
     {

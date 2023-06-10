@@ -7,6 +7,8 @@ namespace App\Service;
 
 use App\Entity\GuestUser;
 use App\Repository\GuestUserRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Class GuestUserService.
@@ -31,11 +33,10 @@ class GuestUserService implements GuestUserServiceInterface
     /**
      * Save guest user.
      *
-     * @param \App\Entity\GuestUser $guestUser GuestUser entity
+     * @param GuestUser $guestUser GuestUser entity
      */
     public function save(GuestUser $guestUser): void
     {
-        // if email already exists in database, dont save it again
         if ($this->guestUserRepository->findOneByEmail($guestUser->getEmail())) {
             return;
         }
@@ -48,7 +49,10 @@ class GuestUserService implements GuestUserServiceInterface
      *
      * @param string $email Email
      *
-     * @return array
+     * @return int Result
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countEmailsUsedInLast24Hours(string $email): int
     {

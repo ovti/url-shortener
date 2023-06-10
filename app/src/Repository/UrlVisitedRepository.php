@@ -6,7 +6,6 @@
 namespace App\Repository;
 
 use App\Entity\UrlVisited;
-use App\Entity\Url;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -50,12 +49,9 @@ class UrlVisitedRepository extends ServiceEntityRepository
     }
 
     /**
-     * Save record.
+     * Save url visited.
      *
      * @param UrlVisited $urlVisited UrlVisited entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function save(UrlVisited $urlVisited): void
     {

@@ -82,16 +82,6 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * Delete user.
-     *
-     * @param User $user User entity
-     */
-    public function delete(User $user): void
-    {
-        $this->userRepository->delete($user);
-    }
-
-    /**
      * Find one by email.
      *
      * @param string $email User email

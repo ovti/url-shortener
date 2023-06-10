@@ -12,8 +12,6 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 
 /**
  * Class UserRepository.
@@ -52,12 +50,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Save record.
+     * Save url visited.
      *
-     * @param User $user User entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @param User $user User
      */
     public function save(User $user): void
     {
@@ -71,8 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @param PasswordAuthenticatedUserInterface $user              User
      * @param string                             $newHashedPassword New hashed password
      *
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @throws UnsupportedUserException
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

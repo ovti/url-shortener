@@ -7,11 +7,13 @@ namespace App\Repository;
 
 use App\Entity\GuestUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<GuestUser>
+ * Class GuestUserRepository.
  *
  * @method GuestUser|null find($id, $lockMode = null, $lockVersion = null)
  * @method GuestUser|null findOneBy(array $criteria, array $orderBy = null)
@@ -23,7 +25,7 @@ class GuestUserRepository extends ServiceEntityRepository
     /**
      * GuestUserRepository constructor.
      *
-     * @param \Doctrine\Persistence\ManagerRegistry $registry Manager registry
+     * @param ManagerRegistry $registry Manager registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -33,7 +35,7 @@ class GuestUserRepository extends ServiceEntityRepository
     /**
      * Save guest user.
      *
-     * @param \App\Entity\GuestUser $guestUser GuestUser entity
+     * @param GuestUser $guestUser GuestUser entity
      */
     public function save(GuestUser $guestUser): void
     {
@@ -46,7 +48,10 @@ class GuestUserRepository extends ServiceEntityRepository
      *
      * @param string $email Email
      *
-     * @return array
+     * @return int Result
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countEmailsUsedInLast24Hours(string $email): int
     {
@@ -64,9 +69,9 @@ class GuestUserRepository extends ServiceEntityRepository
     /**
      * Get or create new query builder.
      *
-     * @param \Doctrine\ORM\QueryBuilder|null $queryBuilder Query builder
+     * @param QueryBuilder|null $queryBuilder Query builder
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {

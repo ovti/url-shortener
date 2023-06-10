@@ -1,6 +1,6 @@
 <?php
 /**
- * Url service.
+ * Url Interface.
  */
 
 namespace App\Service;

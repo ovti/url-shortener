@@ -5,14 +5,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Url;
 use App\Entity\Tag;
+use App\Entity\Url;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -73,7 +70,7 @@ class UrlRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query urls by author.
+     * Query by author.
      *
      * @param UserInterface         $user    User entity
      * @param array<string, object> $filters Filters
@@ -111,9 +108,6 @@ class UrlRepository extends ServiceEntityRepository
      * Save record.
      *
      * @param Url $url Url entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function save(Url $url): void
     {

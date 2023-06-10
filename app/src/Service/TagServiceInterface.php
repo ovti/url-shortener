@@ -1,6 +1,6 @@
 <?php
 /**
- * Tag service.
+ * Tag Interface.
  */
 
 namespace App\Service;

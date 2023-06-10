@@ -15,7 +15,7 @@ interface GuestUserServiceInterface
     /**
      * Save guest user.
      *
-     * @param \App\Entity\GuestUser $guestUser GuestUser entity
+     * @param GuestUser $guestUser GuestUser entity
      */
     public function save(GuestUser $guestUser): void;
 
@@ -23,8 +23,6 @@ interface GuestUserServiceInterface
      * Count urls created in last 24 hours for given email.
      *
      * @param string $email Email
-     *
-     * @return array
      */
     public function countEmailsUsedInLast24Hours(string $email): int;
 }

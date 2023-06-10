@@ -31,7 +31,7 @@ class UrlVisitedService implements UrlVisitedServiceInterface
     /**
      * Save url visited.
      *
-     * @param \App\Entity\UrlVisited $urlVisited UrlVisited entity
+     * @param UrlVisited $urlVisited UrlVisited entity
      */
     public function save(UrlVisited $urlVisited): void
     {

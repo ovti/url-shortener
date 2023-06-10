@@ -100,7 +100,7 @@ class UrlType extends AbstractType
                 $guestUser->setEmail($email);
 
                 $count = $this->guestUserService->countEmailsUsedInLast24Hours($email);
-                if ($count >= 2) {
+                if ($count >= 10) {
                     $event->getForm()->addError(new FormError($this->translator->trans('message.email_limit_exceeded')));
                 }
 
