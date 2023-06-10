@@ -16,18 +16,27 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserService implements UserServiceInterface
 {
+    /**
+     * User repository.
+     */
     private UserRepository $userRepository;
 
+    /**
+     * Paginator.
+     */
     private PaginatorInterface $paginator;
 
+    /**
+     * Password hasher.
+     */
     private UserPasswordHasherInterface $passwordHasher;
 
     /**
      * UserService constructor.
      *
-     * @param \App\Repository\UserRepository                                       $userRepository User repository
-     * @param \Knp\Component\Pager\PaginatorInterface                              $paginator      Paginator
-     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param UserRepository              $userRepository User repository
+     * @param PaginatorInterface          $paginator      Paginator
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
     public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, UserPasswordHasherInterface $passwordHasher)
     {
@@ -55,7 +64,7 @@ class UserService implements UserServiceInterface
     /**
      * Save user.
      *
-     * @param \App\Entity\User $user User entity
+     * @param User $user User entity
      */
     public function save(User $user): void
     {
@@ -75,7 +84,7 @@ class UserService implements UserServiceInterface
     /**
      * Delete user.
      *
-     * @param \App\Entity\User $user User entity
+     * @param User $user User entity
      */
     public function delete(User $user): void
     {
@@ -87,7 +96,7 @@ class UserService implements UserServiceInterface
      *
      * @param string $email User email
      *
-     * @return \App\Entity\User|null User entity
+     * @return User|null User entity
      */
     public function findOneBy(string $email): ?User
     {

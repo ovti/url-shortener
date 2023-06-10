@@ -11,7 +11,6 @@ use App\Service\UrlServiceInterface;
 use App\Service\UrlVisitedService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -63,8 +62,7 @@ class UrlRedirectController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request $request  HTTP Request
-     * @param string  $shortUrl Short url
+     * @param string $shortUrl Short url
      *
      * @return Response HTTP response
      */
@@ -73,7 +71,7 @@ class UrlRedirectController extends AbstractController
         name: 'url_redirect_index',
         methods: ['GET'],
     )]
-    public function index(Request $request, string $shortUrl): Response
+    public function index(string $shortUrl): Response
     {
         $url = $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]);
 

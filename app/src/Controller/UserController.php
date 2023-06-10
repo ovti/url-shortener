@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -30,11 +29,6 @@ class UserController extends AbstractController
     private userServiceInterface $userService;
 
     /**
-     * Security.
-     */
-    private Security $security;
-
-    /**
      * Translator.
      */
     private TranslatorInterface $translator;
@@ -48,16 +42,14 @@ class UserController extends AbstractController
      * Constructor.
      *
      * @param UserServiceInterface        $userService    User service
-     * @param Security                    $security       Security
      * @param TranslatorInterface         $translator     Translator
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return void
      */
-    public function __construct(UserServiceInterface $userService, Security $security, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
         $this->userService = $userService;
-        $this->security = $security;
         $this->translator = $translator;
         $this->passwordHasher = $passwordHasher;
     }
@@ -72,7 +64,6 @@ class UserController extends AbstractController
     #[Route(name: 'user_index', methods: 'GET')]
     public function index(Request $request): Response
     {
-        $user = $this->security->getUser();
         $pagination = $this->userService->getPaginatedList($request->query->getInt('page', 1));
 
         return $this->render(

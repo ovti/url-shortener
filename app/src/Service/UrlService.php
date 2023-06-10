@@ -72,13 +72,11 @@ class UrlService implements UrlServiceInterface
     }
 
     /**
-     * Get paginated list.
+     * Prepare filters for query.
      *
-     * @param int                $page    Page number
-     * @param User               $users   User entity
      * @param array<string, int> $filters Filters array
      *
-     * @return PaginationInterface<SlidingPagination> Paginated list
+     * @return PaginationInterface Prepared filters array
      */
     public function getPaginatedList(int $page, User $users, array $filters = []): PaginationInterface
     {
@@ -92,12 +90,11 @@ class UrlService implements UrlServiceInterface
     }
 
     /**
-     * Get paginated list for every user.
+     * Prepare filters for query.
      *
-     * @param int                $page    Page number
      * @param array<string, int> $filters Filters array
      *
-     * @return PaginationInterface<SlidingPagination> Paginated list
+     * @return PaginationInterface Prepared filters array
      */
     public function getPaginatedListForEveryUser(int $page, array $filters = []): PaginationInterface
     {
@@ -125,14 +122,11 @@ class UrlService implements UrlServiceInterface
      */
     public function generateShortUrl(): string
     {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $length = 6;
-        do {
-            $shortUrl = '';
-            for ($i = 0; $i < $length; ++$i) {
-                $shortUrl .= $characters[rand(0, strlen($characters) - 1)];
-            }
-        } while (null !== $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]));
+        $shortUrl = substr(md5(uniqid(rand(), true)), 0, 6);
+
+        if (null !== $this->urlRepository->findOneBy(['shortUrl' => $shortUrl])) {
+            $this->generateShortUrl();
+        }
 
         return $shortUrl;
     }
