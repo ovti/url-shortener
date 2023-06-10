@@ -13,24 +13,38 @@ parameters:
 {% endblock %}
 
 {% block body %}
-    <h1>{{ page_title }}</h1>
-    {{ form_start(form) }}
-    {% if false == form.vars.valid %}
-        {% include 'default/_single_alert_message.html.twig' with {
-            type: 'danger',
-            message: 'message.form_error'|trans,
-        }%}
-    {% endif %}
-    {{ form_widget(form) }}
-    <div class="form-group row float-sm-right">
-        <input type="submit" value="{{ submit_label }}" class="btn btn-primary"/>
-    </div>
-    {% if back_to_list_path|default(false) %}
-        <div class="form-group row float-sm-left">
-            <a class="btn btn-primary" href="{{ url(back_to_list_path) }}" class="btn btn-link">
-                {{ 'action.back_to_list'|trans }}
-            </a>
+    <section >
+        <div class="container py-5 h-100 fw-bold">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-8">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <h1>{{ page_title }}</h1>
+                            {{ form_start(form) }}
+                            {% if false == form.vars.valid %}
+                                {% include 'default/_single_alert_message.html.twig' with {
+                                    type: 'danger',
+                                    message: 'message.form_error'|trans,
+                                }%}
+                            {% endif %}
+                            {{ form_widget(form) }}
+                            <div class="col-md-6 mx-auto" style="width: 300px;">
+                                <div class="form-group row float-sm-right my-2">
+                                    <input type="submit" value="{{ submit_label }}" class="btn btn-primary"/>
+                                </div>
+                                {% if back_to_list_path|default(false) %}
+                                    <div class="form-group row float-sm-left">
+                                        <a class="btn btn-primary" href="{{ url(back_to_list_path) }}" class="btn btn-link">
+                                            {{ 'action.back_to_list'|trans }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
-    {{ form_end(form) }}
+    </section>
 {% endblock %}
