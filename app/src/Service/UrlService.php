@@ -13,8 +13,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UrlService.
@@ -72,11 +72,13 @@ class UrlService implements UrlServiceInterface
     }
 
     /**
-     * Prepare filters for query.
+     * Create paginated list.
      *
-     * @param array<string, int> $filters Filters array
+     * @param int   $page    Page number
+     * @param User  $users   User entity
+     * @param array $filters Filters array
      *
-     * @return PaginationInterface Prepared filters array
+     * @return PaginationInterface Paginated list
      */
     public function getPaginatedList(int $page, User $users, array $filters = []): PaginationInterface
     {
@@ -92,7 +94,7 @@ class UrlService implements UrlServiceInterface
     /**
      * Prepare filters for query.
      *
-     * @param array<string, int> $filters Filters array
+     * @param array $filters Filters array
      *
      * @return PaginationInterface Prepared filters array
      */
