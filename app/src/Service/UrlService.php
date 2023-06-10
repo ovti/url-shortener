@@ -51,8 +51,6 @@ class UrlService implements UrlServiceInterface
      */
     private RequestStack $requestStack;
 
-
-
     /**
      * Constructor.
      *

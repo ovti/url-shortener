@@ -40,7 +40,6 @@ class UrlType extends AbstractType
      */
     private GuestUserService $guestUserService;
 
-
     /**
      * Translator.
      */

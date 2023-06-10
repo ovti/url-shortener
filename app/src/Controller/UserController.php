@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 /**
  * Class UserController.
  */
@@ -48,9 +47,9 @@ class UserController extends AbstractController
     /**
      * Constructor.
      *
-     * @param UserServiceInterface $userService User service
-     * @param Security             $security    Security
-     * @param TranslatorInterface  $translator  Translator
+     * @param UserServiceInterface        $userService    User service
+     * @param Security                    $security       Security
+     * @param TranslatorInterface         $translator     Translator
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return void
@@ -102,8 +101,8 @@ class UserController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request                      $request         HTTP request
-     * @param User                         $user            User entity
+     * @param Request $request HTTP request
+     * @param User    $user    User entity
      *
      * @return Response HTTP response
      */

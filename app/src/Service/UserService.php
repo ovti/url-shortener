@@ -11,33 +11,29 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 /**
  * Class UserService.
  */
 class UserService implements UserServiceInterface
 {
-
     private UserRepository $userRepository;
 
     private PaginatorInterface $paginator;
 
     private UserPasswordHasherInterface $passwordHasher;
 
-
     /**
      * UserService constructor.
      *
-     * @param \App\Repository\UserRepository                                        $userRepository  User repository
-     * @param \Knp\Component\Pager\PaginatorInterface                               $paginator       Paginator
-     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher  Password hasher
+     * @param \App\Repository\UserRepository                                       $userRepository User repository
+     * @param \Knp\Component\Pager\PaginatorInterface                              $paginator      Paginator
+     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher Password hasher
      */
     public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, UserPasswordHasherInterface $passwordHasher)
     {
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
         $this->passwordHasher = $passwordHasher;
-
     }
 
     /**
