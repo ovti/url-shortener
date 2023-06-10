@@ -367,6 +367,10 @@
                 <source>Powtórz hasło</source>
                 <target>Powtórz hasło</target>
             </trans-unit>
+            <trans-unit id="label.admin_panel">
+                <source>label.admin_panel</source>
+                <target>Panel Admina</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

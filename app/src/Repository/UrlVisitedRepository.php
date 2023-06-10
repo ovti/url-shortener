@@ -40,10 +40,12 @@ class UrlVisitedRepository extends ServiceEntityRepository
     public function countAllVisitsForUrl(): array
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select('count(urlVisited.id) as visits, url.longUrl')
+            ->select('count(urlVisited.id) as visits, url.longUrl, MAX(urlVisited.visitTime) as latestVisitTime')
             ->leftJoin('urlVisited.url', 'url')
             ->groupBy('urlVisited.url', 'url.longUrl')
-            ->orderBy('visits', 'DESC');
+            ->orderBy('visits', 'DESC')
+            ->addOrderBy('latestVisitTime', 'DESC')
+            ->setMaxResults(10);
 
         return $queryBuilder->getQuery()->getResult();
     }

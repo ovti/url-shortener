@@ -366,6 +366,10 @@
         <source>Repeat password</source>
         <target>Repeat password</target>
       </trans-unit>
+      <trans-unit id="label.admin_panel">
+        <source>label.admin_panel</source>
+        <target>Admin Panel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

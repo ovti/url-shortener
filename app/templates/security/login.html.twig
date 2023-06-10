@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'label.sign_in'|trans }}</title>{% endblock %}
+{% block title %}{{ 'label.sign_in'|trans }}{% endblock %}
 
 {% block body %}
     <form method="post">
@@ -10,10 +10,7 @@
 
         {% if app.user %}
             <div class="mb-3">
-                {{ 'You are logged in as %user%, <a href="%logout%">Logout</a>'|trans({
-                    '%user%': app.user.userIdentifier,
-                    '%logout%': path('app_logout')
-                })|raw }}
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
         {% endif %}
 
