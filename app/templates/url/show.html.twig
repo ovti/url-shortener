@@ -6,37 +6,49 @@
 
 {% block body %}
 
-    <h1>{{ 'title.url_details'|trans({'%id%': url.id|default('')}) }}</h1>
-    {% if url is defined and url|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ url.id }}</dd>
-            <dt>{{ 'label.long_url'|trans }}</dt>
-            <dd>{{ url.longUrl }}</dd>
-            <dt>{{ 'label.short_url'|trans }}</dt>
-            <dd>
-                <a href="{{ url('url_redirect', {'short_url' : url.shortUrl}) }}" title="{{ url.shortUrl }}">
-                    {{ url.shortUrl }}
-                </a>
-            </dd>
-            <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ url.createTime|date('Y/m/d') }}</dd>
-            <dt>{{ 'label.is_blocked'|trans }}</dt>
-            <dd>{{ url.isBlocked ? 'label.block_yes'|trans : 'label.block_no'|trans }}</dd>
-            <dt>{{ 'label.tag'|trans }}</dt>
-            {% for tag in url.tags %}
-                <dd>{{ tag.name }}</dd>
-            {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="card-title">{{ 'title.url_details'|trans({'%id%': url.id|default('')}) }}</h1>
+                    </div>
+                    <div class="card-body">
+                        {% if url is defined and url|length %}
+                            <dl class="dl-horizontal">
+                                <dt>{{ 'label.id'|trans }}</dt>
+                                <dd>{{ url.id }}</dd>
+                                <dt>{{ 'label.long_url'|trans }}</dt>
+                                <dd>{{ url.longUrl }}</dd>
+                                <dt>{{ 'label.short_url'|trans }}</dt>
+                                <dd>
+                                    <a href="{{ url('url_redirect_index', {'shortUrl' : url.shortUrl}) }}" title="{{ url.shortUrl }}" target="_blank">
+                                        {{ 'https://wierzba.wzks.uj.edu.pl/~21_zalubski/url-app/r/' ~ url.shortUrl }}
+                                    </a>
+                                </dd>
+                                <dt>{{ 'label.created_at'|trans }}</dt>
+                                <dd>{{ url.createTime|date('Y/m/d') }}</dd>
+                                <dt>{{ 'label.is_blocked'|trans }}</dt>
+                                <dd>{{ url.isBlocked ? 'label.block_yes'|trans : 'label.block_no'|trans }}</dd>
+                                <dt>{{ 'label.tag'|trans }}</dt>
+                                {% for tag in url.tags %}
+                                    <dd>{{ tag.name }}</dd>
+                                {% endfor %}
+                            </dl>
+                            <p>
+                                <a href="{{ url('url_index') }}" class="btn btn-primary" title="{{ 'action.back_to_list'|trans }}">
+                                    {{ 'action.back_to_list'|trans }}
+                                </a>
+                            </p>
+                        {% else %}
+                            <p>
+                                {{ 'message.record_not_found'|trans }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        </dl>
-        <p>
-            <a href="{{ url('url_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
-    {% else %}
-        <p>
-            {{ 'message.record_not_found'|trans }}
-        </p>
-    {% endif %}
 {% endblock %}

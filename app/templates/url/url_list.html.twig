@@ -5,18 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.url_list'|trans }}</h1>
-    <p>
-        <a href="{{ url('url_create') }}" class="btn btn-primary">
-            {{ 'action.create'|trans }}
-        </a>
-    </p>
+    <div class="row d-flex h-100">
+    <div class="card bg-light my-5" style="border-radius: 5px;">
+    <div class="card-body py-5">
+    <h1 class="text-center">{{ 'title.url_list'|trans }}</h1>
+        <div class="text-center">
+            <p>
+                <a href="{{ url('url_create') }}" class="btn btn-dark px-5">
+                    {{ 'action.create'|trans }}
+                </a>
+            </p>
+        </div>
+
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
-
 
         <table class="table table-striped">
             <thead>
@@ -111,4 +116,7 @@
             } %}
         </p>
     {% endif %}
+    </div>
+    </div>
+    </div>
 {% endblock %}

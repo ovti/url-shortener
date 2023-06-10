@@ -5,37 +5,49 @@
 {% endblock %}
 
 {% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="card-title">{{ 'title.user_details'|trans({'%id%': user.id|default('')}) }}</h1>
+                    </div>
+                    <div class="card-body">
+                        {% if user is defined and user|length %}
+                            <dl class="dl-horizontal">
+                                <dt>{{ 'user.id'|trans }}</dt>
+                                <dd>{{ user.id }}</dd>
+                                <dt>{{ 'user.email'|trans }}</dt>
+                                <dd>{{ user.email }}</dd>
+                                <dt>{{ 'label.edit'|trans }}</dt>
+                                {% if is_granted('EDIT_USER_DATA', user) %}
+                                    <dd>
+                                        <a class='btn btn-outline-success' href="{{ url('user_edit_email', {'id': user.id}) }}" title="{{ 'action.edit'|trans }}">
+                                            {{ 'action.edit_email'|trans }}
+                                        </a>
+                                    </dd>
+                                    <dd>
+                                        <a class="btn btn-outline-success" href="{{ url('user_edit', {'id': user.id}) }}" title="{{ 'action.edit'|trans }}">
+                                            {{ 'action.edit_password'|trans }}
+                                        </a>
+                                    </dd>
+                                {% endif %}
+                            </dl>
 
-    <h1>{{ 'title.user_details'|trans({'%id%': user.id|default('')}) }}</h1>
-    {% if user is defined and user|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'user.id'|trans }}</dt>
-            <dd>{{ user.id }}</dd>
-            <dt>{{ 'user.email'|trans }}</dt>
-            <dd>{{ user.email }}</dd>
-            <dt>{{ 'label.edit'|trans }}</dt>
-            {% if is_granted('EDIT_USER_DATA', user) %}
-                <dd>
-                    <a class='btn btn-outline-success' href="{{ url('user_edit_email', {'id': user.id}) }}" title="{{ 'action.edit'|trans }}">
-                        {{ 'action.edit_email'|trans }}
-                    </a>
-                </dd>
-                <dd>
-                    <a class="btn btn-outline-success" href="{{ url('user_edit', {'id': user.id}) }}" title="{{ 'action.edit'|trans }}">
-                        {{ 'action.edit_password'|trans }}
-                    </a>
-                </dd>
-            {% endif %}
+                            <p>
+                                <a class="btn btn-primary" href="{{ url('user_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                                    {{ 'action.back_to_list'|trans }}
+                                </a>
+                            </p>
+                        {% else %}
+                            <p>
+                                {{ 'message.record_not_found'|trans }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        </dl>
-        <p>
-            <a class="btn btn-primary" href="{{ url('user_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
-    {% else %}
-        <p>
-            {{ 'message.record_not_found'|trans }}
-        </p>
-    {% endif %}
 {% endblock %}

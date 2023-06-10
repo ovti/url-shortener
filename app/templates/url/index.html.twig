@@ -5,20 +5,25 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.user_urls'|trans }}</h1>
-    <p>
-        <a href="{{ url('url_create') }}" class="btn btn-primary">
-            {{ 'action.create'|trans }}
-        </a>
-    </p>
+    <div class="row d-flex h-100">
+    <div class="card bg-light my-5" style="border-radius: 5px;">
+    <div class="card-body py-5">
+    <h1 class="text-center">{{ 'title.user_urls'|trans }}</h1>
+        <div class="text-center">
+            <p>
+                <a href="{{ url('url_create') }}" class="btn btn-dark px-5">
+                    {{ 'action.create'|trans }}
+                </a>
+            </p>
+        </div>
     {% if pagination is defined and pagination.items|length %}
 
-        <div class="navigation text-center">
+        <div class="navigation text-center justi">
             {{ knp_pagination_render(pagination) }}
         </div>
 
 
-        <table class="table table-striped">
+        <table class="table table-striped ">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'url.id') }}</th>
@@ -56,11 +61,6 @@
                         &nbsp;
                     {% endif %}
                     </td>
-{#                    <td>#}
-{#                        {% for tag in url.tags %}#}
-{#                            <span class="label label-default">{{ tag.name }}</span>#}
-{#                        {% endfor %}#}
-{#                    </td>#}
                     {% if is_granted('VIEW', url) %}
                         <td>
                         <a class="btn btn-outline-primary" href="{{ url('url_show', {id: url.id}) }}" title="{{ 'action.show'|trans }}">
@@ -99,4 +99,7 @@
             } %}
         </p>
     {% endif %}
+    </div>
+    </div>
+    </div>
 {% endblock %}
