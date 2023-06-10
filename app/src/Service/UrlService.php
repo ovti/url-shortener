@@ -13,8 +13,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class UrlService.
@@ -42,14 +42,16 @@ class UrlService implements UrlServiceInterface
     private Security $security;
 
     /**
-     * Session interface.
-     */
-    private SessionInterface $session;
-
-    /**
      * Guest user repository.
      */
     private GuestUserRepository $guestUserRepository;
+
+    /**
+     * Request stack.
+     */
+    private RequestStack $requestStack;
+
+
 
     /**
      * Constructor.
@@ -58,17 +60,17 @@ class UrlService implements UrlServiceInterface
      * @param TagServiceInterface $tagService          Tag service
      * @param UrlRepository       $urlRepository       Url repository
      * @param Security            $security            Security
-     * @param SessionInterface    $session             Session interface
      * @param GuestUserRepository $guestUserRepository Guest user repository
+     * @param RequestStack        $requestStack        Request stack
      */
-    public function __construct(PaginatorInterface $paginator, TagServiceInterface $tagService, UrlRepository $urlRepository, Security $security, SessionInterface $session, GuestUserRepository $guestUserRepository)
+    public function __construct(PaginatorInterface $paginator, TagServiceInterface $tagService, UrlRepository $urlRepository, Security $security, GuestUserRepository $guestUserRepository, RequestStack $requestStack)
     {
         $this->paginator = $paginator;
         $this->tagService = $tagService;
         $this->urlRepository = $urlRepository;
         $this->security = $security;
-        $this->session = $session;
         $this->guestUserRepository = $guestUserRepository;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -149,10 +151,10 @@ class UrlService implements UrlServiceInterface
     {
         if (null === $url->getId()) {
             if (!$this->security->isGranted('ROLE_USER')) {
-                $email = $this->session->get('email');
+                $email = $this->requestStack->getCurrentRequest()->getSession()->get('email');
                 $user = $this->guestUserRepository->findOneBy(['email' => $email]);
                 $url->setGuestUser($user);
-                $this->session->remove('email');
+                $this->requestStack->getCurrentRequest()->getSession()->remove('email');
             }
             $url->setShortUrl($this->generateShortUrl());
             $url->setIsBlocked(false);

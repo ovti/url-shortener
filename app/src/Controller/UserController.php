@@ -14,9 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 /**
  * Class UserController.
@@ -40,19 +41,26 @@ class UserController extends AbstractController
     private TranslatorInterface $translator;
 
     /**
+     * Password hasher.
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+    /**
      * Constructor.
      *
      * @param UserServiceInterface $userService User service
      * @param Security             $security    Security
      * @param TranslatorInterface  $translator  Translator
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      *
      * @return void
      */
-    public function __construct(UserServiceInterface $userService, Security $security, TranslatorInterface $translator)
+    public function __construct(UserServiceInterface $userService, Security $security, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
         $this->userService = $userService;
         $this->security = $security;
         $this->translator = $translator;
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -96,18 +104,17 @@ class UserController extends AbstractController
      *
      * @param Request                      $request         HTTP request
      * @param User                         $user            User entity
-     * @param UserPasswordEncoderInterface $passwordEncoder Password encoder
      *
      * @return Response HTTP response
      */
     #[Route('/{id}/edit/password', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT_USER_DATA', subject: 'user')]
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserPasswordType::class, $user, ['method' => 'PUT']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $password = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
             $this->userService->save($user);
             $this->addFlash('success', $this->translator->trans('message.updated_successfully'));

@@ -5,20 +5,19 @@
 
 namespace App\Form\Type;
 
+use App\Entity\GuestUser;
 use App\Entity\Url;
 use App\Form\DataTransformer\TagsDataTransformer;
+use App\Service\GuestUserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormError;
-use App\Entity\GuestUser;
-use App\Service\GuestUserService;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use App\Repository\GuestUserRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -41,15 +40,6 @@ class UrlType extends AbstractType
      */
     private GuestUserService $guestUserService;
 
-    /**
-     * Session.
-     */
-    private SessionInterface $session;
-
-    /**
-     * Guest user repository.
-     */
-    private GuestUserRepository $guestUserRepository;
 
     /**
      * Translator.
@@ -57,23 +47,26 @@ class UrlType extends AbstractType
     private TranslatorInterface $translator;
 
     /**
+     * Request stack.
+     */
+    private RequestStack $requestStack;
+
+    /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
      * @param Security            $security            Security
      * @param GuestUserService    $guestUserService    Guest user service
-     * @param SessionInterface    $session             Session
-     * @param GuestUserRepository $guestUserRepository Guest user repository
      * @param TranslatorInterface $translator          Translator
+     * @param RequestStack        $requestStack        Request stack
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, SessionInterface $session, GuestUserRepository $guestUserRepository, TranslatorInterface $translator)
+    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, TranslatorInterface $translator, RequestStack $requestStack)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
         $this->security = $security;
         $this->guestUserService = $guestUserService;
-        $this->session = $session;
-        $this->guestUserRepository = $guestUserRepository;
         $this->translator = $translator;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -102,7 +95,8 @@ class UrlType extends AbstractType
             );
             $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 $email = $event->getForm()->get('email')->getData();
-                $this->session->set('email', $email);
+                $request = $this->requestStack->getSession();
+                $request->set('email', $email);
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
 

@@ -9,31 +9,35 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 /**
  * Class UserService.
  */
 class UserService implements UserServiceInterface
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
 
     private UserRepository $userRepository;
 
     private PaginatorInterface $paginator;
+
+    private UserPasswordHasherInterface $passwordHasher;
+
 
     /**
      * UserService constructor.
      *
      * @param \App\Repository\UserRepository                                        $userRepository  User repository
      * @param \Knp\Component\Pager\PaginatorInterface                               $paginator       Paginator
-     * @param \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $passwordEncoder Password encoder
+     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHasher  Password hasher
      */
-    public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, UserPasswordHasherInterface $passwordHasher)
     {
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
+
     }
 
     /**
@@ -61,7 +65,7 @@ class UserService implements UserServiceInterface
     {
         if (null === $user->getId()) {
             $user->setPassword(
-                $this->passwordEncoder->encodePassword(
+                $this->passwordHasher->hashPassword(
                     $user,
                     $user->getPassword()
                 )
