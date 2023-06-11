@@ -35,10 +35,10 @@ class UserVoter extends Voter
     public const VIEW = 'VIEW';
 
     /**
-     * Supports.
+     * Determines if the attribute and subject are supported by this voter.
      *
-     * @param string $attribute Attribute
-     * @param mixed  $subject   Subject
+     * @param string $attribute An attribute
+     * @param mixed  $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -49,9 +49,9 @@ class UserVoter extends Voter
     /**
      * Vote on attribute.
      *
-     * @param string         $attribute Attribute
-     * @param mixed          $subject   Subject
-     * @param TokenInterface $token     Token
+     * @param string         $attribute An attribute
+     * @param mixed          $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
+     * @param TokenInterface $token     A TokenInterface instance
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {

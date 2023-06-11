@@ -55,6 +55,8 @@ interface UrlServiceInterface
 
     /**
      * Find one by short url.
+     *
+     * @param string $shortUrl Short url
      */
     public function findOneByShortUrl(string $shortUrl): ?Url;
 }

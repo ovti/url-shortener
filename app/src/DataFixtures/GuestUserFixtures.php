@@ -31,5 +31,4 @@ class GuestUserFixtures extends AbstractBaseFixtures
         });
         $this->manager->flush();
     }
-
 }

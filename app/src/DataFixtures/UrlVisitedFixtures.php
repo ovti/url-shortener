@@ -8,7 +8,6 @@ namespace App\DataFixtures;
 use App\Entity\UrlVisited;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
 /**
  * Class UrlVisitedFixtures.
  */

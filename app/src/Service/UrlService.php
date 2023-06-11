@@ -93,11 +93,12 @@ class UrlService implements UrlServiceInterface
     }
 
     /**
-     * Prepare filters for query.
+     * Get paginated urls for every user.
      *
-     * @param array $filters Filters array
+     * @param int   $page    Page number
+     * @param array $filters Filters
      *
-     * @return PaginationInterface Prepared filters array
+     * @return PaginationInterface Paginated urls
      *
      * @throws NonUniqueResultException
      */
