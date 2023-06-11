@@ -236,7 +236,7 @@
       </trans-unit>
       <trans-unit id="message.email_limit_exceeded">
         <source>message.email_limit_exceeded</source>
-        <target>Email limit exceeded</target>
+        <target>The limit of created addresses in 24 hours for this email has been exceeded</target>
       </trans-unit>
       <trans-unit id="title.user_details">
         <source>title.user_details</source>

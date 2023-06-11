@@ -167,6 +167,18 @@ class UrlService implements UrlServiceInterface
     }
 
     /**
+     * Find one by short url.
+     *
+     * @param string $shortUrl Short url
+     *
+     * @return Url|null Url entity
+     */
+    public function findOneByShortUrl(string $shortUrl): ?Url
+    {
+        return $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]);
+    }
+
+    /**
      * Prepare filters for the urls list.
      *
      * @param array<string, int> $filters Raw filters from request

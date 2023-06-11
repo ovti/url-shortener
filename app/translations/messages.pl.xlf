@@ -36,7 +36,7 @@
             </trans-unit>
             <trans-unit id="message.empty_list">
                 <source>message.empty_list</source>
-                <target>List jest pusta</target>
+                <target>Lista jest pusta</target>
             </trans-unit>
             <trans-unit id="message.record_not_found">
                 <source>message.record_not_found</source>
@@ -233,7 +233,7 @@
             </trans-unit>
             <trans-unit id="message.email_limit_exceeded">
                 <source>message.email_limit_exceeded</source>
-                <target>Przekrocozno limit emaila</target>
+                <target>Przekroczono limit utworzonych adresów w ciągu 24 godzin na ten email</target>
             </trans-unit>
             <trans-unit id="title.user_details">
                 <source>title.user_details</source>

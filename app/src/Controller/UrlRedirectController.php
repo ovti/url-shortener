@@ -6,7 +6,6 @@
 namespace App\Controller;
 
 use App\Entity\UrlVisited;
-use App\Repository\UrlRepository;
 use App\Service\UrlServiceInterface;
 use App\Service\UrlVisitedService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,26 +36,19 @@ class UrlRedirectController extends AbstractController
     private UrlVisitedService $urlVisitedService;
 
     /**
-     * Url repository.
-     */
-    private UrlRepository $urlRepository;
-
-    /**
      * UrlRedirectController constructor.
      *
      * @param UrlServiceInterface $urlService        Url service
      * @param TranslatorInterface $translator        Translator
      * @param UrlVisitedService   $urlVisitedService UrlVisited service
-     * @param UrlRepository       $urlRepository     Url repository
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService, UrlRepository $urlRepository)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
         $this->urlVisitedService = $urlVisitedService;
-        $this->urlRepository = $urlRepository;
     }
 
     /**
@@ -73,7 +65,7 @@ class UrlRedirectController extends AbstractController
     )]
     public function index(string $shortUrl): Response
     {
-        $url = $this->urlRepository->findOneBy(['shortUrl' => $shortUrl]);
+        $url = $this->urlService->findOneByShortUrl($shortUrl);
 
         if (!$url) {
             throw $this->createNotFoundException($this->translator->trans('message.url_not_found'));

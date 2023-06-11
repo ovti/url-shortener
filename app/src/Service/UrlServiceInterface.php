@@ -52,4 +52,9 @@ interface UrlServiceInterface
      * Generate short url.
      */
     public function generateShortUrl(): string;
+
+    /**
+     * Find one by short url.
+     */
+    public function findOneByShortUrl(string $shortUrl): ?Url;
 }

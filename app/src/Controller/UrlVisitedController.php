@@ -5,7 +5,6 @@
 
 namespace App\Controller;
 
-use App\Repository\UrlVisitedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +37,6 @@ class UrlVisitedController extends AbstractController
     /**
      * Most visited action.
      *
-     * @param Request $request
      * @return Response HTTP response
      */
     #[Route(name: 'popular_index', methods: 'GET')]

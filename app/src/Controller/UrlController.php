@@ -144,9 +144,6 @@ class UrlController extends AbstractController
 
             return $this->redirectToRoute('url_list');
         }
-        if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', $this->translator->trans('message.failed_to_create'));
-        }
 
         return $this->render(
             'url/create.html.twig',
