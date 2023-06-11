@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.popular_urls'|trans }}</h1>
+    <div class="row d-flex h-100">
+    <div class="card bg-light my-5" style="border-radius: 5px;">
+    <div class="card-body py-5">
+    <h1 class="text-center">{{ 'title.popular_urls'|trans }}</h1>
 
     {% if pagination is defined and pagination.items|length %}
 
@@ -18,6 +21,7 @@
             <tr>
                 <th>{{ 'label.count'|trans }}</th>
                 <th>{{ 'label.url'|trans }}</th>
+                <th>{{ 'label.short_url'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -25,6 +29,11 @@
                 <tr>
                     <td>{{ urlVisited.visits }}</td>
                     <td>{{ urlVisited.longUrl }}</td>
+                    <th>
+                        <a href="{{ url('url_redirect_index', {'shortUrl' : urlVisited.shortUrl}) }}" title="{{ urlVisited.shortUrl }}" target="_blank">
+                            {{ 'https://wierzba.wzks.uj.edu.pl/~21_zalubski/url-app/r/' ~ urlVisited.shortUrl }}
+                        </a>
+                    </th>
                 </tr>
             {% endfor %}
             </tbody>
@@ -42,4 +51,7 @@
             } %}
         </p>
     {% endif %}
+    </div>
+    </div>
+    </div>
 {% endblock %}
