@@ -68,7 +68,7 @@
             </trans-unit>
             <trans-unit id="action.back_to_list">
                 <source>action.back_to_list</source>
-                <target>Powrót do listy.</target>
+                <target>Powrót do listy</target>
             </trans-unit>
             <trans-unit id="title.user_urls">
                 <source>title.user_urls</source>

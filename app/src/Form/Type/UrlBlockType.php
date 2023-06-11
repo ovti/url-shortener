@@ -30,17 +30,20 @@ class UrlBlockType extends AbstractType
         $builder->add('blockExpiration', DateTimeType::class, [
             'input' => 'datetime_immutable',
             'label' => 'label.block_expiration',
+            'widget' => 'choice',
             'required' => true,
             'attr' => [
                 'class' => 'form-control',
             ],
+            'years' => range(date('Y'), date('Y') + 10),
+            'data' => new \DateTimeImmutable(),
         ]);
     }
 
     /**
      * Configures the options for this type.
      *
-     * @param OptionsResolver $resolver The resolver for the options
+     * @param OptionsResolver<mixed> $resolver The resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

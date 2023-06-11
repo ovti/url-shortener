@@ -47,7 +47,7 @@
             {% for url in pagination.items %}
                 <tr>
                     <td>{{ url.id }}</td>
-                    <td>{{ url.longUrl }}</td>
+                    <td style="max-width: 250px;">{{ url.longUrl }}</td>
                     <td>
                         <a href="{{ url('url_redirect_index', {'shortUrl' : url.shortUrl}) }}" title="{{ url.shortUrl }}" target="_blank">
                             {{ 'https://wierzba.wzks.uj.edu.pl/~21_zalubski/url-app/r/' ~ url.shortUrl }}

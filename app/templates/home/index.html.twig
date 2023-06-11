@@ -5,4 +5,13 @@
 {% endblock %}
 
 {% block body %}
+    <div class="text-center">
+    <h1 class="fw-bold">URL SHORTENER</h1>
+        <p class="mt-2">
+            <a href="{{ url('url_create') }}" class="btn btn-dark px-5 py-3 fw-bold fs-3">
+                {{ 'action.create'|trans }}
+            </a>
+        </p>
+    </div>
+
 {% endblock %}
