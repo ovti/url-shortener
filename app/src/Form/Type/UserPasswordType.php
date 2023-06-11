@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class UserPasswordType extends AbstractType
 {
-
     /**
      * Builds the form.
      *

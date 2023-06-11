@@ -39,6 +39,13 @@ class UrlVoter extends Voter
     public const DELETE = 'DELETE';
 
     /**
+     * Block permission.
+     *
+     * @const string
+     */
+    public const BLOCK = 'BLOCK';
+
+    /**
      * Security helper.
      */
     private Security $security;
@@ -63,7 +70,7 @@ class UrlVoter extends Voter
      */
     protected function supports(string $attribute, $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::BLOCK])
             && $subject instanceof Url;
     }
 
@@ -91,6 +98,8 @@ class UrlVoter extends Voter
                 return $this->canView($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
             case self::DELETE:
                 return $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
+            case self::BLOCK:
+                return $this->security->isGranted('ROLE_ADMIN');
         }
 
         return false;

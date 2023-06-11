@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class UserEmailType extends AbstractType
 {
-
     /**
      * Builds the form.
      *

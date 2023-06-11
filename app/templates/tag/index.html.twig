@@ -5,12 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.tag_list'|trans }}</h1>
+    <div class="row d-flex h-100">
+    <div class="card bg-light my-5" style="border-radius: 5px;">
+    <div class="card-body py-5">
+    <h1 class="text-center">{{ 'title.tag_list'|trans }}</h1>
+    <div class="text-center">
     <p>
-        <a href="{{ url('tag_create') }}" class="btn btn-primary">
+        <a href="{{ url('tag_create') }}" class="btn btn-dark px-5">
             {{ 'action.create'|trans }}
         </a>
     </p>
+    </div>
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -66,4 +71,7 @@
             } %}
         </p>
     {% endif %}
+    </div>
+    </div>
+    </div>
 {% endblock %}

@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Form\Type\TagType;
 use App\Service\TagServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,6 +54,7 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'tag_index', methods: 'GET')]
+    #[isGranted('ROLE_ADMIN')]
     public function index(Request $request): Response
     {
         $pagination = $this->tagService->getPaginatedList(
@@ -75,6 +77,7 @@ class TagController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(Tag $tag): Response
     {
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
@@ -119,6 +122,7 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(
@@ -160,6 +164,7 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(FormType::class, $tag, [

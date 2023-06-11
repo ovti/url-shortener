@@ -34,6 +34,31 @@
                                 {% for tag in url.tags %}
                                     <dd>{{ tag.name }}</dd>
                                 {% endfor %}
+                                {% if is_granted('EDIT', url) %}
+                                    <dt>{{ 'label.edit'|trans }}</dt>
+                                    <dd>
+                                        <a class="btn btn-outline-success" href="{{ url('url_edit', {id: url.id}) }}" title="{{ 'action.edit'|trans }}">
+                                            {{ 'action.edit'|trans }}
+                                        </a>
+                                    </dd>
+                                {% endif %}
+                                {% if is_granted('BLOCK', url) %}
+                                    <dt>{{ 'action.block'|trans }}</dt>
+                                    <dd>
+                                        <a class="btn btn-outline-warning" href="{{ url('url_block', {id: url.id}) }}" title="{{ 'action.block'|trans }}">
+                                            {{ 'action.block'|trans }}
+                                        </a>
+                                    </dd>
+                                {% endif %}
+                                {% if is_granted('DELETE', url) %}
+                                    <dt>{{ 'action.delete'|trans }}</dt>
+                                    <dd>
+                                        <a class="btn btn-outline-danger" href="{{ url('url_delete', {id: url.id}) }}" title="{{ 'action.delete'|trans }}">
+                                            {{ 'action.delete'|trans }}
+                                        </a>
+                                    </dd>
+                                {% endif %}
+
                             </dl>
                             <p>
                                 <a href="{{ url('url_index') }}" class="btn btn-primary" title="{{ 'action.back_to_list'|trans }}">

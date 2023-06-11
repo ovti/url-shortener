@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class RegistrationType extends AbstractType
 {
-
     /**
      * Builds the form.
      *
