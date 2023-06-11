@@ -335,10 +335,6 @@
                 <source>label.block_no</source>
                 <target>Nie</target>
             </trans-unit>
-            <trans-unit id="Email">
-                <source>Email</source>
-                <target>Email</target>
-            </trans-unit>
             <trans-unit id="Year">
                 <source>Year</source>
                 <target>Rok</target>
@@ -359,17 +355,13 @@
                 <source>Minute</source>
                 <target>Minuta</target>
             </trans-unit>
-            <trans-unit id="Hasło">
-                <source>Hasło</source>
-                <target>Hasło</target>
-            </trans-unit>
-            <trans-unit id="Powtórz hasło">
-                <source>Powtórz hasło</source>
-                <target>Powtórz hasło</target>
-            </trans-unit>
             <trans-unit id="label.admin_panel">
                 <source>label.admin_panel</source>
                 <target>Panel Admina</target>
+            </trans-unit>
+            <trans-unit id="message.already_logged_in_as">
+                <source>message.already_logged_in_as</source>
+                <target>Już zalogowano jako</target>
             </trans-unit>
         </body>
     </file>

@@ -10,6 +10,7 @@ use App\Entity\Url;
 use App\Form\DataTransformer\TagsDataTransformer;
 use App\Service\GuestUserService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -18,6 +19,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -84,12 +87,16 @@ class UrlType extends AbstractType
         if (!$this->security->getUser()) {
             $builder->add(
                 'email',
-                TextType::class,
+                EmailType::class,
                 [
-                    'label' => $this->translator->trans('label.email'),
+                    'label' => 'label.email',
                     'required' => true,
                     'mapped' => false,
-                    'attr' => ['max_length' => 64],
+                    'attr' => ['max_length' => 191],
+                    'constraints' => [
+                        new NotBlank(),
+                        new Length(['min' => 3, 'max' => 191]),
+                    ],
                 ]
             );
             $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
@@ -114,7 +121,7 @@ class UrlType extends AbstractType
             [
                 'label' => 'label.long_url',
                 'required' => true,
-                'attr' => ['max_length' => 64],
+                'attr' => ['max_length' => 255],
             ]
         );
         $builder->add(

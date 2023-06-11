@@ -13,29 +13,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserPasswordType.
  */
 class UserPasswordType extends AbstractType
 {
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * UserPasswordType constructor.
-     *
-     * @param TranslatorInterface $translator Translator
-     *
-     * @return void
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
 
     /**
      * Builds the form.
@@ -58,8 +41,8 @@ class UserPasswordType extends AbstractType
                     new Length(['min' => 6, 'max' => 191]),
                     new NotBlank(),
                 ],
-                'first_options' => ['label' => $this->translator->trans('label.password')],
-                'second_options' => ['label' => $this->translator->trans('label.repeat_password')],
+                'first_options' => ['label' => 'label.password'],
+                'second_options' => ['label' => 'label.repeat_password'],
             ],
         );
     }

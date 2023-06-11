@@ -12,27 +12,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserEmailType.
  */
 class UserEmailType extends AbstractType
 {
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * UserEmailType constructor.
-     *
-     * @param TranslatorInterface $translator Translator
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
 
     /**
      * Builds the form.
@@ -49,7 +34,7 @@ class UserEmailType extends AbstractType
             'email',
             EmailType::class,
             [
-                'label' => $this->translator->trans('label.email'),
+                'label' => 'label.email',
                 'required' => true,
                 'attr' => ['max_length' => 191],
                 'constraints' => [

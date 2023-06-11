@@ -57,6 +57,6 @@ class UrlBlockType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'Url';
+        return 'BlockUrl';
     }
 }
