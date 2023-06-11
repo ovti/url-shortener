@@ -6,12 +6,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\UrlVisited;
-use App\Entity\Url;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+
 
 /**
  * Class UrlVisitedFixtures.
  */
-class UrlVisitedFixtures extends AbstractBaseFixtures
+class UrlVisitedFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
@@ -21,7 +22,32 @@ class UrlVisitedFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
+        if (null === $this->manager || null === $this->faker) {
+            return;
+        }
+        $this->createMany(50, 'urlVisited', function () {
+            $urlVisited = new UrlVisited();
+            $urlVisited->setUrl($this->getRandomReference('urls'));
+            $urlVisited->setVisitTime(
+                \DateTimeImmutable::createFromMutable(
+                    $this->faker->dateTimeBetween('-100 days', '-1 days')
+                )
+            );
 
+            return $urlVisited;
+        });
+        $this->manager->flush();
     }
 
+    /**
+     * Get dependencies.
+     *
+     * @return array<int, string>
+     */
+    public function getDependencies(): array
+    {
+        return [
+            UrlFixtures::class,
+        ];
+    }
 }

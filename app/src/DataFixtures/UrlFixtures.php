@@ -77,7 +77,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
     public function getDependencies(): array
     {
         return [
-            TagFixtures::class, UserFixtures::class,
+            TagFixtures::class, UserFixtures::class, GuestUserFixtures::class,
         ];
     }
 }
