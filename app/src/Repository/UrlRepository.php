@@ -13,6 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Class UrlRepository.
+ *
  * @method Url|null find($id, $lockMode = null, $lockVersion = null)
  * @method Url|null findOneBy(array $criteria, array $orderBy = null)
  * @method Url[]    findAll()

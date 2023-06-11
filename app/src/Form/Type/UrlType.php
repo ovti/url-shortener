@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class TagType.
+ * Class UrlType.
  */
 class UrlType extends AbstractType
 {

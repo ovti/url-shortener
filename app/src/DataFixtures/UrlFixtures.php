@@ -11,7 +11,7 @@ use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
- * Class TaskFixtures.
+ * Class UrlFixtures.
  */
 class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
