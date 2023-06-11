@@ -5,8 +5,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Url;
+use App\Entity\GuestUser;
 use App\Entity\Tag;
+use App\Entity\Url;
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -18,7 +19,6 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
     /**
      * Load data.
      *
-     * @psalm-suppress PossiblyNullPropertyFetch
      * @psalm-suppress PossiblyNullReference
      * @psalm-suppress UnusedClosureParam
      */
@@ -27,7 +27,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
         if (null === $this->manager || null === $this->faker) {
             return;
         }
-        $this->createMany(30, 'urls', function () {
+        $this->createMany(60, 'urls', function () {
             $url = new Url();
             $url->setLongUrl($this->faker->url);
             $url->setShortUrl($this->faker->regexify('[a-zA-Z0-9]{6}'));
@@ -51,9 +51,15 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
                 $url->addTag($tag);
             }
 
-            /** @var User $users */
-            $users = $this->getRandomReference('users');
-            $url->setUsers($users);
+            if ($this->faker->boolean(70)) {
+                /** @var User $users */
+                $users = $this->getRandomReference('users');
+                $url->setUsers($users);
+            } else {
+                /** @var GuestUser $guestUsers */
+                $guestUsers = $this->getRandomReference('guestUsers');
+                $url->setGuestUser($guestUsers);
+            }
 
             return $url;
         });
