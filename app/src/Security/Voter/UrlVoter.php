@@ -100,9 +100,9 @@ class UrlVoter extends Voter
                 return $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
             case self::BLOCK:
                 return $this->security->isGranted('ROLE_ADMIN');
+            default:
+                return false;
         }
-
-        return false;
     }
 
     /**

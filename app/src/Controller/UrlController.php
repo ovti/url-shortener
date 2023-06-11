@@ -163,6 +163,10 @@ class UrlController extends AbstractController
     #[IsGranted('EDIT', subject: 'url')]
     public function edit(Request $request, Url $url): Response
     {
+        if ($url->isIsBlocked()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+
         $form = $this->createForm(
             UrlType::class,
             $url,
