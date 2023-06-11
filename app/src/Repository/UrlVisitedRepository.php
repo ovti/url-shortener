@@ -22,6 +22,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UrlVisitedRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
+
     /**
      * UrlVisitedRepository constructor.
      *
@@ -44,8 +46,7 @@ class UrlVisitedRepository extends ServiceEntityRepository
             ->leftJoin('urlVisited.url', 'url')
             ->groupBy('urlVisited.url', 'url.longUrl')
             ->orderBy('visits', 'DESC')
-            ->addOrderBy('latestVisitTime', 'DESC')
-            ->setMaxResults(10);
+            ->addOrderBy('latestVisitTime', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();
     }

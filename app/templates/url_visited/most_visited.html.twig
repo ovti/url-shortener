@@ -1,26 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-        {{ 'title.popular_urls'|trans }}
+    {{ 'title.popular_urls'|trans }}
 {% endblock %}
 
 {% block body %}
     <h1>{{ 'title.popular_urls'|trans }}</h1>
-    <table class="table">
-        <thead>
+
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th>{{ 'label.count'|trans }}</th>
                 <th>{{ 'label.url'|trans }}</th>
             </tr>
-        </thead>
-        <tbody>
-            {% for urlVisited in urlsVisited %}
+            </thead>
+            <tbody>
+            {% for urlVisited in pagination.items %}
                 <tr>
                     <td>{{ urlVisited.visits }}</td>
                     <td>{{ urlVisited.longUrl }}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {% include 'default/_single_alert_message.html.twig' with {
+                type: 'warning',
+                message: 'message.empty_list'|trans
+            } %}
+        </p>
+    {% endif %}
 {% endblock %}

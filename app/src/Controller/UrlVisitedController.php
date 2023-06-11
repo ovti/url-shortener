@@ -8,7 +8,9 @@ namespace App\Controller;
 use App\Repository\UrlVisitedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\UrlVisitedServiceInterface;
 
 /**
  * Class UrlVisitedController.
@@ -17,20 +19,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class UrlVisitedController extends AbstractController
 {
     /**
+     * UrlVisited service.
+     */
+    private UrlVisitedServiceInterface $urlVisitedService;
+
+    /**
+     * UrlVisitedController constructor.
+     *
+     * @param UrlVisitedServiceInterface $urlVisitedService UrlVisited service
+     *
+     * @return void
+     */
+    public function __construct(UrlVisitedServiceInterface $urlVisitedService)
+    {
+        $this->urlVisitedService = $urlVisitedService;
+    }
+
+    /**
      * Most visited action.
      *
-     * @param UrlVisitedRepository $repository UrlVisited repository
-     *
+     * @param Request $request
      * @return Response HTTP response
      */
     #[Route(name: 'popular_index', methods: 'GET')]
-    public function mostVisited(UrlVisitedRepository $repository): Response
+    public function mostVisited(Request $request): Response
     {
-        $urlsVisited = $repository->countAllVisitsForUrl();
-
-        return $this->render(
-            'url_visited/most_visited.html.twig',
-            ['urlsVisited' => $urlsVisited]
+        $pagination = $this->urlVisitedService->countAllVisitsForUrl(
+            $request->query->getInt('page', 1)
         );
+
+        return $this->render('url_visited/most_visited.html.twig', ['pagination' => $pagination]);
     }
 }
