@@ -72,7 +72,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
      *
      * @return string[] of dependencies
      *
-     * @psalm-return array{0: TagFixtures::class, 1: UserFixtures::class}
+     * @psalm-return array{0: TagFixtures::class, 1: UserFixtures::class, 2: GuestUserFixtures::class}
      */
     public function getDependencies(): array
     {
