@@ -62,4 +62,14 @@ class UrlVisitedService implements UrlVisitedServiceInterface
             UrlVisitedRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
+    /**
+     * Delete all visits for url.
+     *
+     * @param int $id Url id
+     */
+    public function deleteAllVisitsForUrl(int $id): void
+    {
+        $this->urlVisitedRepository->deleteAllVisitsForUrl($id);
+    }
 }

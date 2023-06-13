@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Service\UrlVisitedServiceInterface;
 
 /**
  * Class UrlController.
@@ -35,17 +36,24 @@ class UrlController extends AbstractController
     private TranslatorInterface $translator;
 
     /**
+     * Url Visited service.
+     */
+    private UrlVisitedServiceInterface $urlVisitedService;
+
+    /**
      * UrlController constructor.
      *
-     * @param UrlServiceInterface $urlService Url service
-     * @param TranslatorInterface $translator Translator
+     * @param UrlServiceInterface        $urlService        Url service
+     * @param TranslatorInterface        $translator        Translator
+     * @param UrlVisitedServiceInterface $urlVisitedService Url Visited service
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedServiceInterface $urlVisitedService)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
+        $this->urlVisitedService = $urlVisitedService;
     }
 
     /**
@@ -315,6 +323,7 @@ class UrlController extends AbstractController
             $form->submit($request->request->get($form->getName()));
         }
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->urlVisitedService->deleteAllVisitsForUrl($url->getId());
             $this->urlService->delete($url);
             $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
 

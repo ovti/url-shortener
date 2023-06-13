@@ -63,6 +63,21 @@ class UrlVisitedRepository extends ServiceEntityRepository
     }
 
     /**
+     * Delete all visits for url.
+     *
+     * @param int $id Url id
+     */
+    public function deleteAllVisitsForUrl(int $id): void
+    {
+        $this->createQueryBuilder('urlVisited')
+            ->delete()
+            ->where('urlVisited.url = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder

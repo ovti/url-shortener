@@ -28,4 +28,11 @@ interface UrlVisitedServiceInterface
      * @return PaginationInterface Paginated urls
      */
     public function countAllVisitsForUrl(int $page): PaginationInterface;
+
+    /**
+     * Delete all visits for url.
+     *
+     * @param int $id Url id
+     */
+    public function deleteAllVisitsForUrl(int $id): void;
 }
