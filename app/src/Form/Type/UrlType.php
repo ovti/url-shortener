@@ -5,7 +5,6 @@
 
 namespace App\Form\Type;
 
-use App\Entity\GuestUser;
 use App\Entity\Url;
 use App\Form\DataTransformer\TagsDataTransformer;
 use App\Service\GuestUserService;
@@ -19,11 +18,10 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Validator\Constraints\Email;
-
 
 /**
  * Class UrlType.
@@ -98,7 +96,7 @@ class UrlType extends AbstractType
                     'constraints' => [
                         new NotBlank(),
                         new Length(['min' => 3, 'max' => 191]),
-                        new Email()
+                        new Email(),
                     ],
                 ]
             );
@@ -106,15 +104,11 @@ class UrlType extends AbstractType
                 $email = $event->getForm()->get('email')->getData();
                 $request = $this->requestStack->getSession();
                 $request->set('email', $email);
-                $guestUser = new GuestUser();
-                $guestUser->setEmail($email);
 
                 $count = $this->guestUserService->countEmailsUsedInLast24Hours($email);
                 if ($count >= 10) {
                     $event->getForm()->addError(new FormError($this->translator->trans('message.email_limit_exceeded')));
                 }
-                
-                $this->guestUserService->save($guestUser);
             });
         }
 

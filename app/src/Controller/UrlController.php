@@ -7,6 +7,8 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Entity\User;
+use App\Entity\GuestUser;
+use App\Service\GuestUserServiceInterface;
 use App\Form\Type\UrlBlockType;
 use App\Form\Type\UrlType;
 use App\Service\UrlServiceInterface;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Service\UrlVisitedServiceInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class UrlController.
@@ -41,19 +44,33 @@ class UrlController extends AbstractController
     private UrlVisitedServiceInterface $urlVisitedService;
 
     /**
+     * Request stack.
+     */
+    private RequestStack $requestStack;
+
+    /**
+     * Guest user service.
+     */
+    private GuestUserServiceInterface $guestUserService;
+
+    /**
      * UrlController constructor.
      *
      * @param UrlServiceInterface        $urlService        Url service
      * @param TranslatorInterface        $translator        Translator
      * @param UrlVisitedServiceInterface $urlVisitedService Url Visited service
+     * @param RequestStack               $requestStack      Request stack
+     * @param GuestUserServiceInterface  $guestUserService  Guest user service
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedServiceInterface $urlVisitedService)
+    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedServiceInterface $urlVisitedService, RequestStack $requestStack, GuestUserServiceInterface $guestUserService)
     {
         $this->urlService = $urlService;
         $this->translator = $translator;
         $this->urlVisitedService = $urlVisitedService;
+        $this->requestStack = $requestStack;
+        $this->guestUserService = $guestUserService;
     }
 
     /**
@@ -146,6 +163,13 @@ class UrlController extends AbstractController
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // get email from session stack
+            $email = $this->requestStack->getSession()->get('email');
+            $guestUser = new GuestUser();
+            $guestUser->setEmail($email);
+
+            $this->guestUserService->save($guestUser);
+
             $this->urlService->save($url);
 
             $this->addFlash('success', $this->translator->trans('message.created_successfully'));

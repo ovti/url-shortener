@@ -282,5 +282,4 @@ class Url
     {
         $this->guestUser = $guestUser;
     }
-
 }
