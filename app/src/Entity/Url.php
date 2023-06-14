@@ -256,15 +256,11 @@ class Url
     /**
      * Setter for users.
      *
-     * @param User|null $users Users
-     *
-     * @return $this Self object
+     * @param User|null $users User entity
      */
-    public function setUsers(?User $users): self
+    public function setUsers(?User $users): void
     {
         $this->users = $users;
-
-        return $this;
     }
 
     /**
@@ -280,14 +276,11 @@ class Url
     /**
      * Setter for guest user.
      *
-     * @param GuestUser|null $guestUser Guest user
-     *
-     * @return $this Self object
+     * @param GuestUser|null $guestUser Guest user entity
      */
-    public function setGuestUser(?GuestUser $guestUser): self
+    public function setGuestUser(?GuestUser $guestUser): void
     {
         $this->guestUser = $guestUser;
-
-        return $this;
     }
+
 }

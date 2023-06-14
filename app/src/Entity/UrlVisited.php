@@ -83,13 +83,19 @@ class UrlVisited
      * Setter for url.
      *
      * @param Url|null $url Url
-     *
-     * @return $this Self
      */
-    public function setUrl(?Url $url): self
+    public function setUrl(?Url $url): void
     {
         $this->url = $url;
+    }
 
-        return $this;
+    /**
+     * Setter for email.
+     *
+     * @param string $email Email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 }
