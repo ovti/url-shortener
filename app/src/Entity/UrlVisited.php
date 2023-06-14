@@ -88,14 +88,4 @@ class UrlVisited
     {
         $this->url = $url;
     }
-
-    /**
-     * Setter for email.
-     *
-     * @param string $email Email
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
 }

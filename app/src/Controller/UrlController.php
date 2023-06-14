@@ -5,22 +5,22 @@
 
 namespace App\Controller;
 
+use App\Entity\GuestUser;
 use App\Entity\Url;
 use App\Entity\User;
-use App\Entity\GuestUser;
-use App\Service\GuestUserServiceInterface;
 use App\Form\Type\UrlBlockType;
 use App\Form\Type\UrlType;
+use App\Service\GuestUserServiceInterface;
 use App\Service\UrlServiceInterface;
+use App\Service\UrlVisitedServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use App\Service\UrlVisitedServiceInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class UrlController.
@@ -163,12 +163,12 @@ class UrlController extends AbstractController
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // get email from session stack
-            $email = $this->requestStack->getSession()->get('email');
-            $guestUser = new GuestUser();
-            $guestUser->setEmail($email);
-
-            $this->guestUserService->save($guestUser);
+            if (!$this->getUser()) {
+                $email = $this->requestStack->getSession()->get('email');
+                $guestUser = new GuestUser();
+                $guestUser->setEmail($email);
+                $this->guestUserService->save($guestUser);
+            }
 
             $this->urlService->save($url);
 

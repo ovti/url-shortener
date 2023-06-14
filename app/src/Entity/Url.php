@@ -34,6 +34,7 @@ class Url
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Url]
     #[Assert\Length(min: 3, max: 255)]
     private ?string $longUrl = null;
 
@@ -49,6 +50,7 @@ class Url
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createTime = null;
 
@@ -66,6 +68,7 @@ class Url
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     private ?\DateTimeImmutable $blockExpiration = null;
 
     /**
