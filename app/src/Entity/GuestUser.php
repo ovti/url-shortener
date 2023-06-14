@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use App\Repository\GuestUserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class GuestUser.
@@ -27,7 +28,9 @@ class GuestUser
      * Email.
      */
     #[ORM\Column(type: 'string', length: 191)]
-    private ?string $email = null;
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private ?string $email;
 
     /**
      * Getter for id.
@@ -53,13 +56,9 @@ class GuestUser
      * Setter for email.
      *
      * @param string $email Email
-     *
-     * @return $this Self object
      */
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 }

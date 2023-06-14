@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Email;
+
 
 /**
  * Class UrlType.
@@ -96,6 +98,7 @@ class UrlType extends AbstractType
                     'constraints' => [
                         new NotBlank(),
                         new Length(['min' => 3, 'max' => 191]),
+                        new Email()
                     ],
                 ]
             );
