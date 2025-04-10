@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Login form authenticator.
  */
@@ -41,18 +42,12 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public const DEFAULT_ROUTE = 'url_index';
 
     /**
-     * URL Generator.
-     */
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
      * Constructor.
      *
      * @param UrlGeneratorInterface $urlGenerator Url generator
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**

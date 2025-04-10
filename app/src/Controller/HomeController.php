@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Home controller.
  */
@@ -19,7 +20,7 @@ class HomeController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(path: '/', name: 'app_homepage')]
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/', name: 'app_homepage')]
     public function index(): Response
     {
         return $this->render('home/index.html.twig');

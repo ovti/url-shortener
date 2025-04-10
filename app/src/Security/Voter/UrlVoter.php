@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url voter.
  */
@@ -46,18 +47,12 @@ class UrlVoter extends Voter
     public const BLOCK = 'BLOCK';
 
     /**
-     * Security helper.
-     */
-    private Security $security;
-
-    /**
      * OrderVoter constructor.
      *
      * @param Security $security Security helper
      */
-    public function __construct(Security $security)
+    public function __construct(private readonly Security $security)
     {
-        $this->security = $security;
     }
 
     /**
@@ -91,18 +86,13 @@ class UrlVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
-            case self::VIEW:
-                return $this->canView($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
-            case self::DELETE:
-                return $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN');
-            case self::BLOCK:
-                return $this->security->isGranted('ROLE_ADMIN');
-            default:
-                return false;
-        }
+        return match ($attribute) {
+            self::EDIT => $this->canEdit($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
+            self::VIEW => $this->canView($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
+            self::DELETE => $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
+            self::BLOCK => $this->security->isGranted('ROLE_ADMIN'),
+            default => false,
+        };
     }
 
     /**

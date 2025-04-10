@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Url visited controller.
  */
@@ -14,14 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class UrlVisitedController.
  */
-#[Route('/popular')]
 class UrlVisitedController extends AbstractController
 {
-    /**
-     * UrlVisited service.
-     */
-    private UrlVisitedServiceInterface $urlVisitedService;
-
     /**
      * UrlVisitedController constructor.
      *
@@ -29,11 +24,9 @@ class UrlVisitedController extends AbstractController
      *
      * @return void
      */
-    public function __construct(UrlVisitedServiceInterface $urlVisitedService)
+    public function __construct(private readonly UrlVisitedServiceInterface $urlVisitedService)
     {
-        $this->urlVisitedService = $urlVisitedService;
     }
-
     /**
      * Most visited action.
      *
@@ -41,7 +34,7 @@ class UrlVisitedController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(name: 'popular_index', methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route(name: 'popular_index', methods: 'GET')]
     public function mostVisited(Request $request): Response
     {
         $pagination = $this->urlVisitedService->countAllVisitsForUrl(

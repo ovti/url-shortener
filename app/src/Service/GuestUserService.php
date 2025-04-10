@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Guest User service.
  */
@@ -16,18 +17,12 @@ use Doctrine\ORM\NoResultException;
 class GuestUserService implements GuestUserServiceInterface
 {
     /**
-     * GuestUser repository.
-     */
-    private GuestUserRepository $guestUserRepository;
-
-    /**
      * GuestUserService constructor.
      *
      * @param GuestUserRepository $guestUserRepository GuestUser repository
      */
-    public function __construct(GuestUserRepository $guestUserRepository)
+    public function __construct(private readonly GuestUserRepository $guestUserRepository)
     {
-        $this->guestUserRepository = $guestUserRepository;
     }
 
     /**

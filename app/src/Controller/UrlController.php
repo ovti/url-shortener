@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url controller.
  */
@@ -25,34 +26,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlController.
  */
-#[Route('/url')]
 class UrlController extends AbstractController
 {
-    /**
-     * Url service.
-     */
-    private UrlServiceInterface $urlService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * Url Visited service.
-     */
-    private UrlVisitedServiceInterface $urlVisitedService;
-
-    /**
-     * Request stack.
-     */
-    private RequestStack $requestStack;
-
-    /**
-     * Guest user service.
-     */
-    private GuestUserServiceInterface $guestUserService;
-
     /**
      * UrlController constructor.
      *
@@ -64,15 +39,9 @@ class UrlController extends AbstractController
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedServiceInterface $urlVisitedService, RequestStack $requestStack, GuestUserServiceInterface $guestUserService)
+    public function __construct(private readonly UrlServiceInterface $urlService, private readonly TranslatorInterface $translator, private readonly UrlVisitedServiceInterface $urlVisitedService, private readonly RequestStack $requestStack, private readonly GuestUserServiceInterface $guestUserService)
     {
-        $this->urlService = $urlService;
-        $this->translator = $translator;
-        $this->urlVisitedService = $urlVisitedService;
-        $this->requestStack = $requestStack;
-        $this->guestUserService = $guestUserService;
     }
-
     /**
      * Index action.
      *
@@ -80,7 +49,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
+    #[\Symfony\Component\Routing\Attribute\Route(
         name: 'url_index',
         methods: 'GET'
     )]
@@ -97,7 +66,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
-
     /**
      * URL List action.
      *
@@ -105,8 +73,8 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/list',
+    #[\Symfony\Component\Routing\Attribute\Route(
+        '/url/list',
         name: 'url_list',
         methods: 'GET'
     )]
@@ -120,7 +88,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/url_list.html.twig', ['pagination' => $pagination]);
     }
-
     /**
      * Show action.
      *
@@ -128,7 +95,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
+    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Url $url): Response
     {
         if ($url->isIsBlocked()) {
@@ -137,7 +104,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
-
     /**
      * Create action.
      *
@@ -145,8 +111,8 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/create',
+    #[\Symfony\Component\Routing\Attribute\Route(
+        '/url/create',
         name: 'url_create',
         methods: 'GET|POST',
     )]
@@ -163,7 +129,7 @@ class UrlController extends AbstractController
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->getUser()) {
+            if (!$this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
                 $email = $this->requestStack->getSession()->get('email');
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
@@ -182,7 +148,6 @@ class UrlController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-
     /**
      * Edit action.
      *
@@ -191,7 +156,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     #[IsGranted('EDIT', subject: 'url')]
     public function edit(Request $request, Url $url): Response
     {
@@ -226,7 +191,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Block action.
      *
@@ -235,7 +199,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function block(Request $request, Url $url): Response
     {
@@ -267,7 +231,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Unblock action.
      *
@@ -276,7 +239,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/unblock', name: 'url_unblock', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/unblock', name: 'url_unblock', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function unblock(Request $request, Url $url): Response
     {
@@ -318,7 +281,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Delete action.
      *
@@ -327,7 +289,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     #[IsGranted('DELETE', subject: 'url')]
     public function delete(Request $request, Url $url): Response
     {
@@ -362,7 +324,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Get filters from request.
      *
@@ -374,9 +335,6 @@ class UrlController extends AbstractController
      */
     private function getFilters(Request $request): array
     {
-        $filters = [];
-        $filters['tag_id'] = $request->query->getInt('filters_tag_id');
-
-        return $filters;
+        return ['tag_id' => $request->query->getInt('filters_tag_id')];
     }
 }

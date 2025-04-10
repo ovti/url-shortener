@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GuestUser repository.
  */
@@ -57,7 +58,7 @@ class GuestUserRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select('count(guestUser.id)')
-            ->leftJoin('App\Entity\Url', 'url', 'WITH', 'url.guestUser = guestUser')
+            ->leftJoin(\App\Entity\Url::class, 'url', 'WITH', 'url.guestUser = guestUser')
             ->where('guestUser.email = :email')
             ->andWhere('url.createTime > :time')
             ->setParameter('email', $email)
@@ -73,7 +74,7 @@ class GuestUserRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('guestUser');
     }

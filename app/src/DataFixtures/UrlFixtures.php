@@ -18,15 +18,13 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
 {
     /**
      * Load data.
-     *
-     * @psalm-suppress PossiblyNullReference
-     * @psalm-suppress UnusedClosureParam
      */
     public function loadData(): void
     {
-        if (null === $this->manager || null === $this->faker) {
+        if (!$this->manager instanceof \Doctrine\Persistence\ObjectManager || !$this->faker instanceof \Faker\Generator) {
             return;
         }
+
         $this->createMany(60, 'urls', function () {
             $url = new Url();
             $url->setLongUrl($this->faker->url);
@@ -46,23 +44,24 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             }
 
             /** @var array<array-key, Tag> $tags */
-            $tags = $this->getRandomReferences('tags', $this->faker->numberBetween(0, 5));
+            $tags = $this->getRandomReferenceList('tags', Tag::class, $this->faker->numberBetween(0, 5));
             foreach ($tags as $tag) {
                 $url->addTag($tag);
             }
 
             if ($this->faker->boolean(70)) {
-                /** @var User $users */
-                $users = $this->getRandomReference('users');
-                $url->setUsers($users);
+                /** @var User $user */
+                $user = $this->getRandomReferenceList('users', User::class, 1)[0]; // Get a single user
+                $url->setUsers($user);
             } else {
-                /** @var GuestUser $guestUsers */
-                $guestUsers = $this->getRandomReference('guestUsers');
-                $url->setGuestUser($guestUsers);
+                /** @var GuestUser $guestUser */
+                $guestUser = $this->getRandomReferenceList('guestUsers', GuestUser::class, 1)[0]; // Get a single guest user
+                $url->setGuestUser($guestUser);
             }
 
             return $url;
         });
+
         $this->manager->flush();
     }
 
@@ -71,8 +70,6 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
      * on which the implementing class depends on.
      *
      * @return string[] of dependencies
-     *
-     * @psalm-return array{0: TagFixtures::class, 1: UserFixtures::class, 2: GuestUserFixtures::class}
      */
     public function getDependencies(): array
     {

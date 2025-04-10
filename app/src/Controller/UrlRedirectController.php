@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Url redirect controller.
  */
@@ -17,24 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlRedirectController.
  */
-#[Route('/r')]
 class UrlRedirectController extends AbstractController
 {
-    /**
-     * Url service.
-     */
-    private UrlServiceInterface $urlService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * UrlVisited service.
-     */
-    private UrlVisitedService $urlVisitedService;
-
     /**
      * UrlRedirectController constructor.
      *
@@ -44,13 +29,9 @@ class UrlRedirectController extends AbstractController
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
+    public function __construct(private readonly UrlServiceInterface $urlService, private readonly TranslatorInterface $translator, private readonly UrlVisitedService $urlVisitedService)
     {
-        $this->urlService = $urlService;
-        $this->translator = $translator;
-        $this->urlVisitedService = $urlVisitedService;
     }
-
     /**
      * Index action.
      *
@@ -58,8 +39,8 @@ class UrlRedirectController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/{shortUrl}',
+    #[\Symfony\Component\Routing\Attribute\Route(
+        '/r/{shortUrl}',
         name: 'url_redirect_index',
         methods: ['GET'],
     )]
@@ -67,7 +48,7 @@ class UrlRedirectController extends AbstractController
     {
         $url = $this->urlService->findOneByShortUrl($shortUrl);
 
-        if (!$url) {
+        if (!$url instanceof \App\Entity\Url) {
             throw $this->createNotFoundException($this->translator->trans('message.url_not_found'));
         }
 
