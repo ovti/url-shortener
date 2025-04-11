@@ -40,8 +40,8 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(name: 'tag_index', methods: 'GET')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[Route(name: 'tag_index', methods: 'GET')]
+//    #[IsGranted('ROLE_ADMIN')]
     public function index(Request $request): Response
     {
         $pagination = $this->tagService->getPaginatedList(

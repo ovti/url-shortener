@@ -87,10 +87,10 @@ class UrlVoter extends Voter
         }
 
         return match ($attribute) {
-            self::EDIT => $this->canEdit($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
-            self::VIEW => $this->canView($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
-            self::DELETE => $this->canDelete($subject, $user) || $this->security->isGranted('ROLE_ADMIN'),
-            self::BLOCK => $this->security->isGranted('ROLE_ADMIN'),
+            self::EDIT => $this->canEdit($subject, $user) ,
+            self::VIEW => $this->canView($subject, $user) ,
+            self::DELETE => $this->canDelete($subject, $user) ,
+
             default => false,
         };
     }

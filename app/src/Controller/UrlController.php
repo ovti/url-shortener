@@ -26,6 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlController.
  */
+#[Route('/url')]
 class UrlController extends AbstractController
 {
     /**
@@ -74,7 +75,7 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[\Symfony\Component\Routing\Attribute\Route(
-        '/url/list',
+        '/list',
         name: 'url_list',
         methods: 'GET'
     )]
@@ -112,7 +113,7 @@ class UrlController extends AbstractController
      * @return Response HTTP response
      */
     #[\Symfony\Component\Routing\Attribute\Route(
-        '/url/create',
+        '/create',
         name: 'url_create',
         methods: 'GET|POST',
     )]
@@ -156,7 +157,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[\Symfony\Component\Routing\Attribute\Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     #[IsGranted('EDIT', subject: 'url')]
     public function edit(Request $request, Url $url): Response
     {

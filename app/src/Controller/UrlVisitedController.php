@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class UrlVisitedController.
  */
+#[Route('/popular')]
 class UrlVisitedController extends AbstractController
 {
     /**
@@ -34,7 +35,7 @@ class UrlVisitedController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(name: 'popular_index', methods: 'GET')]
+    #[Route(name: 'popular_index', methods: 'GET')]
     public function mostVisited(Request $request): Response
     {
         $pagination = $this->urlVisitedService->countAllVisitsForUrl(
