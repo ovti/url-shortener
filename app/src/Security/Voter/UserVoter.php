@@ -76,6 +76,6 @@ class UserVoter extends Voter
      */
     private function canAccess(User $subject, UserInterface $user): bool
     {
-//        return $subject === $user || $this->security->isGranted('ROLE_ADMIN');
+        return $subject === $user || $this->security->isGranted('ROLE_ADMIN');
     }
 }

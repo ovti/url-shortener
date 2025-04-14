@@ -103,9 +103,9 @@ class UrlVoter extends Voter
      *
      * @return bool Result
      */
-    private function canEdit(Url $url, User $user): bool
+    private function canEdit(Url $url, UserInterface $user): bool
     {
-        return $url->getUsers() === $user;
+        return $this->security->isGranted('ROLE_ADMIN') || $url->getUsers() === $user;
     }
 
     /**
@@ -118,7 +118,7 @@ class UrlVoter extends Voter
      */
     private function canView(Url $url, User $user): bool
     {
-        return $url->getUsers() === $user;
+        return $this->security->isGranted('ROLE_ADMIN') || $url->getUsers() === $user;
     }
 
     /**
@@ -131,6 +131,6 @@ class UrlVoter extends Voter
      */
     private function canDelete(Url $url, User $user): bool
     {
-        return $url->getUsers() === $user;
+        return $this->security->isGranted('ROLE_ADMIN') || $url->getUsers() === $user;
     }
 }
