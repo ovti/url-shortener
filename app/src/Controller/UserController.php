@@ -21,6 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Class UserController.
  */
+#[Route('/user')]
 class UserController extends AbstractController
 {
     /**
@@ -42,7 +43,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(name: 'user_index', methods: 'GET')]
+    #[Route(name: 'user_index', methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(Request $request): Response
     {
@@ -60,7 +61,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/user/{id}', name: 'user_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
+    #[Route('/{id}', name: 'user_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
     #[IsGranted('VIEW', subject: 'user')]
     public function show(User $user): Response
     {
@@ -77,7 +78,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/user/{id}/edit/password', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
+    #[Route('/{id}/edit/password', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT_USER_DATA', subject: 'user')]
     public function edit(Request $request, User $user): Response
     {
@@ -108,7 +109,7 @@ class UserController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/user/{id}/edit/email', name: 'user_edit_email', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
+    #[Route('/{id}/edit/email', name: 'user_edit_email', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('EDIT_USER_DATA', subject: 'user')]
     public function editEmail(Request $request, User $user): Response
     {

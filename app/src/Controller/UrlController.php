@@ -50,7 +50,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(
+    #[Route(
         name: 'url_index',
         methods: 'GET'
     )]
@@ -74,7 +74,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(
+    #[Route(
         '/list',
         name: 'url_list',
         methods: 'GET'
@@ -96,7 +96,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
+    #[Route('/{id}', name: 'url_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Url $url): Response
     {
         if ($url->isIsBlocked()) {
@@ -112,7 +112,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(
+    #[Route(
         '/create',
         name: 'url_create',
         methods: 'GET|POST',
@@ -157,7 +157,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     #[IsGranted('EDIT', subject: 'url')]
     public function edit(Request $request, Url $url): Response
     {
@@ -200,7 +200,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route('/{id}/block', name: 'url_block', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function block(Request $request, Url $url): Response
     {
@@ -240,7 +240,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/unblock', name: 'url_unblock', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route('/{id}/unblock', name: 'url_unblock', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function unblock(Request $request, Url $url): Response
     {
@@ -290,7 +290,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/url/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[Route('/{id}/delete', name: 'url_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     #[IsGranted('DELETE', subject: 'url')]
     public function delete(Request $request, Url $url): Response
     {
