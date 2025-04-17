@@ -28,6 +28,7 @@ class UrlVisitedController extends AbstractController
     public function __construct(private readonly UrlVisitedServiceInterface $urlVisitedService)
     {
     }
+
     /**
      * Most visited action.
      *

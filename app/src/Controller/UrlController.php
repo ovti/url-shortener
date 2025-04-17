@@ -43,6 +43,7 @@ class UrlController extends AbstractController
     public function __construct(private readonly UrlServiceInterface $urlService, private readonly TranslatorInterface $translator, private readonly UrlVisitedServiceInterface $urlVisitedService, private readonly RequestStack $requestStack, private readonly GuestUserServiceInterface $guestUserService)
     {
     }
+
     /**
      * Index action.
      *
@@ -67,6 +68,7 @@ class UrlController extends AbstractController
 
         return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
+
     /**
      * URL List action.
      *
@@ -89,6 +91,7 @@ class UrlController extends AbstractController
 
         return $this->render('url/url_list.html.twig', ['pagination' => $pagination]);
     }
+
     /**
      * Show action.
      *
@@ -105,6 +108,7 @@ class UrlController extends AbstractController
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
+
     /**
      * Create action.
      *
@@ -149,6 +153,7 @@ class UrlController extends AbstractController
             ['form' => $form->createView()]
         );
     }
+
     /**
      * Edit action.
      *
@@ -192,6 +197,7 @@ class UrlController extends AbstractController
             ]
         );
     }
+
     /**
      * Block action.
      *
@@ -232,6 +238,7 @@ class UrlController extends AbstractController
             ]
         );
     }
+
     /**
      * Unblock action.
      *
@@ -282,6 +289,7 @@ class UrlController extends AbstractController
             ]
         );
     }
+
     /**
      * Delete action.
      *
@@ -325,6 +333,7 @@ class UrlController extends AbstractController
             ]
         );
     }
+
     /**
      * Get filters from request.
      *
