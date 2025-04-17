@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Url visited controller.
  */
@@ -18,22 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class UrlVisitedController extends AbstractController
 {
     /**
-     * UrlVisited service.
-     */
-    private UrlVisitedServiceInterface $urlVisitedService;
-
-    /**
      * UrlVisitedController constructor.
      *
      * @param UrlVisitedServiceInterface $urlVisitedService UrlVisited service
      *
      * @return void
      */
-    public function __construct(UrlVisitedServiceInterface $urlVisitedService)
+    public function __construct(private readonly UrlVisitedServiceInterface $urlVisitedService)
     {
-        $this->urlVisitedService = $urlVisitedService;
     }
-
     /**
      * Most visited action.
      *

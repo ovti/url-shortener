@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag entity.
  */
@@ -34,7 +35,7 @@ class Tag
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
     #[Assert\NotBlank]
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * Getter for Id.

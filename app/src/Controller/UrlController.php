@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url controller.
  */
@@ -29,31 +30,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UrlController extends AbstractController
 {
     /**
-     * Url service.
-     */
-    private UrlServiceInterface $urlService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * Url Visited service.
-     */
-    private UrlVisitedServiceInterface $urlVisitedService;
-
-    /**
-     * Request stack.
-     */
-    private RequestStack $requestStack;
-
-    /**
-     * Guest user service.
-     */
-    private GuestUserServiceInterface $guestUserService;
-
-    /**
      * UrlController constructor.
      *
      * @param UrlServiceInterface        $urlService        Url service
@@ -64,15 +40,9 @@ class UrlController extends AbstractController
      *
      * @return void
      */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedServiceInterface $urlVisitedService, RequestStack $requestStack, GuestUserServiceInterface $guestUserService)
+    public function __construct(private readonly UrlServiceInterface $urlService, private readonly TranslatorInterface $translator, private readonly UrlVisitedServiceInterface $urlVisitedService, private readonly RequestStack $requestStack, private readonly GuestUserServiceInterface $guestUserService)
     {
-        $this->urlService = $urlService;
-        $this->translator = $translator;
-        $this->urlVisitedService = $urlVisitedService;
-        $this->requestStack = $requestStack;
-        $this->guestUserService = $guestUserService;
     }
-
     /**
      * Index action.
      *
@@ -97,7 +67,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
-
     /**
      * URL List action.
      *
@@ -120,7 +89,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/url_list.html.twig', ['pagination' => $pagination]);
     }
-
     /**
      * Show action.
      *
@@ -137,7 +105,6 @@ class UrlController extends AbstractController
 
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
-
     /**
      * Create action.
      *
@@ -163,7 +130,7 @@ class UrlController extends AbstractController
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->getUser()) {
+            if (!$this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
                 $email = $this->requestStack->getSession()->get('email');
                 $guestUser = new GuestUser();
                 $guestUser->setEmail($email);
@@ -182,7 +149,6 @@ class UrlController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-
     /**
      * Edit action.
      *
@@ -226,7 +192,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Block action.
      *
@@ -267,7 +232,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Unblock action.
      *
@@ -318,7 +282,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Delete action.
      *
@@ -362,7 +325,6 @@ class UrlController extends AbstractController
             ]
         );
     }
-
     /**
      * Get filters from request.
      *
@@ -374,9 +336,6 @@ class UrlController extends AbstractController
      */
     private function getFilters(Request $request): array
     {
-        $filters = [];
-        $filters['tag_id'] = $request->query->getInt('filters_tag_id');
-
-        return $filters;
+        return ['tag_id' => $request->query->getInt('filters_tag_id')];
     }
 }

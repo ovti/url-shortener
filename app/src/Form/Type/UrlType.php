@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url type.
  */
@@ -29,31 +30,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UrlType extends AbstractType
 {
     /**
-     * Tags data transformer.
-     */
-    private TagsDataTransformer $tagsDataTransformer;
-
-    /**
-     * Security.
-     */
-    private Security $security;
-
-    /**
-     * Guest user service.
-     */
-    private GuestUserService $guestUserService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * Request stack.
-     */
-    private RequestStack $requestStack;
-
-    /**
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
@@ -62,13 +38,8 @@ class UrlType extends AbstractType
      * @param TranslatorInterface $translator          Translator
      * @param RequestStack        $requestStack        Request stack
      */
-    public function __construct(TagsDataTransformer $tagsDataTransformer, Security $security, GuestUserService $guestUserService, TranslatorInterface $translator, RequestStack $requestStack)
+    public function __construct(private readonly TagsDataTransformer $tagsDataTransformer, private readonly Security $security, private readonly GuestUserService $guestUserService, private readonly TranslatorInterface $translator, private readonly RequestStack $requestStack)
     {
-        $this->tagsDataTransformer = $tagsDataTransformer;
-        $this->security = $security;
-        $this->guestUserService = $guestUserService;
-        $this->translator = $translator;
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -84,7 +55,7 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (!$this->security->getUser()) {
+        if (!$this->security->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $builder->add(
                 'email',
                 EmailType::class,

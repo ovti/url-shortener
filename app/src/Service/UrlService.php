@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url service.
  */
@@ -21,36 +22,6 @@ use Symfony\Component\Security\Core\Security;
 class UrlService implements UrlServiceInterface
 {
     /**
-     * Paginator.
-     */
-    private PaginatorInterface $paginator;
-
-    /**
-     * Tag service.
-     */
-    private TagServiceInterface $tagService;
-
-    /**
-     * Url repository.
-     */
-    private UrlRepository $urlRepository;
-
-    /**
-     * Security.
-     */
-    private Security $security;
-
-    /**
-     * Guest user repository.
-     */
-    private GuestUserRepository $guestUserRepository;
-
-    /**
-     * Request stack.
-     */
-    private RequestStack $requestStack;
-
-    /**
      * Constructor.
      *
      * @param PaginatorInterface  $paginator           Paginator
@@ -60,14 +31,8 @@ class UrlService implements UrlServiceInterface
      * @param GuestUserRepository $guestUserRepository Guest user repository
      * @param RequestStack        $requestStack        Request stack
      */
-    public function __construct(PaginatorInterface $paginator, TagServiceInterface $tagService, UrlRepository $urlRepository, Security $security, GuestUserRepository $guestUserRepository, RequestStack $requestStack)
+    public function __construct(private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly UrlRepository $urlRepository, private readonly Security $security, private readonly GuestUserRepository $guestUserRepository, private readonly RequestStack $requestStack)
     {
-        $this->paginator = $paginator;
-        $this->tagService = $tagService;
-        $this->urlRepository = $urlRepository;
-        $this->security = $security;
-        $this->guestUserRepository = $guestUserRepository;
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -128,7 +93,7 @@ class UrlService implements UrlServiceInterface
      */
     public function generateShortUrl(): string
     {
-        $shortUrl = substr(md5(uniqid(rand(), true)), 0, 6);
+        $shortUrl = substr(md5(uniqid(random_int(0, mt_getrandmax()), true)), 0, 6);
 
         if (null !== $this->urlRepository->findOneBy(['shortUrl' => $shortUrl])) {
             $this->generateShortUrl();

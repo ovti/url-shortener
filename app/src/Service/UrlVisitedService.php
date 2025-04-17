@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url Visited service.
  */
@@ -16,25 +17,13 @@ use Knp\Component\Pager\PaginatorInterface;
 class UrlVisitedService implements UrlVisitedServiceInterface
 {
     /**
-     * UrlVisited repository.
-     */
-    private UrlVisitedRepository $urlVisitedRepository;
-
-    /**
-     * Paginator.
-     */
-    private PaginatorInterface $paginator;
-
-    /**
      * UrlVisitedService constructor.
      *
      * @param UrlVisitedRepository $urlVisitedRepository UrlVisited repository
      * @param PaginatorInterface   $paginator            Paginator
      */
-    public function __construct(UrlVisitedRepository $urlVisitedRepository, PaginatorInterface $paginator)
+    public function __construct(private readonly UrlVisitedRepository $urlVisitedRepository, private readonly PaginatorInterface $paginator)
     {
-        $this->urlVisitedRepository = $urlVisitedRepository;
-        $this->paginator = $paginator;
     }
 
     /**
