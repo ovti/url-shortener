@@ -25,6 +25,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     /**
+     * User service.
+     */
+    private UserServiceInterface $userService;
+
+    /**
+     * Translator.
+     */
+    private TranslatorInterface $translator;
+
+    /**
+     * Password hasher.
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+    /**
      * Constructor.
      *
      * @param UserServiceInterface        $userService    User service
@@ -33,9 +48,13 @@ class UserController extends AbstractController
      *
      * @return void
      */
-    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator, private readonly UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator, UserPasswordHasherInterface $passwordHasher)
     {
+        $this->userService = $userService;
+        $this->translator = $translator;
+        $this->passwordHasher = $passwordHasher;
     }
+
     /**
      * Index action.
      *
@@ -54,6 +73,7 @@ class UserController extends AbstractController
             ['pagination' => $pagination]
         );
     }
+
     /**
      * Show action.
      *
@@ -70,6 +90,7 @@ class UserController extends AbstractController
             ['user' => $user]
         );
     }
+
     /**
      * Edit action.
      *
@@ -101,6 +122,7 @@ class UserController extends AbstractController
             ]
         );
     }
+
     /**
      * Edit email action.
      *

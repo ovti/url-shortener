@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Guest User fixtures.
  */
