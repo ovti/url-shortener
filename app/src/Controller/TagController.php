@@ -60,7 +60,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(
+    #[Route(
         '/{id}',
         name: 'tag_show',
         requirements: ['id' => '[1-9]\d*'],
@@ -79,7 +79,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(
+    #[Route(
         '/create',
         name: 'tag_create',
         methods: 'GET|POST',
@@ -110,7 +110,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Tag $tag): Response
     {
@@ -152,7 +152,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[\Symfony\Component\Routing\Attribute\Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Tag $tag): Response
     {
