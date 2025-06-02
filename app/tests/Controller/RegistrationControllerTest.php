@@ -2,33 +2,110 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Controller\RegistrationController;
+use App\Entity\User;
+use App\Form\Type\RegistrationType;
+use App\Service\UserServiceInterface;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
-class RegistrationControllerTest extends WebTestCase
+class RegistrationControllerTest extends TestCase
 {
-    /**
-     * Test GET /register returns 200.
-     */
-    public function testGetRegisterPage(): void
+    public function testRegisterWithValidForm(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/register');
+        $request = new Request([], [
+            'user' => [
+                'email' => 'test@example.com',
+                'password' => [
+                    'first' => 'password123',
+                    'second' => 'password123',
+                ],
+            ]
+        ], [], [], [], ['REQUEST_METHOD' => 'POST']);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('form');
+        $userServiceMock = $this->createMock(UserServiceInterface::class);
+        $translatorMock = $this->createMock(TranslatorInterface::class);
+
+        $formMock = $this->createMock(FormInterface::class);
+        $formViewMock = $this->createMock(FormView::class);
+
+        // Simulate form factory
+        $controller = $this->getMockBuilder(RegistrationController::class)
+            ->setConstructorArgs([$userServiceMock, $translatorMock])
+            ->onlyMethods(['createForm', 'addFlash', 'redirectToRoute', 'render'])
+            ->getMock();
+
+        $controller->expects($this->once())
+            ->method('createForm')
+            ->with(RegistrationType::class, $this->isInstanceOf(User::class), ['method' => Request::METHOD_POST])
+            ->willReturn($formMock);
+
+        $formMock->expects($this->once())->method('handleRequest')->with($request);
+        $formMock->expects($this->once())->method('isSubmitted')->willReturn(true);
+        $formMock->expects($this->once())->method('isValid')->willReturn(true);
+
+        $userServiceMock->expects($this->once())->method('save')->with($this->isInstanceOf(User::class));
+
+        $translatorMock->expects($this->once())
+            ->method('trans')
+            ->with('message.registered_successfully')
+            ->willReturn('Registered successfully');
+
+        $controller->expects($this->once())
+            ->method('addFlash')
+            ->with('success', 'Registered successfully');
+
+        $redirectResponse = new RedirectResponse('/login');
+        $controller->expects($this->once())
+            ->method('redirectToRoute')
+            ->with('app_login')
+            ->willReturn($redirectResponse);
+
+        $response = $controller->register($request);
+
+        $this->assertSame($redirectResponse, $response);
     }
 
-    public function testPostRegister(): void
+    public function testRegisterWithInvalidForm(): void
     {
-        $client = static::createClient();
-        $client->request('POST', '/register', [
-            'some_field' => 'some_value',
-        ]);
+        $request = new Request([], [], [], [], [], ['REQUEST_METHOD' => 'POST']);
 
-        $this->assertTrue(
-            in_array($client->getResponse()->getStatusCode(), [200, 302]),
-            'POST /register should respond with 200 or 302'
-        );
+        $userServiceMock = $this->createMock(UserServiceInterface::class);
+        $translatorMock = $this->createMock(TranslatorInterface::class);
+
+        $formMock = $this->createMock(FormInterface::class);
+        $formViewMock = $this->createMock(FormView::class);
+
+        $controller = $this->getMockBuilder(RegistrationController::class)
+            ->setConstructorArgs([$userServiceMock, $translatorMock])
+            ->onlyMethods(['createForm', 'render'])
+            ->getMock();
+
+        $controller->expects($this->once())
+            ->method('createForm')
+            ->with(RegistrationType::class, $this->isInstanceOf(User::class), ['method' => Request::METHOD_POST])
+            ->willReturn($formMock);
+
+        $formMock->expects($this->once())->method('handleRequest')->with($request);
+        $formMock->expects($this->once())->method('isSubmitted')->willReturn(true);
+        $formMock->expects($this->once())->method('isValid')->willReturn(false);
+        $formMock->expects($this->once())->method('createView')->willReturn($formViewMock);
+
+        $controller->expects($this->once())
+            ->method('render')
+            ->with('registration/index.html.twig', ['form' => $formViewMock])
+            ->willReturn(new Response('Form with errors'));
+
+        $response = $controller->register($request);
+
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertSame('Form with errors', $response->getContent());
     }
-
 }

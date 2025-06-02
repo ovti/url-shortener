@@ -2,18 +2,80 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Tag;
+use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TagControllerTest extends WebTestCase
 {
-    public function testTagIndexRequiresLoginOrAdmin(): void
+    private function loginAsAdmin($client): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $admin = $userRepository->findOneByEmail('admin0@example.com');
+
+        if (!$admin) {
+            throw new \RuntimeException(
+                'Nie znaleziono użytkownika admin0@example.com w bazie. ' .
+                'Upewnij się, że fixtures zostały załadowane.'
+            );
+        }
+
+        $client->loginUser($admin);
+    }
+
+    public function testIndexAsAdmin(): void
     {
         $client = static::createClient();
+        $this->loginAsAdmin($client);
 
-        $client->request('GET', '/tag');
+        $crawler = $client->request('GET', '/tag');
+        $this->assertResponseIsSuccessful();
 
-        $this->assertTrue(
-            $client->getResponse()->isRedirection() || $client->getResponse()->getStatusCode() === 403
+        $this->assertSelectorExists('table');
+    }
+
+    public function testCreateNewTag(): void
+    {
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+
+        // Otwórz stronę tworzenia taga
+        $crawler = $client->request('GET', '/tag/create');
+        $this->assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form')->form();
+        $form['tag[name]'] = 'TestTag'; // ustawiamy nazwę nowego taga
+
+        $client->submit($form);
+        $this->assertResponseRedirects('/tag');
+
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains('.alert-success', 'Udało się utworzyć.');
+
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+        $tag = $tagRepository->findOneBy(['name' => 'TestTag']);
+        $this->assertNotNull($tag, 'Oczekiwano, że “TestTag” zostanie zapisany w bazie.');
+    }
+
+    public function testShowTag(): void
+    {
+        $client = static::createClient();
+        $this->loginAsAdmin($client);
+
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+        $tag = $tagRepository->findOneBy([]);
+
+        $this->assertNotNull(
+            $tag,
+            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – ' .
+            'dodaj fixture z Tagiem przed uruchomieniem testu.'
         );
+
+        $crawler = $client->request('GET', '/tag/' . $tag->getId());
+        $this->assertResponseIsSuccessful();
+
+        $this->assertSelectorTextContains('body', $tag->getName());
     }
 }

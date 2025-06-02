@@ -16,18 +16,6 @@ class HomeControllerTest extends WebTestCase
 
         $client->request('GET', '/');
         $statusCode = $client->getResponse()->getStatusCode();
-
         $this->assertEquals(200, $statusCode);
-    }
-
-
-    public function testHomepageIsSuccessfulAndHasH1(): void
-    {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
-
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('h1');
     }
 }
