@@ -12,16 +12,14 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 
 class RegistrationControllerTest extends TestCase
 {
     public function testRegisterWithValidForm(): void
     {
         $request = new Request([], [
-            'user' => [
+            'registration_form' => [ // Assuming your form's root name is 'registration_form'
                 'email' => 'test@example.com',
                 'password' => [
                     'first' => 'password123',
@@ -36,10 +34,9 @@ class RegistrationControllerTest extends TestCase
         $formMock = $this->createMock(FormInterface::class);
         $formViewMock = $this->createMock(FormView::class);
 
-        // Simulate form factory
         $controller = $this->getMockBuilder(RegistrationController::class)
             ->setConstructorArgs([$userServiceMock, $translatorMock])
-            ->onlyMethods(['createForm', 'addFlash', 'redirectToRoute', 'render'])
+            ->onlyMethods(['createForm', 'addFlash', 'redirectToRoute']) // 'render' is not called on valid form
             ->getMock();
 
         $controller->expects($this->once())
@@ -85,7 +82,7 @@ class RegistrationControllerTest extends TestCase
 
         $controller = $this->getMockBuilder(RegistrationController::class)
             ->setConstructorArgs([$userServiceMock, $translatorMock])
-            ->onlyMethods(['createForm', 'render'])
+            ->onlyMethods(['createForm', 'render']) // 'addFlash', 'redirectToRoute' are not called on invalid form
             ->getMock();
 
         $controller->expects($this->once())

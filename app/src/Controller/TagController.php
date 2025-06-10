@@ -136,7 +136,7 @@ class TagController extends AbstractController
         }
 
         return $this->render(
-            '/edit.html.twig',
+            'tag/edit.html.twig',
             [
                 'form' => $form->createView(),
                 'category' => $tag,

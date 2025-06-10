@@ -91,4 +91,28 @@ class TagRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
+
+    /**
+     * Find one by name.
+     *
+     * @param string $name Tag name
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByName(string $name): ?Tag
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
+    /**
+     * Find one by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->find($id);
+    }
 }

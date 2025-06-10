@@ -65,4 +65,5 @@ class TagType extends AbstractType
     {
         return 'tag';
     }
+
 }

@@ -3,100 +3,102 @@
 namespace App\Tests\Service;
 
 use App\Entity\Tag;
+use App\Repository\TagRepository;
 use App\Service\TagService;
-use App\Service\TagServiceInterface;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Knp\Component\Pager\PaginatorInterface;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class TagServiceTest.
- */
-class TagServiceTest extends KernelTestCase
+class TagServiceTest extends TestCase
 {
-    private ?EntityManagerInterface $entityManager;
-    private ?TagServiceInterface $tagService;
+    private TagService $tagService;
+    private TagRepository $tagRepository;
+    private PaginatorInterface $paginator;
 
     protected function setUp(): void
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $this->entityManager = $container->get('doctrine.orm.entity_manager');
-        $this->tagService = $container->get(TagService::class);
+        $this->tagRepository = $this->createMock(TagRepository::class);
+        $this->paginator = $this->createMock(PaginatorInterface::class);
+
+        $this->tagService = new TagService($this->tagRepository, $this->paginator);
     }
 
     public function testSave(): void
     {
-        $expectedTag = new Tag();
-        $expectedTag->setName('Test Tag');
+        $tag = new Tag();
+        $tag->setName('Test Tag');
 
-        $this->tagService->save($expectedTag);
+        $this->tagRepository
+            ->expects($this->once())
+            ->method('save')
+            ->with($tag);
 
-        $expectedTagId = $expectedTag->getId();
-        $resultTag = $this->entityManager
-            ->createQueryBuilder()
-            ->select('t')
-            ->from(Tag::class, 't')
-            ->where('t.id = :id')
-            ->setParameter(':id', $expectedTagId, Types::INTEGER)
-            ->getQuery()
-            ->getSingleResult();
-
-        $this->assertEquals($expectedTag, $resultTag);
+        $this->tagService->save($tag);
     }
 
     public function testDelete(): void
     {
-        $tagToDelete = new Tag();
-        $tagToDelete->setName('Tag Do Usunięcia');
+        $tag = new Tag();
+        $tag->setName('Tag Do Usunięcia');
 
-        $this->entityManager->persist($tagToDelete);
-        $this->entityManager->flush();
-        $deletedTagId = $tagToDelete->getId();
+        $this->tagRepository
+            ->expects($this->once())
+            ->method('delete')
+            ->with($tag);
 
-        $this->tagService->delete($tagToDelete);
-
-        $resultTag = $this->entityManager
-            ->createQueryBuilder()
-            ->select('t')
-            ->from(Tag::class, 't')
-            ->where('t.id = :id')
-            ->setParameter(':id', $deletedTagId, Types::INTEGER)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        $this->assertNull($resultTag);
+        $this->tagService->delete($tag);
     }
 
-    public function testFindById(): void
+    public function testFindOneByName(): void
     {
-        $expectedTag = new Tag();
-        $expectedTag->setName('Tag do Znalezienia');
+        $tagName = 'Test Tag';
+        $tag = new Tag();
+        $tag->setName($tagName);
 
-        $this->entityManager->persist($expectedTag);
-        $this->entityManager->flush();
-        $expectedTagId = $expectedTag->getId();
+        $this->tagRepository
+            ->expects($this->once())
+            ->method('findOneByName')
+            ->with($tagName)
+            ->willReturn($tag);
 
-        $resultTag = $this->tagService->findOneById($expectedTagId);
+        $result = $this->tagService->findOneByName($tagName);
 
-        $this->assertEquals($expectedTag, $resultTag);
+        $this->assertSame($tag, $result);
+    }
+
+    public function testFindOneById(): void
+    {
+        $tagId = 1;
+        $tag = new Tag();
+        $tag->setName('Tag do Znalezienia');
+
+        $this->tagRepository
+            ->expects($this->once())
+            ->method('findOneById')
+            ->with($tagId)
+            ->willReturn($tag);
+
+        $result = $this->tagService->findOneById($tagId);
+
+        $this->assertSame($tag, $result);
     }
 
     public function testGetPaginatedList(): void
     {
         $page = 1;
-        $dataSetSize = 3;
+        $paginationMock = $this->createMock(\Knp\Component\Pager\Pagination\PaginationInterface::class);
 
-        for ($i = 0; $i < $dataSetSize; ++$i) {
-            $tag = new Tag();
-            $tag->setName('Test Tag #' . $i);
-            $this->tagService->save($tag);
-        }
+        $this->tagRepository
+            ->expects($this->once())
+            ->method('queryAll')
+            ->willReturn($this->createMock(\Doctrine\ORM\QueryBuilder::class));
+
+        $this->paginator
+            ->expects($this->once())
+            ->method('paginate')
+            ->willReturn($paginationMock);
 
         $result = $this->tagService->getPaginatedList($page);
 
-        $this->assertInstanceOf(PaginationInterface::class, $result);
-        $this->assertGreaterThanOrEqual($dataSetSize, $result->count());
+        $this->assertSame($paginationMock, $result);
     }
 }
