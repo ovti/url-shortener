@@ -78,4 +78,16 @@ class GuestUserRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('guestUser');
     }
+
+    /**
+     * Find one guest user by email.
+     *
+     * @param string $email Email
+     *
+     * @return GuestUser|null GuestUser entity or null
+     */
+    public function findOneByEmail(string $email): ?GuestUser
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
 }

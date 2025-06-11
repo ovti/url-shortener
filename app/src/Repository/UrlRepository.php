@@ -47,10 +47,7 @@ class UrlRepository extends ServiceEntityRepository
         $this->checkBlockExpiration();
 
         $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial url.{id, longUrl, shortUrl, createTime, isBlocked, blockExpiration}',
-                'partial tags.{id, name}',
-            )
+            ->select('url', 'tags')
             ->leftJoin('url.tags', 'tags')
             ->orderBy('url.createTime', 'DESC');
 
