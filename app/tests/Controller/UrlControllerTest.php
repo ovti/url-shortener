@@ -223,4 +223,134 @@ class UrlControllerTest extends WebTestCase
         $deletedUrl = $this->urlRepository->find($url->getId());
         $this->assertNull($deletedUrl);
     }
+    public function testEditAsForbiddenUser(): void
+    {
+        $this->loginAsUser();
+
+        // Znajdź URL należący do innego użytkownika
+        $otherUser = $this->userRepository->findOneBy(['email' => 'user1@example.com']);
+        $this->assertNotNull($otherUser, 'Brak drugiego użytkownika do testu');
+
+        $url = $this->urlRepository->findOneBy(['users' => $otherUser]);
+        $this->assertNotNull($url, 'Brak URL-i dla drugiego użytkownika');
+
+        $this->client->request('GET', '/url/' . $url->getId() . '/edit');
+        $this->assertResponseStatusCodeSame(403); // Dostęp zabroniony
+    }
+
+    public function testUnblockExpiredBlock(): void
+    {
+        $this->loginAsAdmin();
+
+        // Przygotuj URL z wygasłą blokadą
+        $url = $this->urlRepository->findOneBy([]);
+        $this->assertNotNull($url, 'Brak URL-i w bazie danych');
+
+        $url->setIsBlocked(true);
+        $url->setBlockExpiration(new \DateTimeImmutable('-1 day')); // Blokada wygasła
+        $this->urlRepository->save($url, true);
+
+        $this->client->request('GET', '/url/' . $url->getId() . '/unblock');
+
+        // Ponieważ blokada wygasła, powinno automatycznie przekierować bez pokazywania formularza
+        $this->assertResponseRedirects('/url/list');
+
+        $this->client->followRedirect();
+        $this->assertSelectorTextContains('.alert-success', 'Odblokowano');
+
+        // Sprawdzamy czy URL został odblokowany
+        $updatedUrl = $this->urlRepository->find($url->getId());
+        $this->assertFalse($updatedUrl->isIsBlocked());
+        $this->assertNull($updatedUrl->getBlockExpiration());
+    }
+
+    public function testIndexWithTagFilter(): void
+    {
+        $this->loginAsUser();
+
+        // Znajdź tag i URL-a z tym tagiem
+        $tag = $this->tagRepository->findOneBy([]);
+        $this->assertNotNull($tag, 'Brak tagów w bazie danych');
+
+        // Przygotuj URL z tagiem
+        $user = $this->userRepository->findOneByEmail('user0@example.com');
+        $url = $this->urlRepository->findOneBy(['users' => $user]);
+        $this->assertNotNull($url, 'Brak URL-i dla testowego użytkownika');
+
+        $url->addTag($tag);
+        $this->urlRepository->save($url, true);
+
+        // Testuj widok z filtrowaniem po tagu
+        $this->client->request('GET', '/url?filters_tag_id=' . $tag->getId());
+        $this->assertResponseIsSuccessful();
+
+        // Sprawdź czy strona zawiera URL z tagiem
+        $this->assertSelectorExists('table tbody tr');
+        $this->assertSelectorTextContains('body', $url->getLongUrl());
+    }
+
+    public function testListWithTagFilter(): void
+    {
+        // Test filtrowania listy publicznie dostępnych URL-i
+        $tag = $this->tagRepository->findOneBy([]);
+        $this->assertNotNull($tag, 'Brak tagów w bazie danych');
+
+        // Przygotuj URL z tagiem
+        $url = $this->urlRepository->findOneBy([]);
+        $this->assertNotNull($url, 'Brak URL-i w bazie danych');
+
+        $url->addTag($tag);
+        $this->urlRepository->save($url, true);
+
+        $this->client->request('GET', '/url/list?filters_tag_id=' . $tag->getId());
+        $this->assertResponseIsSuccessful();
+
+        // Sprawdź czy strona zawiera URL z tagiem
+        $this->assertSelectorExists('table tbody tr');
+    }
+    public function testCreateAsGuest(): void
+    {
+        // Przygotuj sesję dla gościa
+        $this->client->request('GET', '/url/create');
+        $this->assertResponseIsSuccessful();
+
+        // Ustaw email gościa bezpośrednio w formularzu zamiast w sesji
+        $email = 'guest_test@example.com';
+        $tag = $this->tagRepository->findOneBy([]);
+        $this->assertNotNull($tag, 'Brak tagów w bazie danych');
+
+        $this->client->submitForm('Zapisz', [
+            'Url[email]' => $email,
+            'Url[longUrl]' => 'https://guest.example.com',
+            'Url[tags]' => $tag->getName(),
+        ]);
+
+        $this->assertResponseRedirects('/url/list');
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
+
+        // Sprawdź czy URL został utworzony
+        $url = $this->urlRepository->findOneBy(['longUrl' => 'https://guest.example.com']);
+        $this->assertNotNull($url, 'URL nie został utworzony');
+
+        // Sprawdź czy URL jest powiązany z gościem
+        $this->assertNotNull($url->getGuestUser());
+        $this->assertEquals($email, $url->getGuestUser()->getEmail());
+    }
+    public function testDeleteAsForbiddenUser(): void
+    {
+        $this->loginAsUser();
+
+        // Znajdź URL należący do innego użytkownika
+        $otherUser = $this->userRepository->findOneBy(['email' => 'user1@example.com']);
+        $this->assertNotNull($otherUser, 'Brak drugiego użytkownika do testu');
+
+        $url = $this->urlRepository->findOneBy(['users' => $otherUser]);
+        $this->assertNotNull($url, 'Brak URL-i dla drugiego użytkownika');
+
+        $this->client->request('GET', '/url/' . $url->getId() . '/delete');
+        $this->assertResponseStatusCodeSame(403); // Dostęp zabroniony
+    }
+
+
 }
