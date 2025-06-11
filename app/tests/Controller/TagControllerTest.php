@@ -115,8 +115,7 @@ class TagControllerTest extends WebTestCase
 
         $this->assertNotNull(
             $tag,
-            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – ' .
-            'dodaj fixture z Tagiem przed uruchomieniem testu.'
+            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – dodaj fixture z Tagiem przed uruchomieniem testu.'
         );
 
         $crawler = $client->request('GET', '/tag/' . $tag->getId() . '/delete');

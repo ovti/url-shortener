@@ -177,7 +177,7 @@ class TagController extends AbstractController
             'tag/delete.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $tag,
+                'tag' => $tag,
             ]
         );
     }

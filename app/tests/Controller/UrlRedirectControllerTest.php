@@ -5,8 +5,10 @@ namespace App\Tests\Controller;
 use App\Controller\UrlRedirectController;
 use App\Entity\Url;
 use App\Entity\UrlVisited;
+use App\Repository\UrlVisitedRepository;
 use App\Service\UrlServiceInterface;
 use App\Service\UrlVisitedService;
+use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +32,15 @@ class UrlRedirectControllerTest extends TestCase
 
         $this->request = new Request();
     }
+    public function testConstructor(): void
+    {
+        $mockRepository = $this->createMock(UrlVisitedRepository::class);
+        $mockPaginator = $this->createMock(PaginatorInterface::class);
 
+        $service = new UrlVisitedService($mockRepository, $mockPaginator);
+
+        $this->assertInstanceOf(UrlVisitedService::class, $service);
+    }
     public function testIndexThrowsNotFoundExceptionWhenUrlNotFound(): void
     {
         $this->urlServiceMock
