@@ -351,6 +351,4 @@ class UrlControllerTest extends WebTestCase
         $this->client->request('GET', '/url/' . $url->getId() . '/delete');
         $this->assertResponseStatusCodeSame(403); // Dostęp zabroniony
     }
-
-
 }
