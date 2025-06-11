@@ -1,9 +1,5 @@
 <?php
 
-/*
- * Url redirect controller.
- */
-
 namespace App\Controller;
 
 use App\Entity\UrlVisited;
@@ -21,49 +17,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/r')]
 class UrlRedirectController extends AbstractController
 {
-    /**
-     * Url service.
-     */
-    private UrlServiceInterface $urlService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * UrlVisited service.
-     */
-    private UrlVisitedService $urlVisitedService;
-
-    /**
-     * UrlRedirectController constructor.
-     *
-     * @param UrlServiceInterface $urlService        Url service
-     * @param TranslatorInterface $translator        Translator
-     * @param UrlVisitedService   $urlVisitedService UrlVisited service
-     *
-     * @return void
-     */
-    public function __construct(UrlServiceInterface $urlService, TranslatorInterface $translator, UrlVisitedService $urlVisitedService)
-    {
-        $this->urlService = $urlService;
-        $this->translator = $translator;
-        $this->urlVisitedService = $urlVisitedService;
+    public function __construct(
+        private readonly UrlServiceInterface $urlService,
+        private readonly TranslatorInterface $translator,
+        private readonly UrlVisitedService $urlVisitedService
+    ) {
     }
 
-    /**
-     * Index action.
-     *
-     * @param string $shortUrl Short url
-     *
-     * @return Response HTTP response
-     */
-    #[Route(
-        '/{shortUrl}',
-        name: 'url_redirect_index',
-        methods: ['GET'],
-    )]
+    #[Route('/{shortUrl}', name: 'url_redirect_index', methods: ['GET'])]
     public function index(string $shortUrl): Response
     {
         $url = $this->urlService->findOneByShortUrl($shortUrl);
@@ -72,32 +33,32 @@ class UrlRedirectController extends AbstractController
             throw $this->createNotFoundException($this->translator->trans('message.url_not_found'));
         }
 
-        if ($url->isIsBlocked() && $url->getBlockExpiration() < new \DateTimeImmutable()) {
-            $url->setIsBlocked(false);
-            $url->setBlockExpiration(null);
-            $this->urlService->save($url);
+        $now = new \DateTimeImmutable();
 
-            return new RedirectResponse($url->getLongUrl());
-        }
-        if ($url->isIsBlocked() && $url->getBlockExpiration() > new \DateTimeImmutable()) {
-            $this->addFlash('warning', $this->translator->trans('message.blocked_url'));
+        if ($url->isIsBlocked()) {
+            if ($url->getBlockExpiration() < $now) {
+                // Unblock expired URL
+                $url->setIsBlocked(false);
+                $url->setBlockExpiration(null);
+                $this->urlService->save($url);
+            } else {
+                // Still blocked
+                $this->addFlash('warning', $this->translator->trans('message.blocked_url'));
 
-            if ($this->isGranted('ROLE_ADMIN')) {
-                return new RedirectResponse($url->getLongUrl());
+                if (!$this->isGranted('ROLE_ADMIN')) {
+                    return $this->redirectToRoute('url_list');
+                }
             }
-
-            return $this->redirectToRoute('url_list');
         }
+
+        // Save visit only for unblocked URLs
         if (!$url->isIsBlocked()) {
-            $urlVisited = new UrlVisited();
-            $urlVisited->setVisitTime(new \DateTimeImmutable());
-            $urlVisited->setUrl($url);
-
-            $this->urlVisitedService->save($urlVisited);
-
-            return new RedirectResponse($url->getLongUrl());
+            $visit = new UrlVisited();
+            $visit->setVisitTime($now);
+            $visit->setUrl($url);
+            $this->urlVisitedService->save($visit);
         }
 
-        return $this->redirectToRoute('url_list');
+        return new RedirectResponse($url->getLongUrl());
     }
 }
