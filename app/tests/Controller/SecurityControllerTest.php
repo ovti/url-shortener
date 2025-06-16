@@ -163,7 +163,7 @@ class SecurityControllerTest extends WebTestCase
      *
      * @return User User entity
      */
-    private function createUser(array $roles, string $plainPassword = 'p@55w0rd'): User
+    private function createUser(array $roles, string $plainPassword = 'password'): User
     {
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
