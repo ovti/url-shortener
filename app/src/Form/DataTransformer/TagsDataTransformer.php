@@ -52,12 +52,16 @@ class TagsDataTransformer implements DataTransformerInterface
     /**
      * Transform string of tag names into array of Tag entities.
      *
-     * @param string $value String of tag names
+     * @param string|null $value String of tag names
      *
      * @return array<int, Tag> Result
      */
     public function reverseTransform($value): array
     {
+        if (!is_string($value)) {
+            return [];
+        }
+
         $tagNames = explode(',', $value);
 
         $tags = [];

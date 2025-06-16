@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Url redirect controller test.
+ */
+
 namespace App\Tests\Controller;
 
 use App\Controller\UrlRedirectController;
@@ -13,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class UrlRedirectControllerTest.
+ */
 class UrlRedirectControllerTest extends TestCase
 {
     private UrlServiceInterface $urlServiceMock;
@@ -20,6 +27,9 @@ class UrlRedirectControllerTest extends TestCase
     private UrlVisitedService $urlVisitedServiceMock;
     private Request $request;
 
+    /**
+     * Set up the test environment.
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,6 +41,9 @@ class UrlRedirectControllerTest extends TestCase
         $this->request = new Request();
     }
 
+    /**
+     * Test index method with valid short URL.
+     */
     public function testIndexThrowsNotFoundExceptionWhenUrlNotFound(): void
     {
         $this->urlServiceMock
@@ -64,6 +77,9 @@ class UrlRedirectControllerTest extends TestCase
         $controller->index('nonexistent');
     }
 
+    /**
+     * Test index method with a blocked URL.
+     */
     public function testIndexRedirectsToLongUrlWhenNotBlocked(): void
     {
         $urlEntityMock = $this->createConfiguredMock(Url::class, [
@@ -103,6 +119,9 @@ class UrlRedirectControllerTest extends TestCase
         $this->assertSame('https://example.com/full', $response->getTargetUrl());
     }
 
+    /**
+     * Test index method with a blocked URL that is not expired.
+     */
     public function testIndexUnblocksExpiredAndRedirects(): void
     {
         $yesterday = (new \DateTimeImmutable())->modify('-1 day');
@@ -137,7 +156,9 @@ class UrlRedirectControllerTest extends TestCase
         $this->assertSame('https://example.com/unblocked', $response->getTargetUrl());
     }
 
-
+    /**
+     * Test index method with a blocked URL that is not expired for non-admin users.
+     */
     public function testIndexBlockedNotExpiredNonAdmin(): void
     {
         $tomorrow = (new \DateTimeImmutable())->modify('+1 day');
@@ -196,6 +217,9 @@ class UrlRedirectControllerTest extends TestCase
         $this->assertSame('/tag_list', $response->getTargetUrl());
     }
 
+    /**
+     * Test index method with a blocked URL that is not expired for admin users.
+     */
     public function testIndexBlockedNotExpiredAdmin(): void
     {
         $tomorrow = (new \DateTimeImmutable())->modify('+1 day');

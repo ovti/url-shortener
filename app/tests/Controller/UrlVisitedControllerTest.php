@@ -1,24 +1,51 @@
 <?php
 
+/**
+ * UrlVisited controller test.
+ */
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\UrlVisitedServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
+/**
+ * Class UrlVisitedControllerTest.
+ */
 class UrlVisitedControllerTest extends WebTestCase
 {
+    /**
+     * Test client.
+     */
+    private KernelBrowser $httpClient;
+
+    /**
+     * Service container.
+     */
+    private ContainerInterface $container;
+
+    /**
+     * Set up test.
+     */
+    protected function setUp(): void
+    {
+        $this->httpClient = static::createClient();
+        $this->container = static::getContainer();
+    }
+
+    /**
+     * Test that the /popular page returns HTTP 200 status code and displays expected data.
+     */
     public function testUrlVisitedReturnsStatusCode200(): void
     {
-        $client = static::createClient();
-
-        // Get container
-        $container = static::getContainer();
-
-        $paginator = $container->get(PaginatorInterface::class);
+        // given
+        $paginator = $this->container->get(PaginatorInterface::class);
 
         $dummyData = [
-            (object)[
+            (object) [
                 'visits' => 42,
                 'shortUrl' => 'abc123',
                 'longUrl' => 'https://example.com',
@@ -30,12 +57,14 @@ class UrlVisitedControllerTest extends WebTestCase
         $mockService = $this->createMock(UrlVisitedServiceInterface::class);
         $mockService->method('countAllVisitsForUrl')->willReturn($pagination);
 
-        $container->set(UrlVisitedServiceInterface::class, $mockService);
+        $this->container->set(UrlVisitedServiceInterface::class, $mockService);
 
-        $client->request('GET', '/popular');
+        // when
+        $this->httpClient->request('GET', '/popular');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString('abc123', $client->getResponse()->getContent());
-        $this->assertStringContainsString('https://example.com', $client->getResponse()->getContent());
+        // then
+        $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
+        $this->assertStringContainsString('abc123', $this->httpClient->getResponse()->getContent());
+        $this->assertStringContainsString('https://example.com', $this->httpClient->getResponse()->getContent());
     }
 }

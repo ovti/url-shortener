@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Url redirect controller.
+ */
+
 namespace App\Controller;
 
 use App\Entity\UrlVisited;
@@ -17,13 +21,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/r')]
 class UrlRedirectController extends AbstractController
 {
-    public function __construct(
-        private readonly UrlServiceInterface $urlService,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlVisitedService $urlVisitedService
-    ) {
+    /**
+     * UrlRedirectController constructor.
+     *
+     * @param UrlServiceInterface $urlService        Url service
+     * @param TranslatorInterface $translator        Translator service
+     * @param UrlVisitedService   $urlVisitedService Url visited service
+     */
+    public function __construct(private readonly UrlServiceInterface $urlService, private readonly TranslatorInterface $translator, private readonly UrlVisitedService $urlVisitedService)
+    {
     }
 
+    /**
+     * Redirect to the long URL based on the short URL.
+     *
+     * @param string $shortUrl Short URL
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{shortUrl}', name: 'url_redirect_index', methods: ['GET'])]
     public function index(string $shortUrl): Response
     {

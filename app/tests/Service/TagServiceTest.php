@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Tag service test.
+ */
+
 namespace App\Tests\Service;
 
 use App\Entity\Tag;
@@ -8,12 +12,18 @@ use App\Service\TagService;
 use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class TagServiceTest.
+ */
 class TagServiceTest extends TestCase
 {
     private TagService $tagService;
     private TagRepository $tagRepository;
     private PaginatorInterface $paginator;
 
+    /**
+     * Set up the test environment.
+     */
     protected function setUp(): void
     {
         $this->tagRepository = $this->createMock(TagRepository::class);
@@ -22,6 +32,9 @@ class TagServiceTest extends TestCase
         $this->tagService = new TagService($this->tagRepository, $this->paginator);
     }
 
+    /**
+     * Test saving a tag.
+     */
     public function testSave(): void
     {
         $tag = new Tag();
@@ -35,6 +48,9 @@ class TagServiceTest extends TestCase
         $this->tagService->save($tag);
     }
 
+    /**
+     * Test deleting a tag.
+     */
     public function testDelete(): void
     {
         $tag = new Tag();
@@ -48,6 +64,9 @@ class TagServiceTest extends TestCase
         $this->tagService->delete($tag);
     }
 
+    /**
+     * Test finding a tag by name.
+     */
     public function testFindOneByName(): void
     {
         $tagName = 'Test Tag';
@@ -65,6 +84,9 @@ class TagServiceTest extends TestCase
         $this->assertSame($tag, $result);
     }
 
+    /**
+     * Test finding a tag by ID.
+     */
     public function testFindOneById(): void
     {
         $tagId = 1;
@@ -82,6 +104,9 @@ class TagServiceTest extends TestCase
         $this->assertSame($tag, $result);
     }
 
+    /**
+     * Test paginated list retrieval.
+     */
     public function testGetPaginatedList(): void
     {
         $page = 1;

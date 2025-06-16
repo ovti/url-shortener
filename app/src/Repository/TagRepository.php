@@ -45,6 +45,30 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find one by name.
+     *
+     * @param string $name Tag name
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByName(string $name): ?Tag
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
+    /**
+     * Find one by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->find($id);
+    }
+
+    /**
      * Query all records.
      *
      * @return QueryBuilder Query builder
@@ -90,29 +114,5 @@ class TagRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
-    }
-
-    /**
-     * Find one by name.
-     *
-     * @param string $name Tag name
-     *
-     * @return Tag|null Tag entity
-     */
-    public function findOneByName(string $name): ?Tag
-    {
-        return $this->findOneBy(['name' => $name]);
-    }
-
-    /**
-     * Find one by id.
-     *
-     * @param int $id Tag id
-     *
-     * @return Tag|null Tag entity
-     */
-    public function findOneById(int $id): ?Tag
-    {
-        return $this->find($id);
     }
 }

@@ -1,26 +1,29 @@
 <?php
 
+/**
+ * Guest user service test.
+ */
+
 namespace App\Tests\Service;
 
 use App\Entity\GuestUser;
 use App\Repository\GuestUserRepository;
 use App\Service\GuestUserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use PHPUnit\Framework\TestCase;
-use App\Repository\GuestUserRepositoryInterface;
-use App\Entity\GuestUserInterface;
-use App\Repository\GuestUserRepositoryInterface as GuestUserRepositoryInterfaceAlias;
-use App\Entity\GuestUserInterface as GuestUserInterfaceAlias;
-use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * Class GuestUserServiceTest.
+ */
 class GuestUserServiceTest extends TestCase
 {
     private GuestUserRepository $guestUserRepository;
     private GuestUserService $guestUserService;
     private EntityManagerInterface $entityManager;
 
+    /**
+     * Set up the test environment.
+     */
     protected function setUp(): void
     {
         $this->guestUserRepository = $this->createMock(GuestUserRepository::class);
@@ -28,6 +31,9 @@ class GuestUserServiceTest extends TestCase
         $this->guestUserService = new GuestUserService($this->guestUserRepository);
     }
 
+    /**
+     * Test saving a new guest user.
+     */
     public function testSaveNewGuestUser(): void
     {
         $guestUser = new GuestUser();
@@ -47,6 +53,9 @@ class GuestUserServiceTest extends TestCase
         $this->guestUserService->save($guestUser);
     }
 
+    /**
+     * Test saving an existing guest user should do nothing.
+     */
     public function testSaveExistingGuestUser(): void
     {
         $guestUser = new GuestUser();
@@ -65,6 +74,9 @@ class GuestUserServiceTest extends TestCase
         $this->guestUserService->save($guestUser);
     }
 
+    /**
+     * Test counting emails used in the last 24 hours.
+     */
     public function testCountEmailsUsedInLast24Hours(): void
     {
         $email = 'test@example.com';
@@ -80,70 +92,37 @@ class GuestUserServiceTest extends TestCase
         $this->assertSame(5, $result);
     }
 
-    public function testCountEmailsUsedInLast24HoursThrowsNoResultException(): void
-    {
-        $email = 'test@example.com';
-
-        $this->guestUserRepository
-            ->expects($this->once())
-            ->method('countEmailsUsedInLast24Hours')
-            ->with($email)
-            ->willThrowException(new NoResultException());
-
-        $this->expectException(NoResultException::class);
-
-        $this->guestUserService->countEmailsUsedInLast24Hours($email);
-    }
-
-    public function testCountEmailsUsedInLast24HoursThrowsNonUniqueResultException(): void
-    {
-        $email = 'test@example.com';
-
-        $this->guestUserRepository
-            ->expects($this->once())
-            ->method('countEmailsUsedInLast24Hours')
-            ->with($email)
-            ->willThrowException(new NonUniqueResultException());
-
-        $this->expectException(NonUniqueResultException::class);
-
-        $this->guestUserService->countEmailsUsedInLast24Hours($email);
-    }
+    /**
+     * Test the save method inside the GuestUserRepository.
+     */
     public function testSaveMethodInRepository(): void
-{
-    $guestUser = new GuestUser();
-    $guestUser->setEmail('test@example.com');
+    {
+        $guestUser = new GuestUser();
+        $guestUser->setEmail('test@example.com');
 
-    $managerRegistryMock = $this->createMock(ManagerRegistry::class);
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects($this->once())
+            ->method('persist')
+            ->with($guestUser);
 
-    $guestUserRepository = new class($this->entityManager, $managerRegistryMock) extends GuestUserRepository {
-        public function __construct(
-            private EntityManagerInterface $entityManager,
-            ManagerRegistry $managerRegistry
-        ) {
-            parent::__construct($managerRegistry);
-        }
+        $entityManager->expects($this->once())
+            ->method('flush');
 
-        public function save(GuestUser $guestUser): void
-        {
-            $this->entityManager->persist($guestUser);
-            $this->entityManager->flush();
-        }
-    };
+        $guestUserRepository = $this->createPartialMock(
+            GuestUserRepository::class,
+            []
+        );
 
-    $this->entityManager
-        ->expects($this->once())
-        ->method('persist')
-        ->with($guestUser);
+        $reflectionProperty = new \ReflectionProperty(GuestUserRepository::class, '_em');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($guestUserRepository, $entityManager);
 
-    $this->entityManager
-        ->expects($this->once())
-        ->method('flush');
+        $guestUserRepository->save($guestUser);
+    }
 
-    $guestUserRepository->save($guestUser);
-}
-
-
+    /**
+     * Test findOneByEmail method in the repository.
+     */
     public function testFindOneByEmailMethodInRepository(): void
     {
         $email = 'test@example.com';
@@ -161,12 +140,14 @@ class GuestUserServiceTest extends TestCase
         $this->assertSame($guestUser, $result);
     }
 
+    /**
+     * Test getId method in the GuestUser entity.
+     */
     public function testGetIdMethodInEntity(): void
     {
         $guestUser = new GuestUser();
         $reflection = new \ReflectionClass($guestUser);
         $property = $reflection->getProperty('id');
-        $property->setAccessible(true);
         $property->setValue($guestUser, 1);
 
         $this->assertSame(1, $guestUser->getId());

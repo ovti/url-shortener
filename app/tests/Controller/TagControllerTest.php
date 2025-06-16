@@ -1,134 +1,185 @@
 <?php
 
+/**
+ * Tag controller test.
+ */
+
 namespace App\Tests\Controller;
 
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Repository\TagRepository;
-use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * Class TagControllerTest.
+ */
 class TagControllerTest extends WebTestCase
 {
-    private function loginAsAdmin($client): void
+    /**
+     * Test client.
+     */
+    private KernelBrowser $httpClient;
+
+    /**
+     * Entity manager.
+     */
+    private EntityManagerInterface $entityManager;
+
+    /**
+     * Set up tests.
+     */
+    protected function setUp(): void
     {
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $admin = $userRepository->findOneByEmail('admin0@example.com');
+        $this->httpClient = static::createClient();
+        $this->entityManager = static::getContainer()->get(EntityManagerInterface::class);
+        $this->loginAsAdmin($this->httpClient);
+    }
+
+    /**
+     * Test show tag page.
+     */
+    public function testShowTag(): void
+    {
+        // given
+        $tag = $this->createTag('ShowTag');
+
+        // when
+        $this->httpClient->request('GET', '/tag/'.$tag->getId());
+
+        // then
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', $tag->getName());
+    }
+
+    /**
+     * Test creating new tag.
+     */
+    public function testCreateNewTag(): void
+    {
+        // when
+        $crawler = $this->httpClient->request('GET', '/tag/create');
+        $this->assertResponseIsSuccessful();
+
+        // given
+        $form = $crawler->filter('form')->form([
+            'tag[name]' => 'TestTag',
+        ]);
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects('/tag');
+        $this->httpClient->followRedirect();
+        $this->assertSelectorTextContains('.alert-success', 'Udało się utworzyć.');
+
+        $tag = static::getContainer()->get(TagRepository::class)->findOneBy(['name' => 'TestTag']);
+        $this->assertNotNull($tag, 'Oczekiwano, że “TestTag” zostanie zapisany w bazie.');
+    }
+
+    /**
+     * Test editing tag.
+     */
+    public function testEditTag(): void
+    {
+        // given
+        $tag = $this->createTag('ToEdit');
+
+        // when
+        $crawler = $this->httpClient->request('GET', '/tag/'.$tag->getId().'/edit');
+        $this->assertResponseIsSuccessful();
+        $form = $crawler->filter('form')->form([
+            'tag[name]' => 'UpdatedTag',
+        ]);
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects('/tag');
+        $this->httpClient->followRedirect();
+        $this->assertSelectorTextContains('.alert-success', 'Zaktualizowano.');
+
+        $updatedTag = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => 'UpdatedTag']);
+        $this->assertNotNull($updatedTag, 'Oczekiwano, że “UpdatedTag” zostanie zapisany w bazie.');
+    }
+
+    /**
+     * Test deleting tag.
+     */
+    public function testDeleteTag(): void
+    {
+        // given
+        $tag = $this->createTag('ToDelete');
+
+        // when
+        $crawler = $this->httpClient->request('GET', '/tag/'.$tag->getId().'/delete');
+        $this->assertResponseIsSuccessful();
+        $form = $crawler->filter('form')->form();
+        $this->httpClient->submit($form);
+
+        // then
+        $this->assertResponseRedirects('/tag');
+        $this->httpClient->followRedirect();
+        $this->assertSelectorTextContains('.alert-success', 'Udało się usunąć.');
+
+        $deletedTag = $this->entityManager->getRepository(Tag::class)->find($tag->getId());
+        $this->assertNull($deletedTag, 'Oczekiwano, że Tag zostanie usunięty z bazy.');
+    }
+
+    /**
+     * Log in as admin.
+     *
+     * @param KernelBrowser $client HTTP client
+     */
+    private function loginAsAdmin(KernelBrowser $client): void
+    {
+        $container = static::getContainer();
+        $hasher = $container->get(UserPasswordHasherInterface::class);
+        $admin = $this->entityManager->getRepository(User::class)->findOneByEmail('admin0@example.com');
 
         if (!$admin) {
-            throw new \RuntimeException(
-                'Nie znaleziono użytkownika admin0@example.com w bazie. ' .
-                'Upewnij się, że fixtures zostały załadowane.'
-            );
+            $admin = $this->createAdminUser($hasher);
         }
 
         $client->loginUser($admin);
     }
 
-    public function testIndexAsAdmin(): void
+    /**
+     * Create admin user.
+     *
+     * @param UserPasswordHasherInterface $hasher Password hasher
+     *
+     * @return User Admin user entity
+     */
+    private function createAdminUser(UserPasswordHasherInterface $hasher): User
     {
-        $client = static::createClient();
-        $this->loginAsAdmin($client);
+        $user = new User();
+        $user->setEmail('admin0@example.com');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setPassword($hasher->hashPassword($user, 'test123'));
 
-        $crawler = $client->request('GET', '/tag');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('table');
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
     }
 
-    public function testShowTag(): void
+    /**
+     * Create tag.
+     *
+     * @param string $name Tag name
+     *
+     * @return Tag Tag entity
+     */
+    private function createTag(string $name = 'InitialTag'): Tag
     {
-        $client = static::createClient();
-        $this->loginAsAdmin($client);
+        $tag = new Tag();
+        $tag->setName($name);
 
-        $tagRepository = static::getContainer()->get(TagRepository::class);
-        $tag = $tagRepository->findOneBy([]);
+        $this->entityManager->persist($tag);
+        $this->entityManager->flush();
 
-        $this->assertNotNull(
-            $tag,
-            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – ' .
-            'dodaj fixture z Tagiem przed uruchomieniem testu.'
-        );
-
-        $crawler = $client->request('GET', '/tag/' . $tag->getId());
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('body', $tag->getName());
-    }
-
-    public function testCreateNewTag(): void
-    {
-        $client = static::createClient();
-        $this->loginAsAdmin($client);
-
-        $crawler = $client->request('GET', '/tag/create');
-        $this->assertResponseIsSuccessful();
-
-        $form = $crawler->filter('form')->form();
-        $form['tag[name]'] = 'TestTag';
-
-        $client->submit($form);
-        $this->assertResponseRedirects('/tag');
-
-        $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('.alert-success', 'Udało się utworzyć.');
-
-        $tagRepository = static::getContainer()->get(TagRepository::class);
-        $tag = $tagRepository->findOneBy(['name' => 'TestTag']);
-        $this->assertNotNull($tag, 'Oczekiwano, że “TestTag” zostanie zapisany w bazie.');
-    }
-
-    public function testEditTag(): void
-    {
-        $client = static::createClient();
-        $this->loginAsAdmin($client);
-
-        $tagRepository = static::getContainer()->get(TagRepository::class);
-        $tag = $tagRepository->findOneBy([]);
-
-        $this->assertNotNull(
-            $tag,
-            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – ' .
-            'dodaj fixture z Tagiem przed uruchomieniem testu.'
-        );
-
-        $crawler = $client->request('GET', '/tag/' . $tag->getId() . '/edit');
-        $this->assertResponseIsSuccessful();
-
-        $form = $crawler->filter('form')->form();
-        $form['tag[name]'] = 'UpdatedTag';
-
-        $client->submit($form);
-        $this->assertResponseRedirects('/tag');
-
-        $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('.alert-success', 'Zaktualizowano.');
-
-        $updatedTag = $tagRepository->findOneBy(['name' => 'UpdatedTag']);
-        $this->assertNotNull($updatedTag, 'Oczekiwano, że “UpdatedTag” zostanie zapisany w bazie.');
-    }
-
-    public function testDeleteTag(): void
-    {
-        $client = static::createClient();
-        $this->loginAsAdmin($client);
-
-        $tagRepository = static::getContainer()->get(TagRepository::class);
-        $tag = $tagRepository->findOneBy([]);
-
-        $this->assertNotNull(
-            $tag,
-            'Oczekiwano, że w bazie będzie przynajmniej jeden Tag – dodaj fixture z Tagiem przed uruchomieniem testu.'
-        );
-
-        $crawler = $client->request('GET', '/tag/' . $tag->getId() . '/delete');
-        $this->assertResponseIsSuccessful();
-
-        $form = $crawler->filter('form')->form();
-        $client->submit($form);
-        $this->assertResponseRedirects('/tag');
-
-        $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('.alert-success', 'Udało się usunąć.');
-
-        $deletedTag = $tagRepository->find($tag->getId());
-        $this->assertNull($deletedTag, 'Oczekiwano, że Tag zostanie usunięty z bazy.');
+        return $tag;
     }
 }

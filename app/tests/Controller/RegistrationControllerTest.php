@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Registration controller test.
+ */
+
 namespace App\Tests\Controller;
 
 use App\Controller\RegistrationController;
@@ -14,29 +18,43 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class RegistrationControllerTest.
+ */
 class RegistrationControllerTest extends TestCase
 {
+    private UserServiceInterface $userServiceMock;
+    private TranslatorInterface $translatorMock;
+
+    /**
+     * Set up test environment.
+     */
+    protected function setUp(): void
+    {
+        $this->userServiceMock = $this->createMock(UserServiceInterface::class);
+        $this->translatorMock = $this->createMock(TranslatorInterface::class);
+    }
+
+    /**
+     * Test registration with valid form.
+     */
     public function testRegisterWithValidForm(): void
     {
         $request = new Request([], [
-            'registration_form' => [ // Assuming your form's root name is 'registration_form'
+            'registration_form' => [
                 'email' => 'test@example.com',
                 'password' => [
                     'first' => 'password123',
                     'second' => 'password123',
                 ],
-            ]
+            ],
         ], [], [], [], ['REQUEST_METHOD' => 'POST']);
 
-        $userServiceMock = $this->createMock(UserServiceInterface::class);
-        $translatorMock = $this->createMock(TranslatorInterface::class);
-
         $formMock = $this->createMock(FormInterface::class);
-        $formViewMock = $this->createMock(FormView::class);
 
         $controller = $this->getMockBuilder(RegistrationController::class)
-            ->setConstructorArgs([$userServiceMock, $translatorMock])
-            ->onlyMethods(['createForm', 'addFlash', 'redirectToRoute']) // 'render' is not called on valid form
+            ->setConstructorArgs([$this->userServiceMock, $this->translatorMock])
+            ->onlyMethods(['createForm', 'addFlash', 'redirectToRoute'])
             ->getMock();
 
         $controller->expects($this->once())
@@ -48,9 +66,13 @@ class RegistrationControllerTest extends TestCase
         $formMock->expects($this->once())->method('isSubmitted')->willReturn(true);
         $formMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $userServiceMock->expects($this->once())->method('save')->with($this->isInstanceOf(User::class));
+        $this->userServiceMock
+            ->expects($this->once())
+            ->method('save')
+            ->with($this->isInstanceOf(User::class));
 
-        $translatorMock->expects($this->once())
+        $this->translatorMock
+            ->expects($this->once())
             ->method('trans')
             ->with('message.registered_successfully')
             ->willReturn('Registered successfully');
@@ -65,24 +87,26 @@ class RegistrationControllerTest extends TestCase
             ->with('app_login')
             ->willReturn($redirectResponse);
 
+        // when
         $response = $controller->register($request);
 
+        // then
         $this->assertSame($redirectResponse, $response);
     }
 
+    /**
+     * Test registration with invalid form.
+     */
     public function testRegisterWithInvalidForm(): void
     {
         $request = new Request([], [], [], [], [], ['REQUEST_METHOD' => 'POST']);
-
-        $userServiceMock = $this->createMock(UserServiceInterface::class);
-        $translatorMock = $this->createMock(TranslatorInterface::class);
 
         $formMock = $this->createMock(FormInterface::class);
         $formViewMock = $this->createMock(FormView::class);
 
         $controller = $this->getMockBuilder(RegistrationController::class)
-            ->setConstructorArgs([$userServiceMock, $translatorMock])
-            ->onlyMethods(['createForm', 'render']) // 'addFlash', 'redirectToRoute' are not called on invalid form
+            ->setConstructorArgs([$this->userServiceMock, $this->translatorMock])
+            ->onlyMethods(['createForm', 'render'])
             ->getMock();
 
         $controller->expects($this->once())

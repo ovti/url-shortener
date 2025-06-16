@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * UrlVisited service test.
+ */
+
 namespace App\Tests\Service;
 
 use App\Entity\UrlVisited;
@@ -9,15 +13,44 @@ use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class UrlVisitedServiceTest.
+ */
 class UrlVisitedServiceTest extends TestCase
 {
+    /**
+     * UrlVisited repository mock.
+     */
+    private UrlVisitedRepository $urlVisitedRepository;
+
+    /**
+     * Paginator mock.
+     */
+    private PaginatorInterface $paginator;
+
+    /**
+     * UrlVisited service.
+     */
+    private UrlVisitedService $service;
+
+    /**
+     * Set up test.
+     */
+    protected function setUp(): void
+    {
+        $this->urlVisitedRepository = $this->createMock(UrlVisitedRepository::class);
+        $this->paginator = $this->createMock(PaginatorInterface::class);
+        $this->service = new UrlVisitedService($this->urlVisitedRepository, $this->paginator);
+    }
+
+    /**
+     * Test counting all visits for a URL.
+     */
     public function testCountAllVisitsForUrl(): void
     {
-        $mockRepository = $this->createMock(UrlVisitedRepository::class);
-        $mockPaginator = $this->createMock(PaginatorInterface::class);
-
+        // given
         $dummyData = [
-            (object)[
+            (object) [
                 'visits' => 42,
                 'shortUrl' => 'abc123',
                 'longUrl' => 'https://example.com',
@@ -27,38 +60,45 @@ class UrlVisitedServiceTest extends TestCase
         $pagination = new SlidingPagination();
         $pagination->setItems($dummyData);
 
-        $mockRepository->method('countAllVisitsForUrl')->willReturn($dummyData);
-        $mockPaginator->method('paginate')->willReturn($pagination);
+        $this->urlVisitedRepository->method('countAllVisitsForUrl')->willReturn($dummyData);
+        $this->paginator->method('paginate')->willReturn($pagination);
 
-        $service = new UrlVisitedService($mockRepository, $mockPaginator);
+        // when
+        $result = $this->service->countAllVisitsForUrl(1);
 
-        $result = $service->countAllVisitsForUrl(1);
-
+        // then
         $this->assertEquals($pagination, $result);
     }
 
+    /**
+     * Test saving a UrlVisited entity.
+     */
     public function testSave(): void
     {
-        $mockRepository = $this->createMock(UrlVisitedRepository::class);
-        $mockPaginator = $this->createMock(PaginatorInterface::class);
-
-        $mockRepository->expects($this->once())->method('save');
-
-        $service = new UrlVisitedService($mockRepository, $mockPaginator);
-
+        // given
         $urlVisited = new UrlVisited();
-        $service->save($urlVisited);
+
+        $this->urlVisitedRepository
+            ->expects($this->once())
+            ->method('save')
+            ->with($urlVisited);
+
+        // when
+        $this->service->save($urlVisited);
     }
 
+    /**
+     * Test deleting all visits for a URL.
+     */
     public function testDeleteAllVisitsForUrl(): void
     {
-        $mockRepository = $this->createMock(UrlVisitedRepository::class);
-        $mockPaginator = $this->createMock(PaginatorInterface::class);
+        // given
+        $this->urlVisitedRepository
+            ->expects($this->once())
+            ->method('deleteAllVisitsForUrl')
+            ->with(1);
 
-        $mockRepository->expects($this->once())->method('deleteAllVisitsForUrl')->with(1);
-
-        $service = new UrlVisitedService($mockRepository, $mockPaginator);
-
-        $service->deleteAllVisitsForUrl(1);
+        // when
+        $this->service->deleteAllVisitsForUrl(1);
     }
 }
