@@ -19,7 +19,6 @@ class GuestUserServiceTest extends TestCase
 {
     private GuestUserRepository $guestUserRepository;
     private GuestUserService $guestUserService;
-    private EntityManagerInterface $entityManager;
 
     /**
      * Set up the test environment.
@@ -114,7 +113,6 @@ class GuestUserServiceTest extends TestCase
         );
 
         $reflectionProperty = new \ReflectionProperty(GuestUserRepository::class, '_em');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($guestUserRepository, $entityManager);
 
         $guestUserRepository->save($guestUser);

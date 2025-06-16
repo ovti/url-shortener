@@ -76,7 +76,7 @@ class TagControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-success', 'Udało się utworzyć.');
 
         $tag = static::getContainer()->get(TagRepository::class)->findOneBy(['name' => 'TestTag']);
-        $this->assertNotNull($tag, 'Oczekiwano, że “TestTag” zostanie zapisany w bazie.');
+        $this->assertNotNull($tag);
     }
 
     /**
@@ -101,7 +101,7 @@ class TagControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-success', 'Zaktualizowano.');
 
         $updatedTag = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => 'UpdatedTag']);
-        $this->assertNotNull($updatedTag, 'Oczekiwano, że “UpdatedTag” zostanie zapisany w bazie.');
+        $this->assertNotNull($updatedTag);
     }
 
     /**
@@ -124,7 +124,7 @@ class TagControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-success', 'Udało się usunąć.');
 
         $deletedTag = $this->entityManager->getRepository(Tag::class)->find($tag->getId());
-        $this->assertNull($deletedTag, 'Oczekiwano, że Tag zostanie usunięty z bazy.');
+        $this->assertNull($deletedTag);
     }
 
     /**

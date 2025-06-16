@@ -115,6 +115,8 @@ class SecurityControllerTest extends WebTestCase
 
     /**
      * Test getLoginUrl method.
+     *
+     * @throws \ReflectionException
      */
     public function testGetLoginUrl(): void
     {

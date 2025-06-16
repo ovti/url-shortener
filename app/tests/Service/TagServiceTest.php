@@ -9,6 +9,9 @@ namespace App\Tests\Service;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Service\TagService;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -86,6 +89,8 @@ class TagServiceTest extends TestCase
 
     /**
      * Test finding a tag by ID.
+     *
+     * @throws NonUniqueResultException
      */
     public function testFindOneById(): void
     {
@@ -110,12 +115,12 @@ class TagServiceTest extends TestCase
     public function testGetPaginatedList(): void
     {
         $page = 1;
-        $paginationMock = $this->createMock(\Knp\Component\Pager\Pagination\PaginationInterface::class);
+        $paginationMock = $this->createMock(PaginationInterface::class);
 
         $this->tagRepository
             ->expects($this->once())
             ->method('queryAll')
-            ->willReturn($this->createMock(\Doctrine\ORM\QueryBuilder::class));
+            ->willReturn($this->createMock(QueryBuilder::class));
 
         $this->paginator
             ->expects($this->once())

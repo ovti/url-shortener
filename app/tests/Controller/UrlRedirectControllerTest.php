@@ -25,7 +25,6 @@ class UrlRedirectControllerTest extends TestCase
     private UrlServiceInterface $urlServiceMock;
     private TranslatorInterface $translatorMock;
     private UrlVisitedService $urlVisitedServiceMock;
-    private Request $request;
 
     /**
      * Set up the test environment.
@@ -130,7 +129,7 @@ class UrlRedirectControllerTest extends TestCase
             ->onlyMethods(['isIsBlocked', 'getBlockExpiration', 'setIsBlocked', 'setBlockExpiration', 'getLongUrl'])
             ->getMock();
 
-        $urlEntityMock->method('isIsBlocked')->willReturn(true); // Pozwól na wielokrotne wywołanie
+        $urlEntityMock->method('isIsBlocked')->willReturn(true);
         $urlEntityMock->method('getBlockExpiration')->willReturn($yesterday);
         $urlEntityMock->method('getLongUrl')->willReturn('https://example.com/unblocked');
 
@@ -167,7 +166,6 @@ class UrlRedirectControllerTest extends TestCase
             ->onlyMethods(['isIsBlocked', 'getBlockExpiration', 'getLongUrl'])
             ->getMock();
 
-        // Adjust expectations to exactly 1 call, matching actual controller behavior
         $urlEntityMock->expects($this->once())->method('isIsBlocked')->willReturn(true);
         $urlEntityMock->expects($this->once())->method('getBlockExpiration')->willReturn($tomorrow);
 

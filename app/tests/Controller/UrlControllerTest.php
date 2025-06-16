@@ -47,7 +47,6 @@ class UrlControllerTest extends WebTestCase
         $this->tagRepository = $container->get(TagRepository::class);
         $this->passwordHasher = $container->get(UserPasswordHasherInterface::class);
 
-        $this->clearDatabase();
         $this->createTestData();
     }
 
@@ -134,20 +133,24 @@ class UrlControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/url/'.$url->getId().'/block');
         $this->assertResponseIsSuccessful();
 
-        $futureDate = new \DateTime('+1 day');
+        $form = $crawler->filter('form[name="BlockUrl"]')->form();
 
-        $form = $crawler->filter('form[name="BlockUrl"]')->form([
-            'BlockUrl[blockExpiration][date][day]' => $futureDate->format('j'),
-            'BlockUrl[blockExpiration][date][month]' => $futureDate->format('n'),
-            'BlockUrl[blockExpiration][date][year]' => $futureDate->format('Y'),
-            'BlockUrl[blockExpiration][time][hour]' => $futureDate->format('G'),
-            'BlockUrl[blockExpiration][time][minute]' => $futureDate->format('i'),
-        ]);
+        $tomorrow = new \DateTime('tomorrow');
+
+        $form['BlockUrl[blockExpiration][date][day]']->setValue($tomorrow->format('d'));
+        $form['BlockUrl[blockExpiration][date][month]']->setValue($tomorrow->format('n'));
+        $form['BlockUrl[blockExpiration][date][year]']->setValue($tomorrow->format('Y'));
+        $form['BlockUrl[blockExpiration][time][hour]']->setValue($tomorrow->format('G'));
+        $form['BlockUrl[blockExpiration][time][minute]']->setValue('0');
 
         $this->client->submit($form);
+
         $this->assertResponseRedirects('/url/list');
         $this->client->followRedirect();
         $this->assertSelectorTextContains('.alert-success', 'Zablokowano.');
+
+        $updatedUrl = $this->urlRepository->find($url->getId());
+        $this->assertTrue($updatedUrl->isIsBlocked());
     }
 
     /**
@@ -277,29 +280,6 @@ class UrlControllerTest extends WebTestCase
         $url = $this->createUrlForUser($this->secondUser);
         $this->client->request('GET', '/url/'.$url->getId().'/delete');
         $this->assertResponseStatusCodeSame(403);
-    }
-
-    /**
-     * Tear down the test environment.
-     */
-    private function clearDatabase(): void
-    {
-        $urls = $this->urlRepository->findAll();
-        foreach ($urls as $url) {
-            $this->em->remove($url);
-        }
-
-        $tags = $this->tagRepository->findAll();
-        foreach ($tags as $tag) {
-            $this->em->remove($tag);
-        }
-
-        $users = $this->userRepository->findAll();
-        foreach ($users as $user) {
-            $this->em->remove($user);
-        }
-
-        $this->em->flush();
     }
 
     /**

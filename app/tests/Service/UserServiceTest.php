@@ -9,6 +9,7 @@ namespace App\Tests\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,12 +41,12 @@ class UserServiceTest extends TestCase
     }
 
     /**
-     * Test getPaginatedList method returns expected pagination object.
+     * Test getPaginatedList method returns expected a pagination object.
      */
     public function testGetPaginatedList(): void
     {
         $page = 1;
-        $paginationMock = $this->createMock(\Knp\Component\Pager\Pagination\PaginationInterface::class);
+        $paginationMock = $this->createMock(PaginationInterface::class);
 
         $this->paginator
             ->expects($this->once())

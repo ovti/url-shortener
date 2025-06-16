@@ -126,7 +126,6 @@ class RegistrationControllerTest extends TestCase
 
         $response = $controller->register($request);
 
-        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame('Form with errors', $response->getContent());
     }
 }

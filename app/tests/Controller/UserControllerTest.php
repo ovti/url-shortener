@@ -37,14 +37,24 @@ class UserControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->userRepository = $this->client->getContainer()->get(UserRepository::class);
-        $this->translator = $this->client->getContainer()->get(TranslatorInterface::class);
+
+        $container = $this->client->getContainer();
+
+        $userRepository = $container->get(UserRepository::class);
+        assert($userRepository instanceof UserRepository);
+        $this->userRepository = $userRepository;
+
+        $translator = $container->get(TranslatorInterface::class);
+        assert($translator instanceof TranslatorInterface);
+        $this->translator = $translator;
+
+        $passwordHasher = $container->get('security.password_hasher');
 
         $adminUser = new User();
         $adminUser->setEmail('admin@example.com');
         $adminUser->setRoles(['ROLE_ADMIN']);
         $adminUser->setPassword(
-            $this->client->getContainer()->get('security.password_hasher')->hashPassword($adminUser, 'admin1234')
+            $passwordHasher->hashPassword($adminUser, 'admin1234')
         );
         $this->userRepository->save($adminUser);
 
@@ -52,7 +62,7 @@ class UserControllerTest extends WebTestCase
         $testUser->setEmail('user@example.com');
         $testUser->setRoles(['ROLE_USER']);
         $testUser->setPassword(
-            $this->client->getContainer()->get('security.password_hasher')->hashPassword($testUser, 'user1234')
+            $passwordHasher->hashPassword($testUser, 'user1234')
         );
         $this->userRepository->save($testUser);
     }
