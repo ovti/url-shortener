@@ -272,6 +272,33 @@ class UrlControllerTest extends WebTestCase
     }
 
     /**
+     * Test deleting a URL via the DELETE method.
+     */
+    public function testDeleteViaDeleteMethod(): void
+    {
+        $this->loginAsUser();
+        $url = $this->createUrlForUser($this->regularUser);
+
+        $this->client->request('DELETE', '/url/'.$url->getId().'/delete');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    /**
+     * Test editing a blocked URL as a user.
+     */
+    public function testEditBlockedAsUser(): void
+    {
+        $this->loginAsUser();
+        $url = $this->createUrlForUser($this->regularUser);
+        $url->setIsBlocked(true);
+        $this->em->flush();
+
+        $this->client->request('GET', '/url/'.$url->getId().'/edit');
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    /**
      * Test deleting a URL as a forbidden user.
      */
     public function testDeleteAsForbiddenUser(): void
