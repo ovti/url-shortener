@@ -18,8 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method UrlVisited|null findOneBy(array $criteria, array $orderBy = null)
  * @method UrlVisited[]    findAll()
  * @method UrlVisited[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
- * @codeCoverageIgnore
  */
 class UrlVisitedRepository extends ServiceEntityRepository
 {

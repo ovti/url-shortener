@@ -9,6 +9,8 @@ namespace App\Tests\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -65,6 +67,33 @@ class UserControllerTest extends WebTestCase
             $passwordHasher->hashPassword($testUser, 'user1234')
         );
         $this->userRepository->save($testUser);
+    }
+
+    /**
+     * Test upgradePassword method.
+     */
+    public function testUpgradePassword(): void
+    {
+        $testUser = $this->getTestUser();
+        $oldPassword = $testUser->getPassword();
+        $newHashedPassword = 'newpassword123';
+
+        $this->userRepository->upgradePassword($testUser, $newHashedPassword);
+
+        $this->assertEquals($newHashedPassword, $testUser->getPassword());
+        $this->assertNotEquals($oldPassword, $testUser->getPassword());
+    }
+
+    /**
+     * Test upgradePassword method with unsupported user.
+     */
+    public function testUpgradePasswordWithUnsupportedUser(): void
+    {
+        $this->expectException(UnsupportedUserException::class);
+
+        $unsupportedUser = $this->createMock(PasswordAuthenticatedUserInterface::class);
+
+        $this->userRepository->upgradePassword($unsupportedUser, 'newpassword123');
     }
 
     /**
