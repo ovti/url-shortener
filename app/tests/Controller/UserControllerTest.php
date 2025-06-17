@@ -91,6 +91,16 @@ class UserControllerTest extends WebTestCase
     }
 
     /**
+     * Test access denied for not logged in users.
+     */
+    public function testAccessDeniedForAnonymousUsers(): void
+    {
+        $user = $this->getTestUser();
+        $this->client->request('GET', '/user/'.$user->getId());
+        $this->assertResponseStatusCodeSame(302);
+    }
+
+    /**
      * Test editing user password.
      */
     public function testEditPassword(): void

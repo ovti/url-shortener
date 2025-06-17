@@ -62,6 +62,42 @@ class UrlControllerTest extends WebTestCase
     }
 
     /**
+     * Test setting and getting create time.
+     */
+    public function testSetAndGetCreateTime(): void
+    {
+        $url = new Url();
+        $date = new \DateTimeImmutable('2025-01-01 12:00:00');
+
+        $url->setCreateTime($date);
+        $this->assertEquals($date, $url->getCreateTime());
+
+        $url->setCreateTime(null);
+        $this->assertNull($url->getCreateTime());
+    }
+
+    /**
+     * Test removing a tag from URL.
+     */
+    public function testRemoveTag(): void
+    {
+        $url = new Url();
+        $tag = new Tag();
+        $tag->setName('test-tag-remove');
+
+        $this->em->persist($tag);
+        $this->em->flush();
+
+        $url->addTag($tag);
+        $this->assertEquals(1, $url->getTags()->count());
+        $this->assertTrue($url->getTags()->contains($tag));
+
+        $url->removeTag($tag);
+        $this->assertEquals(0, $url->getTags()->count());
+        $this->assertFalse($url->getTags()->contains($tag));
+    }
+
+    /**
      * Test index page for URLs as admin.
      */
     public function testShowBlockedAsAdmin(): void

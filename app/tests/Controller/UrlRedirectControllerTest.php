@@ -83,7 +83,7 @@ class UrlRedirectControllerTest extends TestCase
     {
         $urlEntityMock = $this->createConfiguredMock(Url::class, [
             'isIsBlocked' => false,
-            'getLongUrl'   => 'https://example.com/full',
+            'getLongUrl' => 'https://example.com/full',
         ]);
 
         $this->urlServiceMock

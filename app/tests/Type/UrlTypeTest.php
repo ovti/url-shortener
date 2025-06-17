@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -79,7 +80,7 @@ class UrlTypeTest extends TypeTestCase
      */
     public function testBuildFormForLoggedUser(): void
     {
-        $this->security->method('getUser')->willReturn($this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock());
+        $this->security->method('getUser')->willReturn($this->getMockBuilder(UserInterface::class)->getMock());
 
         $form = $this->factory->create(UrlType::class);
 
@@ -122,7 +123,7 @@ class UrlTypeTest extends TypeTestCase
      */
     public function testSubmitValidDataForLoggedUser(): void
     {
-        $this->security->method('getUser')->willReturn($this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock());
+        $this->security->method('getUser')->willReturn($this->getMockBuilder(UserInterface::class)->getMock());
         $this->tagsDataTransformer->method('reverseTransform')->willReturn([]);
 
         $url = new Url();
@@ -171,7 +172,7 @@ class UrlTypeTest extends TypeTestCase
      */
     public function testSubmitInvalidUrl(): void
     {
-        $this->security->method('getUser')->willReturn($this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock());
+        $this->security->method('getUser')->willReturn($this->getMockBuilder(UserInterface::class)->getMock());
 
         $url = new Url();
         $formData = [

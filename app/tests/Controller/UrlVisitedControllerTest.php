@@ -6,6 +6,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\UrlVisited;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,6 +35,41 @@ class UrlVisitedControllerTest extends WebTestCase
     {
         $this->httpClient = static::createClient();
         $this->container = static::getContainer();
+    }
+
+    /**
+     * Test entity method getId.
+     */
+    public function testUrlVisitedGetId(): void
+    {
+        // given
+        $urlVisited = new UrlVisited();
+        $reflection = new \ReflectionClass(UrlVisited::class);
+        $property = $reflection->getProperty('id');
+        $property->setValue($urlVisited, 1);
+
+        // when
+        $result = $urlVisited->getId();
+
+        // then
+        $this->assertEquals(1, $result);
+    }
+
+    /**
+     * Test entity methods getVisitTime and setVisitTime.
+     */
+    public function testUrlVisitedVisitTime(): void
+    {
+        // given
+        $urlVisited = new UrlVisited();
+        $visitTime = new \DateTimeImmutable('2023-01-01');
+
+        // when
+        $urlVisited->setVisitTime($visitTime);
+        $result = $urlVisited->getVisitTime();
+
+        // then
+        $this->assertEquals($visitTime, $result);
     }
 
     /**

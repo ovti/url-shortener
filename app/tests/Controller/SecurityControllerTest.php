@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -128,6 +129,32 @@ class SecurityControllerTest extends WebTestCase
         $result = $reflectionMethod->invoke($authenticator, $this->createMock(Request::class));
 
         $this->assertSame('', $result);
+    }
+
+    /**
+     * Test login redirects to target path after successful login.
+     */
+    public function testLoginRedirectsToTargetPathAfterSuccess(): void
+    {
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'testpassword');
+
+        $session = self::getContainer()->get('session.factory')->createSession();
+        $firewallName = 'main';
+        $targetPath = '/some/target/path';
+
+        $session->set('_security.'.$firewallName.'.target_path', $targetPath);
+        $session->save();
+
+        $this->httpClient->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+
+        $this->httpClient->request('GET', '/login');
+        $submitLabel = $this->translator->trans('label.sign_in');
+        $this->httpClient->submitForm($submitLabel, [
+            'email' => $user->getEmail(),
+            'password' => 'testpassword',
+        ]);
+
+        $this->assertResponseRedirects($targetPath);
     }
 
     /**
