@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
             <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/template.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
                 <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
         <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/template.js"></script>
         <script src="js/search.js"></script>
         <script defer src="js/searchIndex.js"></script>
     </head>
@@ -52,7 +53,7 @@
 <label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
     Menu
 </label>
-<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
+<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
                     <section class="phpdocumentor-sidebar__category">
             <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
@@ -111,125 +112,172 @@
     </section>
 </aside>
 
-            <div class="phpdocumentor-column -eight phpdocumentor-content">
-                    <ul class="phpdocumentor-breadcrumbs">
+            <div class="phpdocumentor-column -nine phpdocumentor-content">
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
     </ul>
 
     <article class="phpdocumentor-element -package">
         <h2 class="phpdocumentor-content__title">Application</h2>
 
         
+<h3 id="toc">
+    Table of Contents
+    <a href="packages/Application.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
-<h3 id="interfaces_class_traits">
-    Interfaces, Classes, Traits and Enums
-    <a href="#interfaces_class_traits" class="headerlink"><i class="fas fa-link"></i></a>
 </h3>
 
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-GuestUserServiceInterface.html"><abbr title="\App\Service\GuestUserServiceInterface">GuestUserServiceInterface</abbr></a></dt>
-        <dd>Interface GuestUserServiceInterface.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-TagServiceInterface.html"><abbr title="\App\Service\TagServiceInterface">TagServiceInterface</abbr></a></dt>
-        <dd>Interface TagServiceInterface.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UrlServiceInterface.html"><abbr title="\App\Service\UrlServiceInterface">UrlServiceInterface</abbr></a></dt>
-        <dd>Interface UrlServiceInterface.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UrlVisitedServiceInterface.html"><abbr title="\App\Service\UrlVisitedServiceInterface">UrlVisitedServiceInterface</abbr></a></dt>
-        <dd>Interface UrlVisitedServiceInterface.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UserServiceInterface.html"><abbr title="\App\Service\UserServiceInterface">UserServiceInterface</abbr></a></dt>
-        <dd>Interface UserServiceInterface.</dd>
-    
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-HomeController.html"><abbr title="\App\Controller\HomeController">HomeController</abbr></a></dt>
-        <dd>Class HomeController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-RegistrationController.html"><abbr title="\App\Controller\RegistrationController">RegistrationController</abbr></a></dt>
-        <dd>Class RegistrationController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-SecurityController.html"><abbr title="\App\Controller\SecurityController">SecurityController</abbr></a></dt>
-        <dd>Class SecurityController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-TagController.html"><abbr title="\App\Controller\TagController">TagController</abbr></a></dt>
-        <dd>Class TagController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlController.html"><abbr title="\App\Controller\UrlController">UrlController</abbr></a></dt>
-        <dd>Class UrlController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlRedirectController.html"><abbr title="\App\Controller\UrlRedirectController">UrlRedirectController</abbr></a></dt>
-        <dd>Class UrlRedirectController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlVisitedController.html"><abbr title="\App\Controller\UrlVisitedController">UrlVisitedController</abbr></a></dt>
-        <dd>Class UrlVisitedController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UserController.html"><abbr title="\App\Controller\UserController">UserController</abbr></a></dt>
-        <dd>Class UserController.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-AbstractBaseFixtures.html"><abbr title="\App\DataFixtures\AbstractBaseFixtures">AbstractBaseFixtures</abbr></a></dt>
-        <dd>Class AbstractBaseFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-AppFixtures.html"><abbr title="\App\DataFixtures\AppFixtures">AppFixtures</abbr></a></dt>
-        <dd>Class AppFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-GuestUserFixtures.html"><abbr title="\App\DataFixtures\GuestUserFixtures">GuestUserFixtures</abbr></a></dt>
-        <dd>Class GuestUserFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-TagFixtures.html"><abbr title="\App\DataFixtures\TagFixtures">TagFixtures</abbr></a></dt>
-        <dd>Class TagFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UrlFixtures.html"><abbr title="\App\DataFixtures\UrlFixtures">UrlFixtures</abbr></a></dt>
-        <dd>Class UrlFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UrlVisitedFixtures.html"><abbr title="\App\DataFixtures\UrlVisitedFixtures">UrlVisitedFixtures</abbr></a></dt>
-        <dd>Class UrlVisitedFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UserFixtures.html"><abbr title="\App\DataFixtures\UserFixtures">UserFixtures</abbr></a></dt>
-        <dd>Class UserFixtures.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-GuestUser.html"><abbr title="\App\Entity\GuestUser">GuestUser</abbr></a></dt>
-        <dd>Class GuestUser.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-Tag.html"><abbr title="\App\Entity\Tag">Tag</abbr></a></dt>
-        <dd>Class Tag.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-Url.html"><abbr title="\App\Entity\Url">Url</abbr></a></dt>
-        <dd>Class Url.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-UrlVisited.html"><abbr title="\App\Entity\UrlVisited">UrlVisited</abbr></a></dt>
-        <dd>Class UrlVisited.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-User.html"><abbr title="\App\Entity\User">User</abbr></a></dt>
-        <dd>Class User.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-DataTransformer-TagsDataTransformer.html"><abbr title="\App\Form\DataTransformer\TagsDataTransformer">TagsDataTransformer</abbr></a></dt>
-        <dd>Class TagsDataTransformer.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-RegistrationType.html"><abbr title="\App\Form\Type\RegistrationType">RegistrationType</abbr></a></dt>
-        <dd>Class RegistrationType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-TagType.html"><abbr title="\App\Form\Type\TagType">TagType</abbr></a></dt>
-        <dd>Class TagType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UrlBlockType.html"><abbr title="\App\Form\Type\UrlBlockType">UrlBlockType</abbr></a></dt>
-        <dd>Class UrlBlockType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UrlType.html"><abbr title="\App\Form\Type\UrlType">UrlType</abbr></a></dt>
-        <dd>Class UrlType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UserEmailType.html"><abbr title="\App\Form\Type\UserEmailType">UserEmailType</abbr></a></dt>
-        <dd>Class UserEmailType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UserPasswordType.html"><abbr title="\App\Form\Type\UserPasswordType">UserPasswordType</abbr></a></dt>
-        <dd>Class UserPasswordType.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Kernel.html"><abbr title="\App\Kernel">Kernel</abbr></a></dt>
-        <dd>Class Kernel.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-GuestUserRepository.html"><abbr title="\App\Repository\GuestUserRepository">GuestUserRepository</abbr></a></dt>
-        <dd>Class GuestUserRepository.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-TagRepository.html"><abbr title="\App\Repository\TagRepository">TagRepository</abbr></a></dt>
-        <dd>Class TagRepository.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UrlRepository.html"><abbr title="\App\Repository\UrlRepository">UrlRepository</abbr></a></dt>
-        <dd>Class UrlRepository.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UrlVisitedRepository.html"><abbr title="\App\Repository\UrlVisitedRepository">UrlVisitedRepository</abbr></a></dt>
-        <dd>Class UrlVisitedRepository.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UserRepository.html"><abbr title="\App\Repository\UserRepository">UserRepository</abbr></a></dt>
-        <dd>Class UserRepository.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-LoginFormAuthenticator.html"><abbr title="\App\Security\LoginFormAuthenticator">LoginFormAuthenticator</abbr></a></dt>
-        <dd>Class LoginFormAuthenticator.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-Voter-UrlVoter.html"><abbr title="\App\Security\Voter\UrlVoter">UrlVoter</abbr></a></dt>
-        <dd>Class UrlVoter.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-Voter-UserVoter.html"><abbr title="\App\Security\Voter\UserVoter">UserVoter</abbr></a></dt>
-        <dd>Class UserVoter.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-GuestUserService.html"><abbr title="\App\Service\GuestUserService">GuestUserService</abbr></a></dt>
-        <dd>Class GuestUserService.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-TagService.html"><abbr title="\App\Service\TagService">TagService</abbr></a></dt>
-        <dd>Class TagService.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UrlService.html"><abbr title="\App\Service\UrlService">UrlService</abbr></a></dt>
-        <dd>Class UrlService.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UrlVisitedService.html"><abbr title="\App\Service\UrlVisitedService">UrlVisitedService</abbr></a></dt>
-        <dd>Class UrlVisitedService.</dd>
-            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UserService.html"><abbr title="\App\Service\UserService">UserService</abbr></a></dt>
-        <dd>Class UserService.</dd>
-    
-    
-    </dl>
+
+
+    <h4 id="toc-interfaces">
+        Interfaces
+        <a href="packages/Application.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-GuestUserServiceInterface.html"><abbr title="\App\Service\GuestUserServiceInterface">GuestUserServiceInterface</abbr></a></dt><dd>Interface GuestUserServiceInterface.</dd>            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-TagServiceInterface.html"><abbr title="\App\Service\TagServiceInterface">TagServiceInterface</abbr></a></dt><dd>Interface TagServiceInterface.</dd>            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UrlServiceInterface.html"><abbr title="\App\Service\UrlServiceInterface">UrlServiceInterface</abbr></a></dt><dd>Interface UrlServiceInterface.</dd>            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UrlVisitedServiceInterface.html"><abbr title="\App\Service\UrlVisitedServiceInterface">UrlVisitedServiceInterface</abbr></a></dt><dd>Interface UrlVisitedServiceInterface.</dd>            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/App-Service-UserServiceInterface.html"><abbr title="\App\Service\UserServiceInterface">UserServiceInterface</abbr></a></dt><dd>Interface UserServiceInterface.</dd>    </dl>
+
+    <h4 id="toc-classes">
+        Classes
+        <a href="packages/Application.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-HomeController.html"><abbr title="\App\Controller\HomeController">HomeController</abbr></a></dt><dd>Class HomeController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-RegistrationController.html"><abbr title="\App\Controller\RegistrationController">RegistrationController</abbr></a></dt><dd>Class RegistrationController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-SecurityController.html"><abbr title="\App\Controller\SecurityController">SecurityController</abbr></a></dt><dd>Class SecurityController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-TagController.html"><abbr title="\App\Controller\TagController">TagController</abbr></a></dt><dd>Class TagController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlController.html"><abbr title="\App\Controller\UrlController">UrlController</abbr></a></dt><dd>Class UrlController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlRedirectController.html"><abbr title="\App\Controller\UrlRedirectController">UrlRedirectController</abbr></a></dt><dd>Class UrlRedirectController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UrlVisitedController.html"><abbr title="\App\Controller\UrlVisitedController">UrlVisitedController</abbr></a></dt><dd>Class UrlVisitedController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Controller-UserController.html"><abbr title="\App\Controller\UserController">UserController</abbr></a></dt><dd>Class UserController.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-AbstractBaseFixtures.html"><abbr title="\App\DataFixtures\AbstractBaseFixtures">AbstractBaseFixtures</abbr></a></dt><dd>Class AbstractBaseFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-AppFixtures.html"><abbr title="\App\DataFixtures\AppFixtures">AppFixtures</abbr></a></dt><dd>Class AppFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-GuestUserFixtures.html"><abbr title="\App\DataFixtures\GuestUserFixtures">GuestUserFixtures</abbr></a></dt><dd>Class GuestUserFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-TagFixtures.html"><abbr title="\App\DataFixtures\TagFixtures">TagFixtures</abbr></a></dt><dd>Class TagFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UrlFixtures.html"><abbr title="\App\DataFixtures\UrlFixtures">UrlFixtures</abbr></a></dt><dd>Class UrlFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UrlVisitedFixtures.html"><abbr title="\App\DataFixtures\UrlVisitedFixtures">UrlVisitedFixtures</abbr></a></dt><dd>Class UrlVisitedFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-DataFixtures-UserFixtures.html"><abbr title="\App\DataFixtures\UserFixtures">UserFixtures</abbr></a></dt><dd>Class UserFixtures.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-GuestUser.html"><abbr title="\App\Entity\GuestUser">GuestUser</abbr></a></dt><dd>Class GuestUser.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-Tag.html"><abbr title="\App\Entity\Tag">Tag</abbr></a></dt><dd>Class Tag.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-Url.html"><abbr title="\App\Entity\Url">Url</abbr></a></dt><dd>Class Url.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-UrlVisited.html"><abbr title="\App\Entity\UrlVisited">UrlVisited</abbr></a></dt><dd>Class UrlVisited.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Entity-User.html"><abbr title="\App\Entity\User">User</abbr></a></dt><dd>Class User.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-DataTransformer-TagsDataTransformer.html"><abbr title="\App\Form\DataTransformer\TagsDataTransformer">TagsDataTransformer</abbr></a></dt><dd>Class TagsDataTransformer.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-RegistrationType.html"><abbr title="\App\Form\Type\RegistrationType">RegistrationType</abbr></a></dt><dd>Class RegistrationType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-TagType.html"><abbr title="\App\Form\Type\TagType">TagType</abbr></a></dt><dd>Class TagType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UrlBlockType.html"><abbr title="\App\Form\Type\UrlBlockType">UrlBlockType</abbr></a></dt><dd>Class UrlBlockType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UrlType.html"><abbr title="\App\Form\Type\UrlType">UrlType</abbr></a></dt><dd>Class UrlType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UserEmailType.html"><abbr title="\App\Form\Type\UserEmailType">UserEmailType</abbr></a></dt><dd>Class UserEmailType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Form-Type-UserPasswordType.html"><abbr title="\App\Form\Type\UserPasswordType">UserPasswordType</abbr></a></dt><dd>Class UserPasswordType.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Kernel.html"><abbr title="\App\Kernel">Kernel</abbr></a></dt><dd>Class Kernel.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-GuestUserRepository.html"><abbr title="\App\Repository\GuestUserRepository">GuestUserRepository</abbr></a></dt><dd>Class GuestUserRepository.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-TagRepository.html"><abbr title="\App\Repository\TagRepository">TagRepository</abbr></a></dt><dd>Class TagRepository.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UrlRepository.html"><abbr title="\App\Repository\UrlRepository">UrlRepository</abbr></a></dt><dd>Class UrlRepository.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UrlVisitedRepository.html"><abbr title="\App\Repository\UrlVisitedRepository">UrlVisitedRepository</abbr></a></dt><dd>Class UrlVisitedRepository.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Repository-UserRepository.html"><abbr title="\App\Repository\UserRepository">UserRepository</abbr></a></dt><dd>Class UserRepository.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-LoginFormAuthenticator.html"><abbr title="\App\Security\LoginFormAuthenticator">LoginFormAuthenticator</abbr></a></dt><dd>Class LoginFormAuthenticator.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-Voter-UrlVoter.html"><abbr title="\App\Security\Voter\UrlVoter">UrlVoter</abbr></a></dt><dd>Class UrlVoter.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Security-Voter-UserVoter.html"><abbr title="\App\Security\Voter\UserVoter">UserVoter</abbr></a></dt><dd>Class UserVoter.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-GuestUserService.html"><abbr title="\App\Service\GuestUserService">GuestUserService</abbr></a></dt><dd>Class GuestUserService.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-TagService.html"><abbr title="\App\Service\TagService">TagService</abbr></a></dt><dd>Class TagService.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UrlService.html"><abbr title="\App\Service\UrlService">UrlService</abbr></a></dt><dd>Class UrlService.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UrlVisitedService.html"><abbr title="\App\Service\UrlVisitedService">UrlVisitedService</abbr></a></dt><dd>Class UrlVisitedService.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/App-Service-UserService.html"><abbr title="\App\Service\UserService">UserService</abbr></a></dt><dd>Class UserService.</dd>    </dl>
+
+
+    <h4 id="toc-enums">
+        Enums
+        <a href="packages/Application.html#toc-enums" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -enum"><a href="classes/App-Entity-Enum-UserRole.html"><abbr title="\App\Entity\Enum\UserRole">UserRole</abbr></a></dt><dd>Enum UserRole.</dd></dl>
+
+
+
 
 
 
         
 
         
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
+
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', src, true);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+                            Prism.highlightElement(code);
+                            return;
+                        }
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
+                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
+                    }
+                    modal.classList.add("phpdocumentor-modal__open");
+
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
+                    });
+                });
+            });
+        })();
+    </script>
+
     </article>
-                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                            
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                                                                    <li><a href="packages/Application.html#toc-interfaces">Interfaces</a></li>
+                                                                <li><a href="packages/Application.html#toc-classes">Classes</a></li>
+                                                                                    <li><a href="packages/Application.html#toc-enums">Enums</a></li>
+                                                                            </ul>
+            </li>
+
+            
+                    </ul>
+    </section>
+
+                </section>
+                            </div>
+            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
     <section class="phpdocumentor-search-results__dialog">
         <header class="phpdocumentor-search-results__header">
             <h2 class="phpdocumentor-search-results__title">Search results</h2>
@@ -240,7 +288,6 @@
         </section>
     </section>
 </section>
-            </div>
         </div>
         <a href="packages/Application.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 

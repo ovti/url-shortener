@@ -28,12 +28,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\RegistrationController\u003A\u003A\u0024userService",
             "name": "userService",
-            "summary": "User\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-RegistrationController.html#property_userService"
         },                {
             "fqsen": "\\App\\Controller\\RegistrationController\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Controller-RegistrationController.html#property_translator"
         },                {
             "fqsen": "\\App\\Controller\\SecurityController",
@@ -43,12 +43,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\SecurityController\u003A\u003Alogin\u0028\u0029",
             "name": "login",
-            "summary": "Log\u0020in.",
+            "summary": "Login\u0020action.",
             "url": "classes/App-Controller-SecurityController.html#method_login"
         },                {
             "fqsen": "\\App\\Controller\\SecurityController\u003A\u003Alogout\u0028\u0029",
             "name": "logout",
-            "summary": "Log\u0020out.",
+            "summary": "Logout\u0020action.",
             "url": "classes/App-Controller-SecurityController.html#method_logout"
         },                {
             "fqsen": "\\App\\Controller\\TagController",
@@ -88,12 +88,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\TagController\u003A\u003A\u0024tagService",
             "name": "tagService",
-            "summary": "Tag\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-TagController.html#property_tagService"
         },                {
             "fqsen": "\\App\\Controller\\TagController\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Controller-TagController.html#property_translator"
         },                {
             "fqsen": "\\App\\Controller\\UrlController",
@@ -153,27 +153,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\UrlController\u003A\u003A\u0024urlService",
             "name": "urlService",
-            "summary": "Url\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlController.html#property_urlService"
         },                {
             "fqsen": "\\App\\Controller\\UrlController\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Controller-UrlController.html#property_translator"
         },                {
             "fqsen": "\\App\\Controller\\UrlController\u003A\u003A\u0024urlVisitedService",
             "name": "urlVisitedService",
-            "summary": "Url\u0020Visited\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlController.html#property_urlVisitedService"
         },                {
             "fqsen": "\\App\\Controller\\UrlController\u003A\u003A\u0024requestStack",
             "name": "requestStack",
-            "summary": "Request\u0020stack.",
+            "summary": "",
             "url": "classes/App-Controller-UrlController.html#property_requestStack"
         },                {
             "fqsen": "\\App\\Controller\\UrlController\u003A\u003A\u0024guestUserService",
             "name": "guestUserService",
-            "summary": "Guest\u0020user\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlController.html#property_guestUserService"
         },                {
             "fqsen": "\\App\\Controller\\UrlRedirectController",
@@ -188,22 +188,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\UrlRedirectController\u003A\u003Aindex\u0028\u0029",
             "name": "index",
-            "summary": "Index\u0020action.",
+            "summary": "Redirect\u0020to\u0020the\u0020long\u0020URL\u0020based\u0020on\u0020the\u0020short\u0020URL.",
             "url": "classes/App-Controller-UrlRedirectController.html#method_index"
         },                {
             "fqsen": "\\App\\Controller\\UrlRedirectController\u003A\u003A\u0024urlService",
             "name": "urlService",
-            "summary": "Url\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlRedirectController.html#property_urlService"
         },                {
             "fqsen": "\\App\\Controller\\UrlRedirectController\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Controller-UrlRedirectController.html#property_translator"
         },                {
             "fqsen": "\\App\\Controller\\UrlRedirectController\u003A\u003A\u0024urlVisitedService",
             "name": "urlVisitedService",
-            "summary": "UrlVisited\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlRedirectController.html#property_urlVisitedService"
         },                {
             "fqsen": "\\App\\Controller\\UrlVisitedController",
@@ -223,7 +223,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\UrlVisitedController\u003A\u003A\u0024urlVisitedService",
             "name": "urlVisitedService",
-            "summary": "UrlVisited\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UrlVisitedController.html#property_urlVisitedService"
         },                {
             "fqsen": "\\App\\Controller\\UserController",
@@ -258,17 +258,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Controller\\UserController\u003A\u003A\u0024userService",
             "name": "userService",
-            "summary": "User\u0020service.",
+            "summary": "",
             "url": "classes/App-Controller-UserController.html#property_userService"
         },                {
             "fqsen": "\\App\\Controller\\UserController\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Controller-UserController.html#property_translator"
         },                {
             "fqsen": "\\App\\Controller\\UserController\u003A\u003A\u0024passwordHasher",
             "name": "passwordHasher",
-            "summary": "Password\u0020hasher.",
+            "summary": "",
             "url": "classes/App-Controller-UserController.html#property_passwordHasher"
         },                {
             "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures",
@@ -296,10 +296,15 @@ Search.appendIndex(
             "summary": "Set\u0020random\u0020reference\u0020to\u0020the\u0020object.",
             "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#method_getRandomReference"
         },                {
-            "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures\u003A\u003AgetRandomReferences\u0028\u0029",
-            "name": "getRandomReferences",
+            "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures\u003A\u003AgetRandomReferenceList\u0028\u0029",
+            "name": "getRandomReferenceList",
             "summary": "Get\u0020array\u0020of\u0020objects\u0020references\u0020based\u0020on\u0020count.",
-            "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#method_getRandomReferences"
+            "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#method_getRandomReferenceList"
+        },                {
+            "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures\u003A\u003AgetReferenceNameListByClassName\u0028\u0029",
+            "name": "getReferenceNameListByClassName",
+            "summary": "Get\u0020reference\u0020name\u0020list\u0020by\u0020class\u0020name.",
+            "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#method_getReferenceNameListByClassName"
         },                {
             "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures\u003A\u003A\u0024faker",
             "name": "faker",
@@ -310,11 +315,6 @@ Search.appendIndex(
             "name": "manager",
             "summary": "Persistence\u0020object\u0020manager.",
             "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#property_manager"
-        },                {
-            "fqsen": "\\App\\DataFixtures\\AbstractBaseFixtures\u003A\u003A\u0024referencesIndex",
-            "name": "referencesIndex",
-            "summary": "Object\u0020reference\u0020index.",
-            "url": "classes/App-DataFixtures-AbstractBaseFixtures.html#property_referencesIndex"
         },                {
             "fqsen": "\\App\\DataFixtures\\AppFixtures",
             "name": "AppFixtures",
@@ -393,7 +393,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\DataFixtures\\UserFixtures\u003A\u003A\u0024passwordHasher",
             "name": "passwordHasher",
-            "summary": "Password\u0020hasher.",
+            "summary": "",
             "url": "classes/App-DataFixtures-UserFixtures.html#property_passwordHasher"
         },                {
             "fqsen": "\\App\\Entity\\Enum\\UserRole",
@@ -409,12 +409,12 @@ Search.appendIndex(
             "fqsen": "\\App\\Entity\\Enum\\UserRole\u003A\u003AROLE_USER",
             "name": "ROLE_USER",
             "summary": "",
-            "url": ""
+            "url": "classes/App-Entity-Enum-UserRole.html#enumcase_ROLE_USER"
         },                {
             "fqsen": "\\App\\Entity\\Enum\\UserRole\u003A\u003AROLE_ADMIN",
             "name": "ROLE_ADMIN",
             "summary": "",
-            "url": ""
+            "url": "classes/App-Entity-Enum-UserRole.html#enumcase_ROLE_ADMIN"
         },                {
             "fqsen": "\\App\\Entity\\GuestUser",
             "name": "GuestUser",
@@ -768,7 +768,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Form\\DataTransformer\\TagsDataTransformer\u003A\u003A\u0024tagService",
             "name": "tagService",
-            "summary": "Tag\u0020service.",
+            "summary": "",
             "url": "classes/App-Form-DataTransformer-TagsDataTransformer.html#property_tagService"
         },                {
             "fqsen": "\\App\\Form\\Type\\RegistrationType",
@@ -853,27 +853,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Form\\Type\\UrlType\u003A\u003A\u0024tagsDataTransformer",
             "name": "tagsDataTransformer",
-            "summary": "Tags\u0020data\u0020transformer.",
+            "summary": "",
             "url": "classes/App-Form-Type-UrlType.html#property_tagsDataTransformer"
         },                {
             "fqsen": "\\App\\Form\\Type\\UrlType\u003A\u003A\u0024security",
             "name": "security",
-            "summary": "Security.",
+            "summary": "",
             "url": "classes/App-Form-Type-UrlType.html#property_security"
         },                {
             "fqsen": "\\App\\Form\\Type\\UrlType\u003A\u003A\u0024guestUserService",
             "name": "guestUserService",
-            "summary": "Guest\u0020user\u0020service.",
+            "summary": "",
             "url": "classes/App-Form-Type-UrlType.html#property_guestUserService"
         },                {
             "fqsen": "\\App\\Form\\Type\\UrlType\u003A\u003A\u0024translator",
             "name": "translator",
-            "summary": "Translator.",
+            "summary": "",
             "url": "classes/App-Form-Type-UrlType.html#property_translator"
         },                {
             "fqsen": "\\App\\Form\\Type\\UrlType\u003A\u003A\u0024requestStack",
             "name": "requestStack",
-            "summary": "Request\u0020stack.",
+            "summary": "",
             "url": "classes/App-Form-Type-UrlType.html#property_requestStack"
         },                {
             "fqsen": "\\App\\Form\\Type\\UserEmailType",
@@ -921,6 +921,11 @@ Search.appendIndex(
             "summary": "GuestUserRepository\u0020constructor.",
             "url": "classes/App-Repository-GuestUserRepository.html#method___construct"
         },                {
+            "fqsen": "\\App\\Repository\\GuestUserRepository\u003A\u003AfindOneByEmail\u0028\u0029",
+            "name": "findOneByEmail",
+            "summary": "Find\u0020one\u0020guest\u0020user\u0020by\u0020email.",
+            "url": "classes/App-Repository-GuestUserRepository.html#method_findOneByEmail"
+        },                {
             "fqsen": "\\App\\Repository\\GuestUserRepository\u003A\u003Asave\u0028\u0029",
             "name": "save",
             "summary": "Save\u0020guest\u0020user.",
@@ -945,6 +950,16 @@ Search.appendIndex(
             "name": "__construct",
             "summary": "Constructor.",
             "url": "classes/App-Repository-TagRepository.html#method___construct"
+        },                {
+            "fqsen": "\\App\\Repository\\TagRepository\u003A\u003AfindOneByName\u0028\u0029",
+            "name": "findOneByName",
+            "summary": "Find\u0020one\u0020by\u0020name.",
+            "url": "classes/App-Repository-TagRepository.html#method_findOneByName"
+        },                {
+            "fqsen": "\\App\\Repository\\TagRepository\u003A\u003AfindOneById\u0028\u0029",
+            "name": "findOneById",
+            "summary": "Find\u0020one\u0020by\u0020id.",
+            "url": "classes/App-Repository-TagRepository.html#method_findOneById"
         },                {
             "fqsen": "\\App\\Repository\\TagRepository\u003A\u003AqueryAll\u0028\u0029",
             "name": "queryAll",
@@ -1138,7 +1153,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Security\\LoginFormAuthenticator\u003A\u003A\u0024urlGenerator",
             "name": "urlGenerator",
-            "summary": "URL\u0020Generator.",
+            "summary": "",
             "url": "classes/App-Security-LoginFormAuthenticator.html#property_urlGenerator"
         },                {
             "fqsen": "\\App\\Security\\Voter\\UrlVoter",
@@ -1198,7 +1213,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Security\\Voter\\UrlVoter\u003A\u003A\u0024security",
             "name": "security",
-            "summary": "Security\u0020helper.",
+            "summary": "",
             "url": "classes/App-Security-Voter-UrlVoter.html#property_security"
         },                {
             "fqsen": "\\App\\Security\\Voter\\UserVoter",
@@ -1238,7 +1253,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Security\\Voter\\UserVoter\u003A\u003A\u0024security",
             "name": "security",
-            "summary": "Security.",
+            "summary": "",
             "url": "classes/App-Security-Voter-UserVoter.html#property_security"
         },                {
             "fqsen": "\\App\\Service\\GuestUserService",
@@ -1263,7 +1278,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Service\\GuestUserService\u003A\u003A\u0024guestUserRepository",
             "name": "guestUserRepository",
-            "summary": "GuestUser\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-GuestUserService.html#property_guestUserRepository"
         },                {
             "fqsen": "\\App\\Service\\GuestUserServiceInterface",
@@ -1318,12 +1333,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Service\\TagService\u003A\u003A\u0024tagRepository",
             "name": "tagRepository",
-            "summary": "Tag\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-TagService.html#property_tagRepository"
         },                {
             "fqsen": "\\App\\Service\\TagService\u003A\u003A\u0024paginator",
             "name": "paginator",
-            "summary": "Paginator.",
+            "summary": "",
             "url": "classes/App-Service-TagService.html#property_paginator"
         },                {
             "fqsen": "\\App\\Service\\TagServiceInterface",
@@ -1398,32 +1413,32 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024paginator",
             "name": "paginator",
-            "summary": "Paginator.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_paginator"
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024tagService",
             "name": "tagService",
-            "summary": "Tag\u0020service.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_tagService"
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024urlRepository",
             "name": "urlRepository",
-            "summary": "Url\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_urlRepository"
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024security",
             "name": "security",
-            "summary": "Security.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_security"
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024guestUserRepository",
             "name": "guestUserRepository",
-            "summary": "Guest\u0020user\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_guestUserRepository"
         },                {
             "fqsen": "\\App\\Service\\UrlService\u003A\u003A\u0024requestStack",
             "name": "requestStack",
-            "summary": "Request\u0020stack.",
+            "summary": "",
             "url": "classes/App-Service-UrlService.html#property_requestStack"
         },                {
             "fqsen": "\\App\\Service\\UrlServiceInterface",
@@ -1488,12 +1503,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Service\\UrlVisitedService\u003A\u003A\u0024urlVisitedRepository",
             "name": "urlVisitedRepository",
-            "summary": "UrlVisited\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-UrlVisitedService.html#property_urlVisitedRepository"
         },                {
             "fqsen": "\\App\\Service\\UrlVisitedService\u003A\u003A\u0024paginator",
             "name": "paginator",
-            "summary": "Paginator.",
+            "summary": "",
             "url": "classes/App-Service-UrlVisitedService.html#property_paginator"
         },                {
             "fqsen": "\\App\\Service\\UrlVisitedServiceInterface",
@@ -1543,17 +1558,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Service\\UserService\u003A\u003A\u0024userRepository",
             "name": "userRepository",
-            "summary": "User\u0020repository.",
+            "summary": "",
             "url": "classes/App-Service-UserService.html#property_userRepository"
         },                {
             "fqsen": "\\App\\Service\\UserService\u003A\u003A\u0024paginator",
             "name": "paginator",
-            "summary": "Paginator.",
+            "summary": "",
             "url": "classes/App-Service-UserService.html#property_paginator"
         },                {
             "fqsen": "\\App\\Service\\UserService\u003A\u003A\u0024passwordHasher",
             "name": "passwordHasher",
-            "summary": "Password\u0020hasher.",
+            "summary": "",
             "url": "classes/App-Service-UserService.html#property_passwordHasher"
         },                {
             "fqsen": "\\App\\Service\\UserServiceInterface",
