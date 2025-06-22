@@ -13,6 +13,7 @@ use App\Repository\TagRepository;
 use App\Repository\UrlRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -21,17 +22,55 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UrlControllerTest extends WebTestCase
 {
-    private $client;
-    private $urlRepository;
-    private $userRepository;
-    private $tagRepository;
-    private $em;
-    private $passwordHasher;
+    /**
+     * Test client.
+     */
+    private KernelBrowser $client;
 
-    private $admin;
-    private $regularUser;
-    private $secondUser;
-    private $tag;
+    /**
+     * URL repository.
+     */
+    private UrlRepository $urlRepository;
+
+    /**
+     * User repository.
+     */
+    private UserRepository $userRepository;
+
+    /**
+     * Tag repository.
+     */
+    private TagRepository $tagRepository;
+
+    /**
+     * Entity manager.
+     */
+    private EntityManagerInterface $em;
+
+    /**
+     * Password hasher.
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+    /**
+     * Admin user.
+     */
+    private User $admin;
+
+    /**
+     * Regular user.
+     */
+    private User $regularUser;
+
+    /**
+     * Second regular user.
+     */
+    private User $secondUser;
+
+    /**
+     * Tag entity.
+     */
+    private Tag $tag;
 
     /**
      * Set up the test environment.
