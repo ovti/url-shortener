@@ -11,7 +11,7 @@ use App\Entity\Url;
 use App\Entity\UrlVisited;
 use App\Service\UrlServiceInterface;
 use App\Service\UrlVisitedService;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlRedirectControllerTest.
  */
-class UrlRedirectControllerTest extends TestCase
+class UrlRedirectControllerTest extends WebTestCase
 {
     private UrlServiceInterface $urlServiceMock;
     private TranslatorInterface $translatorMock;

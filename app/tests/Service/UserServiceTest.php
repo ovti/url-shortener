@@ -9,6 +9,7 @@ namespace App\Tests\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PHPUnit\Framework\TestCase;
@@ -56,7 +57,7 @@ class UserServiceTest extends TestCase
         $this->userRepository
             ->expects($this->once())
             ->method('queryAll')
-            ->willReturn($this->createMock(\Doctrine\ORM\QueryBuilder::class));
+            ->willReturn($this->createMock(QueryBuilder::class));
 
         $result = $this->userService->getPaginatedList($page);
 
@@ -69,7 +70,7 @@ class UserServiceTest extends TestCase
     public function testSave(): void
     {
         $user = new User();
-        $user->setPassword('plainPassword123');
+        $user->setPassword('password123');
 
         $this->userRepository
             ->expects($this->once())
@@ -79,7 +80,7 @@ class UserServiceTest extends TestCase
         $this->passwordHasher
             ->expects($this->once())
             ->method('hashPassword')
-            ->with($user, 'plainPassword123')
+            ->with($user, 'password123')
             ->willReturn('hashedPassword123');
 
         $this->userService->save($user);

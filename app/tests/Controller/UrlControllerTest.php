@@ -148,7 +148,7 @@ class UrlControllerTest extends WebTestCase
     }
 
     /**
-     * Test index page for URLs as user.
+     * Test showing a blocked URL as a regular user.
      */
     public function testShowBlockedAsUser(): void
     {

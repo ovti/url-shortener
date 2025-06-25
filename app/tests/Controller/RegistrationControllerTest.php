@@ -10,7 +10,7 @@ use App\Controller\RegistrationController;
 use App\Entity\User;
 use App\Form\Type\RegistrationType;
 use App\Service\UserServiceInterface;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class RegistrationControllerTest.
  */
-class RegistrationControllerTest extends TestCase
+class RegistrationControllerTest extends WebTestCase
 {
     private UserServiceInterface $userServiceMock;
     private TranslatorInterface $translatorMock;
