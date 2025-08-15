@@ -1,3 +1,21 @@
+# URL Shortener App
+
+This is a URL shortening web application created for a university course. It allows users to create shortened links and provides an admin panel for managing users and links.
+## https://wierzba.wzks.uj.edu.pl/~21_zalubski/url-app/
+
+## Features
+
+- **Shorten URLs:** Users can create shortened links for easy sharing.
+- **Admin Panel:** Administrators can manage users and links, including blocking or removing them.
+- **User Management:** Admins can view and control user accounts.
+- **Link Management:** Admins can monitor, block, or delete shortened URLs.
+
+## Planned Features
+
+- Analytics for shortened links (click count, referrers, etc.)
+- Expiration dates for links.
+- Custom names for shortened URLs.
+
 # Docker Symfony Starter Kit
 
 Starter kit is based on [The perfect kit starter for a Symfony 4 project with Docker and PHP 7.2](https://medium.com/@romaricp/the-perfect-kit-starter-for-a-symfony-4-project-with-docker-and-php-7-2-fda447b6bca1).
